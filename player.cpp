@@ -140,25 +140,40 @@ void UpdatePlayer(void)
 	D3DXVECTOR3 dirPad = D3DXVECTOR3_ZERO;
 	XINPUT_STATE* joypad = GetJoypad();
 
-	
-
 	g_player.posOld = g_player.obj.pos;
 
-	if (GetKeyboardPress(DIK_LEFT))
-	{
-		dir -= D3DXVECTOR3(cosf(pCamera->rot.y), 0.0f, -sinf(pCamera->rot.y));
+	// ƒJƒƒ‰ˆÚ“®
+	if (GetKeyboardPress(DIK_A))
+	{// ¶
+		dir += D3DXVECTOR3(
+			-cosf(pCamera->rot.y),
+			0.0f,
+			sinf(pCamera->rot.y)
+		);
 	}
-	if (GetKeyboardPress(DIK_RIGHT))
-	{
-		dir += D3DXVECTOR3(cosf(pCamera->rot.y), 0.0f, -sinf(pCamera->rot.y));
+	if (GetKeyboardPress(DIK_D))
+	{// ‰E
+		dir -= D3DXVECTOR3(
+			-cosf(pCamera->rot.y),
+			0.0f,
+			sinf(pCamera->rot.y)
+		);
 	}
-	if (GetKeyboardPress(DIK_UP))
-	{
-		dir += D3DXVECTOR3(sinf(pCamera->rot.y), 0.0f, cosf(pCamera->rot.y));
+	if (GetKeyboardPress(DIK_W))
+	{// ‘O
+		dir -= D3DXVECTOR3(
+			sinf(pCamera->rot.y + D3DX_PI),
+			0.0f,
+			cosf(pCamera->rot.y + D3DX_PI)
+		);
 	}
-	if (GetKeyboardPress(DIK_DOWN))
-	{
-		dir -= D3DXVECTOR3(sinf(pCamera->rot.y), 0.0f, cosf(pCamera->rot.y));
+	if (GetKeyboardPress(DIK_S))
+	{// Œã•û
+		dir -= D3DXVECTOR3(
+			sinf(pCamera->rot.y),
+			0.0f,
+			cosf(pCamera->rot.y)
+		);
 	}
 
 	if (GetKeyboardTrigger(DIK_SPACE))
@@ -178,7 +193,6 @@ void UpdatePlayer(void)
 	dirPad.x = joypad->Gamepad.sThumbLX;
 	dirPad.z = joypad->Gamepad.sThumbLY;
 
-
 	float joypadMagnitude = sqrtf(dirPad.x * dirPad.x + dirPad.z * dirPad.z);
 
 	if (joypadMagnitude != 0 && joypadMagnitude > INPUT_DEADZONE)
@@ -188,12 +202,14 @@ void UpdatePlayer(void)
 		dir = dirPad;
 	}
 
-	g_player.obj.pos += dir * 2.0f + move;
+	float fMagnitude = sqrtf(dir.x * dir.x + dir.z * dir.z);
 
-	if (sqrtf(dir.x * dir.x + dir.z * dir.z) != 0)
+	if (fMagnitude != 0)
 	{
 		g_player.rotMove.y = atan2f(dir.x, dir.z) + D3DX_PI;
+		g_player.obj.pos += dir / fMagnitude * 1.5f;
 	}
+	g_player.obj.pos.y += move.y;
 
 	float fRotDiff = GetFixedRotation(g_player.rotMove.y - g_player.obj.rot.y);
 
