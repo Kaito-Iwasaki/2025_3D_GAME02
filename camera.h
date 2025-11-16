@@ -37,6 +37,7 @@ typedef struct
 	D3DXMATRIX mtxProjection;	// プロジェクションマトリックス
 	D3DXMATRIX mtxView;			// ビューマトリックス
 	float fDistance;			// 視点と注視点までの距離
+	int nCounterState;
 }CAMERA;
 
 //*********************************************************************

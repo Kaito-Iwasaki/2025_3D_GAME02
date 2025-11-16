@@ -60,7 +60,7 @@ void InitCamera(void)
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	g_camera.fDistance = 200.0f;
 	g_camera.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
+	g_camera.nCounterState = 0;
 
 }
 
@@ -82,10 +82,12 @@ void UpdateCamera(void)
 	if (GetKeyboardPress(DIK_Z))
 	{
 		g_camera.rot.y += 0.05f;
+		g_camera.nCounterState = 0;
 	}
 	if (GetKeyboardPress(DIK_C))
 	{
 		g_camera.rot.y -= 0.05f;
+		g_camera.nCounterState = 0;
 	}
 
 	g_camera.posRDest.x = pPlayer->obj.pos.x - sinf(pPlayer->obj.rot.y) * 30.0f;
@@ -99,6 +101,22 @@ void UpdateCamera(void)
 	g_camera.posR.z += (g_camera.posRDest.z - g_camera.posR.z) * 0.1f;
 	g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * 0.1f;
 	g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * 0.1f;
+
+	D3DXVECTOR3 vecPlayerMoved = pPlayer->obj.pos - pPlayer->posOld;
+
+	if (sqrtf(vecPlayerMoved.x * vecPlayerMoved.x + vecPlayerMoved.y * vecPlayerMoved.y) < 0.1f)
+	{
+		g_camera.nCounterState++;
+	}
+	else
+	{
+		g_camera.nCounterState = 0;
+	}
+
+	if (g_camera.nCounterState > 90)
+	{
+		g_camera.rot.y += GetFixedRotation(pPlayer->obj.rot.y - g_camera.rot.y + D3DX_PI) * 0.05f;
+	}
 }
 
 //=====================================================================
