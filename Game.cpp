@@ -22,6 +22,7 @@
 #include "effect.h"
 #include "input.h"
 #include "model.h"
+#include "meshfield.h"
 
 //*********************************************************************
 // 
@@ -64,8 +65,8 @@ SCRIPTDATA g_data;
 //=====================================================================
 void InitGame(void)
 {
-
-	InitField();
+	//InitField();
+	InitMeshField();
 	InitWall();
 	InitShadow();
 	InitPlayer();
@@ -85,7 +86,8 @@ void InitGame(void)
 //=====================================================================
 void UninitGame(void)
 {
-	UninitField();
+	//UninitField();
+	UninitMeshField();
 	UninitWall();
 	UninitPlayer();
 	UninitShadow();
@@ -108,7 +110,8 @@ void UpdateGame(void)
 
 	if (g_bIsPaused == false)
 	{
-		UpdateField();
+		//UpdateField();
+		UpdateMeshField();
 		UpdateWall();
 		UpdatePlayer();
 		UpdateShadow();
@@ -125,8 +128,9 @@ void UpdateGame(void)
 //=====================================================================
 void DrawGame(void)
 {
-	DrawField();
-	DrawWall();
+	//DrawField();
+	DrawMeshField();
+	//DrawWall();
 	DrawPlayer();
 	DrawShadow();
 	DrawBillboard();
