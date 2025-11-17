@@ -22,8 +22,8 @@
 #define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
 #define INIT_SIZE			D3DXVECTOR3(200.0f, 0.0f, 200.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
-#define NUM_BLOCK_X			(2)
-#define NUM_BLOCK_Z			(2)
+#define NUM_BLOCK_X			(4)
+#define NUM_BLOCK_Z			(4)
 
 //*********************************************************************
 // 
@@ -63,7 +63,6 @@ D3DXMATRIX g_mtxWorldMeshField;	// ワールドマトリックス
 void InitMeshField(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	int nMaxVertex = 9;
 
 	// 構造体の初期化
 	memset(&g_MeshField, 0, sizeof(MESHFIELD));
@@ -83,7 +82,7 @@ void InitMeshField(void)
 
 	// 頂点バッファの生成
 	pDevice->CreateVertexBuffer(
-		sizeof(VERTEX_3D) * nMaxVertex,
+		sizeof(VERTEX_3D) * (NUM_BLOCK_X + 1) * (NUM_BLOCK_Z + 1),
 		D3DUSAGE_WRITEONLY,
 		FVF_VERTEX_3D,
 		D3DPOOL_MANAGED,
@@ -99,45 +98,17 @@ void InitMeshField(void)
 	g_pVtxBuffMeshField->Lock(0, 0, (void**)&pVtx, 0);
 
 	// 頂点情報を設定
-	pVtx[0].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 0, 0.0f, vecOrigin.z + vecOffset.z * 0);
-	pVtx[1].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 1, 0.0f, vecOrigin.z + vecOffset.z * 0);
-	pVtx[2].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 2, 0.0f, vecOrigin.z + vecOffset.z * 0);
-	pVtx[3].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 0, 0.0f, vecOrigin.z + vecOffset.z * 1);
-	pVtx[4].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 1, 0.0f, vecOrigin.z + vecOffset.z * 1);
-	pVtx[5].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 2, 0.0f, vecOrigin.z + vecOffset.z * 1);
-	pVtx[6].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 0, 0.0f, vecOrigin.z + vecOffset.z * 2);
-	pVtx[7].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 1, 0.0f, vecOrigin.z + vecOffset.z * 2);
-	pVtx[8].pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * 2, 0.0f, vecOrigin.z + vecOffset.z * 2);
-
-	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[4].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[5].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[6].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[7].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[8].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-
-	pVtx[0].col = D3DXCOLOR_WHITE;
-	pVtx[1].col = D3DXCOLOR_WHITE;
-	pVtx[2].col = D3DXCOLOR_WHITE;
-	pVtx[3].col = D3DXCOLOR_WHITE;
-	pVtx[4].col = D3DXCOLOR_WHITE;
-	pVtx[5].col = D3DXCOLOR_WHITE;
-	pVtx[6].col = D3DXCOLOR_WHITE;
-	pVtx[7].col = D3DXCOLOR_WHITE;
-	pVtx[8].col = D3DXCOLOR_WHITE;
-
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(0.5f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[3].tex = D3DXVECTOR2(0.0f, 0.5f);
-	pVtx[4].tex = D3DXVECTOR2(0.5f, 0.5f);
-	pVtx[5].tex = D3DXVECTOR2(1.0f, 0.5f);
-	pVtx[6].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[7].tex = D3DXVECTOR2(0.5f, 1.0f);
-	pVtx[8].tex = D3DXVECTOR2(1.0f, 1.0f);
+	for (int nCntVtxZ = 0; nCntVtxZ < NUM_BLOCK_Z + 1; nCntVtxZ++)
+	{
+		for (int nCntVtxX = 0; nCntVtxX < NUM_BLOCK_X + 1; nCntVtxX++)
+		{
+			pVtx->pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * nCntVtxX, 0.0f, vecOrigin.z + vecOffset.z * nCntVtxZ);
+			pVtx->nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+			pVtx->col = D3DXCOLOR_WHITE;
+			pVtx->tex = D3DXVECTOR2(1.0f / NUM_BLOCK_X * nCntVtxX, 1.0f / NUM_BLOCK_Z * nCntVtxZ);
+			pVtx++;
+		}
+	}
 
 	// 頂点バッファをアンロック
 	g_pVtxBuffMeshField->Unlock();
@@ -146,7 +117,7 @@ void InitMeshField(void)
 
 	// インデックスバッファの生成
 	pDevice->CreateIndexBuffer(
-		sizeof(WORD) * 14,
+		sizeof(WORD) * ((4 + 2 * NUM_BLOCK_X) * NUM_BLOCK_Z) - 2,
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
 		D3DPOOL_MANAGED,
@@ -158,42 +129,37 @@ void InitMeshField(void)
 	g_pIdxBuffMeshField->Lock(0, 0, (void**)&pIdx, 0);
 
 	// 頂点番号データの設定
+	for (int nCntIdxZ = 0; nCntIdxZ < NUM_BLOCK_Z; nCntIdxZ++)
+	{
+		//for (int nCntIdxX = 0; nCntIdxX < NUM_BLOCK_X + 1; nCntIdxX++)
+		//{
+		//	pIdx[0] = (((4 + 2 * NUM_BLOCK_X) * nCntIdxY) + 2 * nCntIdxX);
+		//	pIdx[1] = (((4 + 2 * NUM_BLOCK_X) * nCntIdxY) + 2 * nCntIdxX) + 1;
+		//	pIdx += 2;
+		//}
 
-	//for (int nIdx = 0; nIdx < 14; nIdx++, pIdx++)
-	//{
-	//	if ((nIdx + 1) % ((4 + 2 * NUM_BLOCK_X) + 1) == 0)
-	//	{
-	//		*pIdx = 2;
-	//	}
-	//	else if ((nIdx + 1) % ((4 + 2 * NUM_BLOCK_X) + 2) == 0)
-	//	{
-	//		*pIdx = 6;
-	//	}
-	//	else if (nIdx % 2 == 0)
-	//	{
-	//		*pIdx = (nIdx / 3) + 3 + (nIdx % 3 - 1);
-	//	}
-	//	else if (nIdx % 2 == 1)
-	//	{
-	//		*pIdx = (nIdx % 8) / 2;
-	//	}
+		//if (nCntIdxY != NUM_BLOCK_Z - 1)
+		//{
+		//	pIdx[0] = (2 + 2 * NUM_BLOCK_X);
+		//	pIdx[1] = (2 + 2 * NUM_BLOCK_X) + 1;
+		//	pIdx += 2;
+		//}
 
-	//}
 
-	pIdx[0] = 3;
-	pIdx[1] = 0;
-	pIdx[2] = 4;
-	pIdx[3] = 1;
-	pIdx[4] = 5;
-	pIdx[5] = 2;
-	pIdx[6] = 2;
-	pIdx[7] = 6;
-	pIdx[8] = 6;
-	pIdx[9] = 3;
-	pIdx[10] = 7;
-	pIdx[11] = 4;
-	pIdx[12] = 8;
-	pIdx[13] = 5;
+		for (int nCntIdxX = 0; nCntIdxX < NUM_BLOCK_X + 1; nCntIdxX++)
+		{
+			pIdx[0] = (nCntIdxZ + 1) * (NUM_BLOCK_X + 1) + nCntIdxX;
+			pIdx[1] = ((nCntIdxZ + 1) * (NUM_BLOCK_X + 1) - (NUM_BLOCK_Z + 1)) + nCntIdxX;
+			pIdx += 2;
+
+			if (nCntIdxX == NUM_BLOCK_X && nCntIdxZ != NUM_BLOCK_Z)
+			{
+				pIdx[0] = ((nCntIdxZ + 1) * (NUM_BLOCK_X + 1) - (NUM_BLOCK_Z + 1)) + nCntIdxX;
+				pIdx[1] = ((nCntIdxZ + 1) * (NUM_BLOCK_X + 1) + nCntIdxX) + 1;
+				pIdx += 2;
+			}
+		}
+	}
 
 	// インデックスバッファをアンロック
 	g_pIdxBuffMeshField->Unlock();
@@ -228,7 +194,24 @@ void UninitMeshField(void)
 //=====================================================================
 void UpdateMeshField(void)
 {
+	VERTEX_3D* pVtx;
 
+	// 頂点バッファをロックして頂点情報へのポインタを取得
+	g_pVtxBuffMeshField->Lock(0, 0, (void**)&pVtx, 0);
+
+	pVtx[0].pos.y = 100.0f;
+	pVtx[1].pos.y = 100.0f;
+	pVtx[2].pos.y = 100.0f;
+	pVtx[3].pos.y = 100.0f;
+	pVtx[4].pos.y = 100.0f;
+	pVtx[5].pos.y = 100.0f;
+	pVtx[6].pos.y = 100.0f;
+	pVtx[7].pos.y = 100.0f;
+	pVtx[8].pos.y = 100.0f;
+	pVtx[9].pos.y = 100.0f;
+
+	// 頂点バッファをアンロック
+	g_pVtxBuffMeshField->Unlock();
 }
 
 //=====================================================================
@@ -287,9 +270,9 @@ void DrawMeshField(void)
 			D3DPT_TRIANGLESTRIP,
 			0,
 			0,
-			9,
+			(NUM_BLOCK_X + 1) * (NUM_BLOCK_Z + 1),			// 用意した頂点数
 			0,
-			12
+			((4 + 2 * NUM_BLOCK_X) * NUM_BLOCK_Z) - 2 - 2	// 描画するポリゴン数
 		);
 	}
 }
