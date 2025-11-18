@@ -279,7 +279,19 @@ END_WALLSET
 MODELSET
 	TYPE = 0			# 種類
 	POS = 0 0 40		# 位置
-	ROT = 0 180 0			# 向き
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 0			# 種類
+	POS = 100 0 40		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 0			# 種類
+	POS = -100 0 40		# 位置
+	ROT = 0 0 0			# 向き
 END_MODELSET
 
 END_SCRIPT		# この行は絶対消さないこと！

@@ -23,6 +23,7 @@
 #include "input.h"
 #include "model.h"
 #include "meshfield.h"
+#include "cylinder.h"
 
 //*********************************************************************
 // 
@@ -75,6 +76,7 @@ void InitGame(void)
 	InitExplosion();
 	InitEffect();
 	InitModel();
+	InitCylinder();
 
 	g_bIsPaused = false;
 
@@ -96,6 +98,7 @@ void UninitGame(void)
 	UninitExplosion();
 	UninitEffect();
 	UninitModel();
+	UninitCylinder();
 }
 
 //=====================================================================
@@ -120,6 +123,7 @@ void UpdateGame(void)
 		UpdateExplosion();
 		UpdateEffect();
 		UpdateModel();
+		UpdateCylinder();
 	}
 }
 
@@ -138,4 +142,5 @@ void DrawGame(void)
 	DrawExplosion();
 	DrawEffect();
 	DrawModel();
+	DrawCylinder();
 }
