@@ -31,6 +31,7 @@
 typedef struct 
 {
 	BASEOBJECT obj;
+	D3DXMATRIX mtxWorld;
 }MESHFIELD;
 
 //*********************************************************************

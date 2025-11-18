@@ -55,7 +55,6 @@ LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffMeshField = NULL;
 LPDIRECT3DTEXTURE9 g_pTexBuffMeshField = NULL;
 LPDIRECT3DINDEXBUFFER9 g_pIdxBuffMeshField = NULL;
 MESHFIELD g_MeshField;
-D3DXMATRIX g_mtxWorldMeshField;	// ワールドマトリックス
 
 //=====================================================================
 // 初期化処理
@@ -213,7 +212,7 @@ void DrawMeshField(void)
 	D3DXMATRIX mtxRot, mtxTrans;	// 計算用マトリックス
 
 	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&g_mtxWorldMeshField);
+	D3DXMatrixIdentity(&g_MeshField.mtxWorld);
 
 	// 向きを反映
 	D3DXMatrixRotationYawPitchRoll(
@@ -221,8 +220,8 @@ void DrawMeshField(void)
 		g_MeshField.obj.rot.y, g_MeshField.obj.rot.x, g_MeshField.obj.rot.z
 	);
 	D3DXMatrixMultiply(
-		&g_mtxWorldMeshField,
-		&g_mtxWorldMeshField,
+		&g_MeshField.mtxWorld,
+		&g_MeshField.mtxWorld,
 		&mtxRot
 	);
 
@@ -232,13 +231,13 @@ void DrawMeshField(void)
 		g_MeshField.obj.pos.x, g_MeshField.obj.pos.y, g_MeshField.obj.pos.z
 	);
 	D3DXMatrixMultiply(
-		&g_mtxWorldMeshField,
-		&g_mtxWorldMeshField,
+		&g_MeshField.mtxWorld,
+		&g_MeshField.mtxWorld,
 		&mtxTrans
 	);
 
 	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldMeshField);
+	pDevice->SetTransform(D3DTS_WORLD, &g_MeshField.mtxWorld);
 
 	// 頂点バッファをデータストリームに設定
 	pDevice->SetStreamSource(0, g_pVtxBuffMeshField, 0, sizeof(VERTEX_3D));
