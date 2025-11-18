@@ -22,8 +22,8 @@
 #define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
 #define INIT_SIZE			D3DXVECTOR3(200.0f, 0.0f, 200.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
-#define NUM_BLOCK_X			(4)
-#define NUM_BLOCK_Z			(4)
+#define NUM_BLOCK_X			(2)
+#define NUM_BLOCK_Z			(2)
 
 //*********************************************************************
 // 
@@ -68,6 +68,8 @@ void InitMeshField(void)
 	memset(&g_MeshField, 0, sizeof(MESHFIELD));
 	g_MeshField.obj.pos = INIT_POS;
 	g_MeshField.obj.size = INIT_SIZE;
+	g_MeshField.obj.size.x *= NUM_BLOCK_X;
+	g_MeshField.obj.size.z *= NUM_BLOCK_Z;
 	g_MeshField.obj.color = INIT_COLOR;
 	g_MeshField.obj.bVisible = true;
 
@@ -131,31 +133,16 @@ void InitMeshField(void)
 	// 頂点番号データの設定
 	for (int nCntIdxZ = 0; nCntIdxZ < NUM_BLOCK_Z; nCntIdxZ++)
 	{
-		//for (int nCntIdxX = 0; nCntIdxX < NUM_BLOCK_X + 1; nCntIdxX++)
-		//{
-		//	pIdx[0] = (((4 + 2 * NUM_BLOCK_X) * nCntIdxY) + 2 * nCntIdxX);
-		//	pIdx[1] = (((4 + 2 * NUM_BLOCK_X) * nCntIdxY) + 2 * nCntIdxX) + 1;
-		//	pIdx += 2;
-		//}
-
-		//if (nCntIdxY != NUM_BLOCK_Z - 1)
-		//{
-		//	pIdx[0] = (2 + 2 * NUM_BLOCK_X);
-		//	pIdx[1] = (2 + 2 * NUM_BLOCK_X) + 1;
-		//	pIdx += 2;
-		//}
-
-
 		for (int nCntIdxX = 0; nCntIdxX < NUM_BLOCK_X + 1; nCntIdxX++)
 		{
 			pIdx[0] = (nCntIdxZ + 1) * (NUM_BLOCK_X + 1) + nCntIdxX;
-			pIdx[1] = ((nCntIdxZ + 1) * (NUM_BLOCK_X + 1) - (NUM_BLOCK_Z + 1)) + nCntIdxX;
+			pIdx[1] = nCntIdxZ * (NUM_BLOCK_X + 1) + nCntIdxX;
 			pIdx += 2;
 
-			if (nCntIdxX == NUM_BLOCK_X && nCntIdxZ != NUM_BLOCK_Z)
+			if (nCntIdxX == NUM_BLOCK_X && nCntIdxZ != NUM_BLOCK_Z - 1)
 			{
-				pIdx[0] = ((nCntIdxZ + 1) * (NUM_BLOCK_X + 1) - (NUM_BLOCK_Z + 1)) + nCntIdxX;
-				pIdx[1] = ((nCntIdxZ + 1) * (NUM_BLOCK_X + 1) + nCntIdxX) + 1;
+				pIdx[0] = nCntIdxZ * (NUM_BLOCK_X + 1) + nCntIdxX;
+				pIdx[1] = (nCntIdxZ + 1) * (NUM_BLOCK_X + 1) + nCntIdxX + 1;
 				pIdx += 2;
 			}
 		}
@@ -199,16 +186,19 @@ void UpdateMeshField(void)
 	// 頂点バッファをロックして頂点情報へのポインタを取得
 	g_pVtxBuffMeshField->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].pos.y = 100.0f;
-	pVtx[1].pos.y = 100.0f;
-	pVtx[2].pos.y = 100.0f;
-	pVtx[3].pos.y = 100.0f;
-	pVtx[4].pos.y = 100.0f;
-	pVtx[5].pos.y = 100.0f;
-	pVtx[6].pos.y = 100.0f;
-	pVtx[7].pos.y = 100.0f;
-	pVtx[8].pos.y = 100.0f;
-	pVtx[9].pos.y = 100.0f;
+	//pVtx[0].pos.y = 100.0f;
+	//pVtx[1].pos.y = 100.0f;
+	//pVtx[2].pos.y = 100.0f;
+	//pVtx[3].pos.y = 100.0f;
+	//pVtx[4].pos.y = 100.0f;
+	//pVtx[5].pos.y = 100.0f;
+	//pVtx[6].pos.y = 100.0f;
+	//pVtx[7].pos.y = 100.0f;
+	//pVtx[8].pos.y = 100.0f;
+	//pVtx[9].pos.y = 100.0f;
+	//pVtx[11].pos.y = 100.0f;
+	//pVtx[12].pos.y = 100.0f;
+	//pVtx[13].pos.y = 100.0f;
 
 	// 頂点バッファをアンロック
 	g_pVtxBuffMeshField->Unlock();
