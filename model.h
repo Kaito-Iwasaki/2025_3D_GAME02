@@ -37,6 +37,7 @@ typedef struct
 	LPDIRECT3DTEXTURE9 apTexture[MAX_TEXTURE_PER_MODEL];
 	LPD3DXBUFFER pBuffMat;
 	DWORD dwNumMat;
+	D3DXVECTOR3 vtxMin, vtxMax;
 	bool bUsed;
 }MODEL;
 //*********************************************************************

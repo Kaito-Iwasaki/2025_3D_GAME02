@@ -12,13 +12,20 @@
 //*********************************************************************
 #include "model.h"
 #include "script_loader.h"
+#include "player.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-
+#define MODEL_HIT_NONE		(0x00)
+#define MODEL_HIT_FRONT		(0x01)
+#define MODEL_HIT_BACK		(0x02)
+#define MODEL_HIT_LEFT		(0x04)
+#define MODEL_HIT_RIGHT		(0x08)
+#define MODEL_HIT_TOP		(0x10)
+#define MODEL_HIT_DOWN		(0x20)
 
 //*********************************************************************
 // 
@@ -97,7 +104,98 @@ void UninitModel(void)
 //=====================================================================
 void UpdateModel(void)
 {
+	PLAYER* pPlayer = GetPlayer();
+	MODEL* pModel = &g_aModel[0];
 
+	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
+	{
+		if (pModel->bUsed == false) continue;
+
+		BYTE byHit = MODEL_HIT_NONE;
+
+		if (
+			pPlayer->posOld.x <= pModel->obj.pos.x + pModel->vtxMin.x
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
+			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + pModel->vtxMin.y
+			)
+		{
+			byHit |= MODEL_HIT_LEFT;
+		}
+
+		if (
+			pPlayer->posOld.x >= pModel->obj.pos.x + pModel->vtxMax.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
+			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + pModel->vtxMin.y
+			)
+		{
+			byHit |= MODEL_HIT_RIGHT;
+		}
+
+		if (
+			pPlayer->posOld.z <= pModel->obj.pos.z + pModel->vtxMin.z
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
+			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + pModel->vtxMin.y
+			)
+		{
+			byHit |= MODEL_HIT_FRONT;
+		}
+
+		if (
+			pPlayer->posOld.z >= pModel->obj.pos.z + pModel->vtxMax.z
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
+			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + pModel->vtxMin.y
+			)
+		{
+			byHit |= MODEL_HIT_BACK;
+		}
+
+		if (
+			pPlayer->posOld.y >= pModel->obj.pos.y + pModel->vtxMax.y
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
+			&& pPlayer->obj.pos.x > pModel->obj.pos.x + pModel->vtxMin.x
+			&& pPlayer->obj.pos.x < pModel->obj.pos.x + pModel->vtxMax.x
+			&& pPlayer->obj.pos.z > pModel->obj.pos.z + pModel->vtxMin.z
+			&& pPlayer->obj.pos.z < pModel->obj.pos.z + pModel->vtxMax.z
+			)
+		{
+			byHit |= MODEL_HIT_TOP;
+		}
+
+
+		if (byHit & MODEL_HIT_LEFT)
+		{
+			pPlayer->obj.pos.x = pModel->obj.pos.x + pModel->vtxMin.x;
+		}
+		if (byHit & MODEL_HIT_RIGHT)
+		{
+			pPlayer->obj.pos.x = pModel->obj.pos.x + pModel->vtxMax.x;
+		}
+		if (byHit & MODEL_HIT_FRONT)
+		{
+			pPlayer->obj.pos.z = pModel->obj.pos.z + pModel->vtxMin.z;
+		}
+		if (byHit & MODEL_HIT_BACK)
+		{
+			pPlayer->obj.pos.z = pModel->obj.pos.z + pModel->vtxMax.z;
+		}
+		if (byHit & MODEL_HIT_TOP)
+		{
+			pPlayer->obj.pos.y = pModel->obj.pos.y + pModel->vtxMax.y;
+			pPlayer->move.y = 0;
+		}
+	}
 }
 
 //=====================================================================
@@ -171,6 +269,9 @@ void SetModel(const char* pFilename, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	MODEL* pModel = &g_aModel[0];
+	int nNumVtx;
+	DWORD dwSizeFVF;
+	BYTE* pVtxBuff;
 
 	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
 	{
@@ -180,6 +281,8 @@ void SetModel(const char* pFilename, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		pModel->bUsed = true;
 		pModel->obj.pos = pos;
 		pModel->obj.rot = rot;
+		pModel->vtxMax = D3DXVECTOR3(-100000, -100000, -100000);
+		pModel->vtxMin = D3DXVECTOR3(100000, 100000, 100000);
 
 		// Xファイルの読み込み
 		HRESULT hr = D3DXLoadMeshFromX(
@@ -197,6 +300,49 @@ void SetModel(const char* pFilename, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 			MessageBox(GetMainWindow(), "ヤバい（モデルが）", "え？", MB_ICONERROR);
 			DestroyWindow(GetMainWindow());
 			break;
+		}
+
+		// 頂点数を取得
+		nNumVtx = pModel->pMesh->GetNumVertices();
+
+		// 頂点フォーマットのサイズを取得
+		dwSizeFVF = D3DXGetFVFVertexSize(pModel->pMesh->GetFVF());
+
+		// 頂点バッファをロックし、頂点情報へのポインタを取得
+		pModel->pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+
+		for (int nCntVtx = 0; nCntVtx < nNumVtx; nCntVtx++)
+		{
+			D3DXVECTOR3 vtx = *(D3DXVECTOR3*)pVtxBuff;	// 頂点座標を代入
+
+			if (vtx.x < pModel->vtxMin.x)
+			{
+				pModel->vtxMin.x = vtx.x;
+			}
+			else if (vtx.x > pModel->vtxMax.x)
+			{
+				pModel->vtxMax.x = vtx.x;
+			}
+
+			if (vtx.z < pModel->vtxMin.z)
+			{
+				pModel->vtxMin.z = vtx.z;
+			}
+			else if (vtx.z > pModel->vtxMax.z)
+			{
+				pModel->vtxMax.z = vtx.z;
+			}
+
+			if (vtx.y < pModel->vtxMin.y)
+			{
+				pModel->vtxMin.y = vtx.y;
+			}
+			else if (vtx.y > pModel->vtxMax.y)
+			{
+				pModel->vtxMax.y = vtx.y;
+			}
+
+			pVtxBuff += dwSizeFVF;
 		}
 
 		D3DXMATERIAL* pMat;

@@ -135,7 +135,6 @@ void UpdatePlayer(void)
 {
 	CAMERA* pCamera = GetCamera();
 
-	static D3DXVECTOR3 move = D3DXVECTOR3_ZERO;
 	D3DXVECTOR3 dir = D3DXVECTOR3_ZERO;
 	D3DXVECTOR3 dirPad = D3DXVECTOR3_ZERO;
 	XINPUT_STATE* joypad = GetJoypad();
@@ -187,7 +186,7 @@ void UpdatePlayer(void)
 
 	if (GetKeyboardTrigger(DIK_RETURN))
 	{
-		move.y = 10.0f;
+		g_player.move.y = 10.0f;
 	}
 
 	dirPad.x = joypad->Gamepad.sThumbLX;
@@ -209,13 +208,13 @@ void UpdatePlayer(void)
 		g_player.rotMove.y = atan2f(dir.x, dir.z) + D3DX_PI;
 		g_player.obj.pos += dir / fMagnitude * 1.5f;
 	}
-	g_player.obj.pos.y += move.y;
+	g_player.obj.pos.y += g_player.move.y;
 
 	float fRotDiff = GetFixedRotation(g_player.rotMove.y - g_player.obj.rot.y);
 
 	g_player.obj.rot.y = GetFixedRotation(g_player.obj.rot.y + fRotDiff * 0.1f);
 
-	move.y -= 0.6f;
+	g_player.move.y -= 0.6f;
 	Clampf(&g_player.obj.pos.y, 0.0f, g_player.obj.pos.y);
 
 	SetShadowPosition(g_player.nIdxShadow, D3DXVECTOR3(g_player.obj.pos.x, 0.01f, g_player.obj.pos.z));
