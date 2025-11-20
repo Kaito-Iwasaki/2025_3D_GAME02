@@ -18,12 +18,12 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define TEXTURE_FILENAME	"data\\TEXTURE\\sakai000.png"
+#define TEXTURE_FILENAME	"data\\TEXTURE\\sakai000b.png"
 #define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
-#define INIT_SIZE			D3DXVECTOR3(200.0f, 100.0f, 200.0f)
+#define INIT_SIZE			D3DXVECTOR3(200.0f, 200.0f, 200.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
-#define NUM_SEGMENT_X		(8)
-#define NUM_SEGMENT_Y		(1)
+#define NUM_SEGMENT_X		(16)
+#define NUM_SEGMENT_Y		(4)
 
 //*********************************************************************
 // 
@@ -91,7 +91,8 @@ void InitCylinder(void)
 	);
 
 	VERTEX_3D* pVtx;
-
+	D3DXVECTOR3 vecOrigin = g_Cylinder.obj.pos + D3DXVECTOR3(0, g_Cylinder.obj.size.y, 0);
+	
 	// 頂点バッファをロックして頂点情報へのポインタを取得
 	g_pVtxBuffCylinder->Lock(0, 0, (void**)&pVtx, 0);
 
@@ -103,12 +104,13 @@ void InitCylinder(void)
 			float fAngle = (D3DX_PI * 2) / NUM_SEGMENT_X * nCntVtxX;
 			D3DXVECTOR3 vecOffset = D3DXVECTOR3(
 				sinf(fAngle) * g_Cylinder.obj.size.z,
-				(g_Cylinder.obj.pos.y + g_Cylinder.obj.size.y / 2) - (g_Cylinder.obj.size.y / (NUM_SEGMENT_Y + 1)) * nCntVtxY,
-				cosf(fAngle) * g_Cylinder.obj.size.x);
+				vecOrigin.y - (g_Cylinder.obj.size.y / NUM_SEGMENT_Y) * nCntVtxY,
+				cosf(fAngle) * g_Cylinder.obj.size.x
+			);
 			pVtx->pos = g_Cylinder.obj.pos + vecOffset;
-			pVtx->nor = D3DXVECTOR3(sinf(fAngle), 0.0f, cosf(fAngle));
+			pVtx->nor = -D3DXVECTOR3(sinf(fAngle), 0.0f, cosf(fAngle));
 			pVtx->col = D3DXCOLOR_WHITE;
-			pVtx->tex = D3DXVECTOR2(1.0f / NUM_SEGMENT_X * nCntVtxX, 1.0f / NUM_SEGMENT_Y * nCntVtxY);
+			pVtx->tex = D3DXVECTOR2(nCntVtxX, nCntVtxY);
 			pVtx++;
 		}
 	}
@@ -120,7 +122,7 @@ void InitCylinder(void)
 
 	// インデックスバッファの生成
 	pDevice->CreateIndexBuffer(
-		sizeof(WORD) * (NUM_SEGMENT_X + 1) * (NUM_SEGMENT_Y + 1),
+		sizeof(WORD) * ((4 + 2 * NUM_SEGMENT_X) * NUM_SEGMENT_Y) - 2,
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
 		D3DPOOL_MANAGED,
@@ -136,9 +138,20 @@ void InitCylinder(void)
 	{
 		for (int nCntIdxX = 0; nCntIdxX < NUM_SEGMENT_X + 1; nCntIdxX++)
 		{
-			pIdx[0] = nCntIdxX + (NUM_SEGMENT_X + 1);
-			pIdx[1] = nCntIdxX;
+			//pIdx[0] = nCntIdxX + (NUM_SEGMENT_X + 1);
+			//pIdx[1] = nCntIdxX;
+			//pIdx += 2;
+
+			pIdx[0] = (nCntIdxY + 1) * (NUM_SEGMENT_X + 1) + nCntIdxX;
+			pIdx[1] = nCntIdxY * (NUM_SEGMENT_X + 1) + nCntIdxX;
 			pIdx += 2;
+
+			if (nCntIdxX == NUM_SEGMENT_X && nCntIdxY != NUM_SEGMENT_Y - 1)
+			{
+				pIdx[0] = nCntIdxY * (NUM_SEGMENT_X + 1) + nCntIdxX;
+				pIdx[1] = (nCntIdxY + 1) * (NUM_SEGMENT_X + 1) + nCntIdxX + 1;
+				pIdx += 2;
+			}
 		}
 	}
 
@@ -235,7 +248,7 @@ void DrawCylinder(void)
 			0,
 			(NUM_SEGMENT_X + 1) * (NUM_SEGMENT_Y + 1),			// 用意した頂点数
 			0,
-			(NUM_SEGMENT_X + 1) * (NUM_SEGMENT_Y + 1)	// 描画するポリゴン数
+			((4 + 2 * NUM_SEGMENT_X) * NUM_SEGMENT_Y) - 2 - 2	// 描画するポリゴン数
 		);
 	}
 }

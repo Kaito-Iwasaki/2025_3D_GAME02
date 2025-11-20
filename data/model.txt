@@ -34,6 +34,7 @@ NUM_MODEL = 1
 # 読み込むモデルファイル名
 #------------------------------------------------------------------------------
 MODEL_FILENAME = data/MODEL/Perfect_Animal2.x				# [0]柱
+MODEL_FILENAME = data/MODEL/Perfect_Animal.x				# [0]柱
 
 #------------------------------------------------------------------------------
 # 空情報
@@ -283,13 +284,13 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 0			# 種類
+	TYPE = 1			# 種類
 	POS = 100 0 40		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
 
 MODELSET
-	TYPE = 0			# 種類
+	TYPE = 1			# 種類
 	POS = -100 0 40		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
