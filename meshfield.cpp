@@ -180,27 +180,7 @@ void UninitMeshField(void)
 //=====================================================================
 void UpdateMeshField(void)
 {
-	VERTEX_3D* pVtx;
 
-	// 頂点バッファをロックして頂点情報へのポインタを取得
-	g_pVtxBuffMeshField->Lock(0, 0, (void**)&pVtx, 0);
-
-	//pVtx[0].pos.y = 100.0f;
-	//pVtx[1].pos.y = 100.0f;
-	//pVtx[2].pos.y = 100.0f;
-	//pVtx[3].pos.y = 100.0f;
-	//pVtx[4].pos.y = 100.0f;
-	//pVtx[5].pos.y = 100.0f;
-	//pVtx[6].pos.y = 100.0f;
-	//pVtx[7].pos.y = 100.0f;
-	//pVtx[8].pos.y = 100.0f;
-	//pVtx[9].pos.y = 100.0f;
-	//pVtx[11].pos.y = 100.0f;
-	//pVtx[12].pos.y = 100.0f;
-	//pVtx[13].pos.y = 100.0f;
-
-	// 頂点バッファをアンロック
-	g_pVtxBuffMeshField->Unlock();
 }
 
 //=====================================================================
@@ -254,7 +234,6 @@ void DrawMeshField(void)
 		pDevice->SetTexture(0, g_pTexBuffMeshField);
 
 		// ポリゴンの描画
-		//pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 12);
 		pDevice->DrawIndexedPrimitive(
 			D3DPT_TRIANGLESTRIP,
 			0,
@@ -264,4 +243,9 @@ void DrawMeshField(void)
 			((4 + 2 * NUM_BLOCK_X) * NUM_BLOCK_Z) - 2 - 2	// 描画するポリゴン数
 		);
 	}
+}
+
+void SetMeshField(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, int nSegmentZ)
+{
+
 }

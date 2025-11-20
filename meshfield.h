@@ -21,7 +21,7 @@
 // ***** É}ÉNÉçíËã` *****
 // 
 //*********************************************************************
-
+#define MAX_MESHFIOELD		(512)
 
 //*********************************************************************
 // 
@@ -32,6 +32,11 @@ typedef struct
 {
 	BASEOBJECT obj;
 	D3DXMATRIX mtxWorld;
+	LPDIRECT3DVERTEXBUFFER9 pVtxBuff;
+	int nType;
+	int nSegmentX;
+	int nSegmentZ;
+	bool bUsed;
 }MESHFIELD;
 
 //*********************************************************************
@@ -50,5 +55,6 @@ void InitMeshField(void);
 void UninitMeshField(void);
 void UpdateMeshField(void);
 void DrawMeshField(void);
+void SetMeshField(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, int nSegmentZ);
 
 #endif

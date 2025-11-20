@@ -120,9 +120,13 @@ void InitCylinder(void)
 
 	WORD* pIdx;		// インデックス情報へのポインタ
 
+	// インデックス数
+	// （２頂点×横の頂点数×縦の分割数＋２頂点×横に折り返す回数）
+	int nNumIdx = (NUM_SEGMENT_X + 1) * 2 * NUM_SEGMENT_Y + (NUM_SEGMENT_Y - 1) * 2;
+
 	// インデックスバッファの生成
 	pDevice->CreateIndexBuffer(
-		sizeof(WORD) * ((4 + 2 * NUM_SEGMENT_X) * NUM_SEGMENT_Y) - 2,
+		sizeof(WORD) * nNumIdx,
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
 		D3DPOOL_MANAGED,
@@ -138,10 +142,6 @@ void InitCylinder(void)
 	{
 		for (int nCntIdxX = 0; nCntIdxX < NUM_SEGMENT_X + 1; nCntIdxX++)
 		{
-			//pIdx[0] = nCntIdxX + (NUM_SEGMENT_X + 1);
-			//pIdx[1] = nCntIdxX;
-			//pIdx += 2;
-
 			pIdx[0] = (nCntIdxY + 1) * (NUM_SEGMENT_X + 1) + nCntIdxX;
 			pIdx[1] = nCntIdxY * (NUM_SEGMENT_X + 1) + nCntIdxX;
 			pIdx += 2;
