@@ -130,7 +130,7 @@ D3DXVECTOR3 Direction(float fAngle)
 //=====================================================================
 float Magnitude(D3DXVECTOR3 vector)
 {
-	return sqrtf(vector.x * vector.x + vector.y * vector.y);
+	return sqrtf(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
 }
 
 //=====================================================================

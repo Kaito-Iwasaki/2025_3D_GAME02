@@ -91,7 +91,7 @@ void InitCylinder(void)
 	);
 
 	VERTEX_3D* pVtx;
-	D3DXVECTOR3 vecOrigin = g_Cylinder.obj.pos + D3DXVECTOR3(0, g_Cylinder.obj.size.y, 0);
+	D3DXVECTOR3 vecOrigin = D3DXVECTOR3(0, g_Cylinder.obj.size.y, 0);
 	
 	// 頂点バッファをロックして頂点情報へのポインタを取得
 	g_pVtxBuffCylinder->Lock(0, 0, (void**)&pVtx, 0);
@@ -101,13 +101,13 @@ void InitCylinder(void)
 	{
 		for (int nCntVtxX = 0; nCntVtxX < NUM_SEGMENT_X + 1; nCntVtxX++)
 		{
-			float fAngle = (D3DX_PI * 2) / NUM_SEGMENT_X * nCntVtxX;
+			float fAngle = -(D3DX_PI * 2) / NUM_SEGMENT_X * nCntVtxX;
 			D3DXVECTOR3 vecOffset = D3DXVECTOR3(
 				sinf(fAngle) * g_Cylinder.obj.size.z,
 				vecOrigin.y - (g_Cylinder.obj.size.y / NUM_SEGMENT_Y) * nCntVtxY,
 				cosf(fAngle) * g_Cylinder.obj.size.x
 			);
-			pVtx->pos = g_Cylinder.obj.pos + vecOffset;
+			pVtx->pos = vecOffset;
 			pVtx->nor = -D3DXVECTOR3(sinf(fAngle), 0.0f, cosf(fAngle));
 			pVtx->col = D3DXCOLOR_WHITE;
 			pVtx->tex = D3DXVECTOR2(nCntVtxX, nCntVtxY);

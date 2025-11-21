@@ -216,7 +216,7 @@ void SetMeshField(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, 
 		);
 
 		VERTEX_3D* pVtx;
-		D3DXVECTOR3 vecOrigin = pMeshField->obj.pos + D3DXVECTOR3(-pMeshField->obj.size.x / 2, 0.0f, pMeshField->obj.size.z / 2);
+		D3DXVECTOR3 vecOrigin = D3DXVECTOR3(-pMeshField->obj.size.x / 2, 0.0f, pMeshField->obj.size.z / 2);
 		D3DXVECTOR3 vecOffset = D3DXVECTOR3(pMeshField->obj.size.x / nSegmentX, 0.0f, -pMeshField->obj.size.z / nSegmentZ);
 
 		// 頂点バッファをロックして頂点情報へのポインタを取得
@@ -256,9 +256,9 @@ void SetMeshField(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, 
 		pMeshField->pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
 		// 頂点番号データの設定
-		for (int nCntIdxZ = 0; nCntIdxZ < NUM_BLOCK_Z; nCntIdxZ++)
+		for (int nCntIdxZ = 0; nCntIdxZ < nSegmentZ; nCntIdxZ++)
 		{
-			for (int nCntIdxX = 0; nCntIdxX < NUM_BLOCK_X + 1; nCntIdxX++)
+			for (int nCntIdxX = 0; nCntIdxX < nSegmentX + 1; nCntIdxX++)
 			{
 				pIdx[0] = (nCntIdxZ + 1) * (nSegmentX + 1) + nCntIdxX;
 				pIdx[1] = nCntIdxZ * (nSegmentX + 1) + nCntIdxX;

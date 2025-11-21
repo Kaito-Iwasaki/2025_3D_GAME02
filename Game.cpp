@@ -24,6 +24,7 @@
 #include "model.h"
 #include "meshfield.h"
 #include "cylinder.h"
+#include "sphere.h"
 
 //*********************************************************************
 // 
@@ -76,7 +77,8 @@ void InitGame(void)
 	InitExplosion();
 	InitEffect();
 	InitModel();
-	//InitCylinder();
+	InitCylinder();
+	InitSphere();
 
 	g_bIsPaused = false;
 
@@ -98,7 +100,8 @@ void UninitGame(void)
 	UninitExplosion();
 	UninitEffect();
 	UninitModel();
-	//UninitCylinder();
+	UninitCylinder();
+	UninitSphere();
 }
 
 //=====================================================================
@@ -123,7 +126,8 @@ void UpdateGame(void)
 		UpdateExplosion();
 		UpdateEffect();
 		UpdateModel();
-		//UpdateCylinder();
+		UpdateCylinder();
+		UpdateSphere();
 	}
 }
 
@@ -143,4 +147,5 @@ void DrawGame(void)
 	DrawEffect();
 	DrawModel();
 	//DrawCylinder();
+	DrawSphere();
 }
