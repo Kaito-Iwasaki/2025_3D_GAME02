@@ -25,7 +25,7 @@
 #define MODEL_HIT_LEFT		(0x04)
 #define MODEL_HIT_RIGHT		(0x08)
 #define MODEL_HIT_TOP		(0x10)
-#define MODEL_HIT_DOWN		(0x20)
+#define MODEL_HIT_BOTTOM	(0x20)
 
 //*********************************************************************
 // 
@@ -115,7 +115,7 @@ void UpdateModel(void)
 
 		if (
 			pPlayer->posOld.x <= pModel->obj.pos.x + pModel->vtxMin.x
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
+			&& pPlayer->obj.pos.x > pModel->obj.pos.x + pModel->vtxMin.x
 			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
 			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
 			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
@@ -127,7 +127,7 @@ void UpdateModel(void)
 
 		if (
 			pPlayer->posOld.x >= pModel->obj.pos.x + pModel->vtxMax.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
+			&& pPlayer->obj.pos.x < pModel->obj.pos.x + pModel->vtxMax.x
 			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
 			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
 			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
@@ -139,7 +139,7 @@ void UpdateModel(void)
 
 		if (
 			pPlayer->posOld.z <= pModel->obj.pos.z + pModel->vtxMin.z
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
+			&& pPlayer->obj.pos.z > pModel->obj.pos.z + pModel->vtxMin.z
 			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
 			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
 			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
@@ -151,7 +151,7 @@ void UpdateModel(void)
 
 		if (
 			pPlayer->posOld.z >= pModel->obj.pos.z + pModel->vtxMax.z
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
+			&& pPlayer->obj.pos.z < pModel->obj.pos.z + pModel->vtxMax.z
 			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
 			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
 			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
@@ -163,14 +163,26 @@ void UpdateModel(void)
 
 		if (
 			pPlayer->posOld.y >= pModel->obj.pos.y + pModel->vtxMax.y
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
-			&& pPlayer->obj.pos.x > pModel->obj.pos.x + pModel->vtxMin.x
-			&& pPlayer->obj.pos.x < pModel->obj.pos.x + pModel->vtxMax.x
-			&& pPlayer->obj.pos.z > pModel->obj.pos.z + pModel->vtxMin.z
-			&& pPlayer->obj.pos.z < pModel->obj.pos.z + pModel->vtxMax.z
+			&& pPlayer->obj.pos.y < pModel->obj.pos.y + pModel->vtxMax.y
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
 			)
 		{
 			byHit |= MODEL_HIT_TOP;
+		}
+
+		if (
+			pPlayer->posOld.y <= pModel->obj.pos.y + pModel->vtxMin.y
+			&& pPlayer->obj.pos.y > pModel->obj.pos.y + pModel->vtxMin.y
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
+			)
+		{
+			byHit |= MODEL_HIT_BOTTOM;
 		}
 
 
@@ -193,6 +205,11 @@ void UpdateModel(void)
 		if (byHit & MODEL_HIT_TOP)
 		{
 			pPlayer->obj.pos.y = pModel->obj.pos.y + pModel->vtxMax.y;
+			pPlayer->move.y = 0;
+		}
+		if (byHit & MODEL_HIT_BOTTOM)
+		{
+			pPlayer->obj.pos.y = pModel->obj.pos.y + pModel->vtxMin.y;
 			pPlayer->move.y = 0;
 		}
 	}
