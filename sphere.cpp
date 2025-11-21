@@ -22,8 +22,8 @@
 #define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
 #define INIT_SIZE			D3DXVECTOR3(200.0f, 100.0f, 200.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
-#define NUM_BLOCK_X			(8)
-#define NUM_BLOCK_Z			(4)
+#define NUM_BLOCK_X			(3)
+#define NUM_BLOCK_Z			(2)
 
 //*********************************************************************
 // 
@@ -163,12 +163,32 @@ void DrawSphere(void)
 
 			// ポリゴンの描画
 			pDevice->DrawIndexedPrimitive(
+				D3DPT_TRIANGLEFAN,
+				0,
+				0,
+				10,			// 用意した頂点数
+				0,
+				3
+			);
+
+			// ポリゴンの描画
+			pDevice->DrawIndexedPrimitive(
 				D3DPT_TRIANGLESTRIP,
 				0,
 				0,
-				(pSphere->nSegmentX + 1) * (pSphere->nSegmentZ + 1),			// 用意した頂点数
+				10,			// 用意した頂点数
+				5,
+				6
+			);
+
+			// ポリゴンの描画
+			pDevice->DrawIndexedPrimitive(
+				D3DPT_TRIANGLEFAN,
 				0,
-				(1 + pSphere->nSegmentX) * 2 + 2 * pSphere->nSegmentX * pSphere->nSegmentZ + (pSphere->nSegmentZ - 2 - 1) * 2 - 2		// 描画するポリゴン数（＝インデックス数－２）
+				0,
+				10,			// 用意した頂点数
+				13,
+				3
 			);
 		}
 	}
@@ -208,8 +228,9 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		}
 
 		// 頂点バッファの生成
+		// スフィアの頂点数＝（縦の分割数－１）×（横の分割数＋１）＋上下の２頂点
 		pDevice->CreateVertexBuffer(
-			sizeof(VERTEX_3D) * (2 + nSegmentU * (nSegmentV - 1)),
+			sizeof(VERTEX_3D) * ((3 - 1) * (3 + 1) + 2),	
 			D3DUSAGE_WRITEONLY,
 			FVF_VERTEX_3D,
 			D3DPOOL_MANAGED,
@@ -224,43 +245,87 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		pSphere->pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 		// 頂点情報を設定
-		for (int nCntVtxV = 0; nCntVtxV < nSegmentV + 1; nCntVtxV++)
+		for (int nCntVtxV = 0; nCntVtxV < nSegmentV + 1; nCntVtxV++);
 		{
-			D3DXVECTOR3 vecNormal;
+			pVtx[0].pos = D3DXVECTOR3(0.0f, 90.0f, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
+			pVtx[2].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 60.0f, cosf(D3DXToRadian(-120)) * 50.0f);
+			pVtx[3].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 60.0f, cosf(D3DXToRadian(-240)) * 50.0f);
+			pVtx[4].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
+			pVtx[5].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
+			pVtx[6].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 30.0f, cosf(D3DXToRadian(-120)) * 50.0f);
+			pVtx[7].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 30.0f, cosf(D3DXToRadian(-240)) * 50.0f);
+			pVtx[8].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
+			pVtx[9].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-			if (nCntVtxV == 0)
-			{
-				pVtx->pos = vecOrigin;
-				pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
-				pVtx->col = pSphere->obj.color;
-				pVtx->tex = D3DXVECTOR2(0.0f, 0.0f);
-				pVtx++;
-			}
-			else if (nCntVtxV == nSegmentV)
-			{
-				pVtx->pos = vecOrigin - D3DXVECTOR3(0.0f, pSphere->obj.size.y, 0.0f);
-				pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
-				pVtx->col = pSphere->obj.color;
-				pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
-				pVtx++;
-			}
-			else
-			{
-				for (int nCntVtxU = 0; nCntVtxU < nSegmentU; nCntVtxU++)
-				{
-					float fAngle = (D3DX_PI * 2.0f) * ((float)nCntVtxU + 1.0f) / (float)nSegmentU;
+			pVtx[0].nor = Normalize(pVtx[0].pos - pSphere->obj.pos);
+			pVtx[1].nor = Normalize(pVtx[1].pos - pSphere->obj.pos);
+			pVtx[2].nor = Normalize(pVtx[2].pos - pSphere->obj.pos);
+			pVtx[3].nor = Normalize(pVtx[3].pos - pSphere->obj.pos);
+			pVtx[4].nor = Normalize(pVtx[4].pos - pSphere->obj.pos);
+			pVtx[5].nor = Normalize(pVtx[5].pos - pSphere->obj.pos);
+			pVtx[6].nor = Normalize(pVtx[6].pos - pSphere->obj.pos);
+			pVtx[7].nor = Normalize(pVtx[7].pos - pSphere->obj.pos);
+			pVtx[8].nor = Normalize(pVtx[8].pos - pSphere->obj.pos);
+			pVtx[9].nor = Normalize(pVtx[9].pos - pSphere->obj.pos);
 
-					pVtx->pos = D3DXVECTOR3(
-						sinf(fAngle) * 100.0f,
-						vecOrigin.y - pSphere->obj.size.y * (((float)nCntVtxU + 1.0f) / (float)nSegmentU),
-						cosf(fAngle) * 100.0f
-					);
-					pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
-					pVtx->col = pSphere->obj.color;
-					pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
-					pVtx++;
-				}
-			}
+			pVtx[0].col = pSphere->obj.color;
+			pVtx[1].col = pSphere->obj.color;
+			pVtx[2].col = pSphere->obj.color;
+			pVtx[3].col = pSphere->obj.color;
+			pVtx[4].col = pSphere->obj.color;
+			pVtx[5].col = pSphere->obj.color;
+			pVtx[6].col = pSphere->obj.color;
+			pVtx[7].col = pSphere->obj.color;
+			pVtx[8].col = pSphere->obj.color;
+			pVtx[9].col = pSphere->obj.color;
+
+			pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+			pVtx[1].tex = D3DXVECTOR2(0.0f, 0.3f);
+			pVtx[2].tex = D3DXVECTOR2(0.3f, 0.3f);
+			pVtx[3].tex = D3DXVECTOR2(0.6f, 0.3f);
+			pVtx[4].tex = D3DXVECTOR2(1.0f, 0.3f);
+			pVtx[5].tex = D3DXVECTOR2(0.0f, 0.6f);
+			pVtx[6].tex = D3DXVECTOR2(0.3f, 0.6f);
+			pVtx[7].tex = D3DXVECTOR2(0.6f, 0.6f);
+			pVtx[8].tex = D3DXVECTOR2(1.0f, 0.6f);
+			pVtx[9].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+			//D3DXVECTOR3 vecNormal;
+
+			//if (nCntVtxV == 0)
+			//{
+			//	pVtx->pos = vecOrigin;
+			//	pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
+			//	pVtx->col = pSphere->obj.color;
+			//	pVtx->tex = D3DXVECTOR2(0.0f, 0.0f);
+			//	pVtx++;
+			//}
+			//else if (nCntVtxV == nSegmentV)
+			//{
+			//	pVtx->pos = vecOrigin - D3DXVECTOR3(0.0f, pSphere->obj.size.y, 0.0f);
+			//	pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
+			//	pVtx->col = pSphere->obj.color;
+			//	pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
+			//	pVtx++;
+			//}
+			//else
+			//{
+			//	for (int nCntVtxU = 0; nCntVtxU < nSegmentU; nCntVtxU++)
+			//	{
+			//		float fAngle = (D3DX_PI * 2.0f) * ((float)nCntVtxU + 1.0f) / (float)nSegmentU;
+
+			//		pVtx->pos = D3DXVECTOR3(
+			//			sinf(fAngle) * 100.0f,
+			//			vecOrigin.y - pSphere->obj.size.y * (((float)nCntVtxU + 1.0f) / (float)nSegmentU),
+			//			cosf(fAngle) * 100.0f
+			//		);
+			//		pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
+			//		pVtx->col = pSphere->obj.color;
+			//		pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
+			//		pVtx++;
+			//	}
+			//}
 		}
 
 		// 頂点バッファをアンロック
@@ -272,7 +337,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		// （インデックスバッファのサイズは、メッシュでのポリゴン描画に必要な分用意する）
 		// （上面と底面の頂点数＋２頂点×横の頂点数×縦の分割数＋２頂点×横に折り返す回数）
 		pDevice->CreateIndexBuffer(
-			sizeof(WORD) * (1 + nSegmentU) * 2 + 2 * nSegmentU * nSegmentV + (nSegmentV - 2 - 1) * 2,
+			sizeof(WORD) * 18,
 			D3DUSAGE_WRITEONLY,
 			D3DFMT_INDEX16,
 			D3DPOOL_MANAGED,
@@ -284,33 +349,53 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		pSphere->pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
 		// 頂点番号データの設定
-		for (int nCntIdxV = 0; nCntIdxV < nSegmentV - 1; nCntIdxV++)
+		for (int nCntIdxV = 0; nCntIdxV < nSegmentV - 1; nCntIdxV++);
 		{
-			if (nCntIdxV == 0)
-			{
-				*pIdx = 0;
-				pIdx++;
+			pIdx[0] = 0;
+			pIdx[1] = 4;
+			pIdx[2] = 3;
+			pIdx[3] = 2;
+			pIdx[4] = 1;
+			pIdx[5] = 5;
+			pIdx[6] = 1;
+			pIdx[7] = 6;
+			pIdx[8] = 2;
+			pIdx[9] = 7;
+			pIdx[10] = 3;
+			pIdx[11] = 8;
+			pIdx[12] = 4;
+			pIdx[13] = 9;
+			pIdx[14] = 5;
+			pIdx[15] = 6;
+			pIdx[16] = 7;
+			pIdx[17] = 8;
 
-				for (int nCntIdxU = 0; nCntIdxU < nSegmentU; nCntIdxU++)
-				{
-					*pIdx = nCntIdxU + 1;
-					pIdx++;
-				}
-			}
-			else if (nCntIdxV == nSegmentV - 2)
-			{
-				for (int nCntIdxU = 0; nCntIdxU < nSegmentU; nCntIdxU++)
-				{
-					*pIdx = 1 + nCntIdxU * (nCntIdxV);
-					pIdx++;
-				}
+			
+			//if (nCntIdxV == 0)
+			//{
+			//	*pIdx = 0;
+			//	pIdx++;
 
-				*pIdx = 1 + pSphere->nSegmentX * nCntIdxV;
-			}
-			else
-			{
+			//	for (int nCntIdxU = 0; nCntIdxU < nSegmentU; nCntIdxU++)
+			//	{
+			//		*pIdx = nCntIdxU + 1;
+			//		pIdx++;
+			//	}
+			//}
+			//else if (nCntIdxV == nSegmentV - 2)
+			//{
+			//	for (int nCntIdxU = 0; nCntIdxU < nSegmentU; nCntIdxU++)
+			//	{
+			//		*pIdx = 1 + nCntIdxU + (pSphere->nSegmentX * (nCntIdxV - 1));
+			//		pIdx++;
+			//	}
 
-			}
+			//	*pIdx = 1 + pSphere->nSegmentX * nCntIdxV;
+			//}
+			//else
+			//{
+
+			//}
 		}
 
 		// インデックスバッファをアンロック

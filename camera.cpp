@@ -58,8 +58,12 @@ void InitCamera(void)
 	g_camera.posV = D3DXVECTOR3(0.0f, 150.0f, -100.0f);
 	g_camera.posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	g_camera.fDistance = 500.0f;
-	g_camera.rot = D3DXVECTOR3(0.0f, D3DXToRadian(-45), 0.0f);
+	//g_camera.fDistance = 500.0f;
+	//g_camera.rot = D3DXVECTOR3(0.0f, D3DXToRadian(-45), 0.0f);
+
+	g_camera.fDistance = 300.0f;
+	g_camera.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 	g_camera.nCounterState = 0;
 
 }
@@ -79,9 +83,18 @@ void UpdateCamera(void)
 {
 	PLAYER* pPlayer = GetPlayer();
 
+	if (GetKeyboardPress(DIK_Z))
+	{
+		g_camera.rot.y += 0.05f;
+	}
+	if (GetKeyboardPress(DIK_C))
+	{
+		g_camera.rot.y -= 0.05f;
+	}
+
 	g_camera.posRDest.x = pPlayer->obj.pos.x;
 	g_camera.posRDest.y = pPlayer->obj.pos.y + 10.0f;
-	g_camera.posRDest.z = pPlayer->obj.pos.z + 200.0f;
+	g_camera.posRDest.z = pPlayer->obj.pos.z + 50.0f;
 	g_camera.posVDest.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fDistance;
 	g_camera.posVDest.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
 
