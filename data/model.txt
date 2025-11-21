@@ -279,7 +279,7 @@ END_WALLSET
 #--------------------------------------
 MODELSET
 	TYPE = 0			# Ží—Þ
-	POS = 0 0 40		# ˆÊ’u
+	POS = 0 60 40		# ˆÊ’u
 	ROT = 0 0 0			# Œü‚«
 END_MODELSET
 

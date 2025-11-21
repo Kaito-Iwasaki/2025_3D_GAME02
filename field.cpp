@@ -19,8 +19,8 @@
 // 
 //*********************************************************************
 #define TEXTURE_FILENAME	"data\\TEXTURE\\field000.jpg"
-#define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
-#define INIT_SIZE			D3DXVECTOR3(200.0f, 0.0f, 200.0f)
+#define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 900.0f)
+#define INIT_SIZE			D3DXVECTOR3(200.0f, 0.0f, 2000.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
 
 //*********************************************************************

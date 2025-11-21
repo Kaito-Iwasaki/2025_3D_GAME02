@@ -66,7 +66,7 @@ SCRIPTDATA g_data;
 //=====================================================================
 void InitGame(void)
 {
-	//InitField();
+	InitField();
 	InitMeshField();
 	InitWall();
 	InitShadow();
@@ -76,7 +76,7 @@ void InitGame(void)
 	InitExplosion();
 	InitEffect();
 	InitModel();
-	InitCylinder();
+	//InitCylinder();
 
 	g_bIsPaused = false;
 
@@ -88,7 +88,7 @@ void InitGame(void)
 //=====================================================================
 void UninitGame(void)
 {
-	//UninitField();
+	UninitField();
 	UninitMeshField();
 	UninitWall();
 	UninitPlayer();
@@ -98,7 +98,7 @@ void UninitGame(void)
 	UninitExplosion();
 	UninitEffect();
 	UninitModel();
-	UninitCylinder();
+	//UninitCylinder();
 }
 
 //=====================================================================
@@ -113,7 +113,7 @@ void UpdateGame(void)
 
 	if (g_bIsPaused == false)
 	{
-		//UpdateField();
+		UpdateField();
 		UpdateMeshField();
 		UpdateWall();
 		UpdatePlayer();
@@ -123,7 +123,7 @@ void UpdateGame(void)
 		UpdateExplosion();
 		UpdateEffect();
 		UpdateModel();
-		UpdateCylinder();
+		//UpdateCylinder();
 	}
 }
 
@@ -132,7 +132,7 @@ void UpdateGame(void)
 //=====================================================================
 void DrawGame(void)
 {
-	//DrawField();
+	DrawField();
 	DrawMeshField();
 	//DrawWall();
 	DrawPlayer();
@@ -142,5 +142,5 @@ void DrawGame(void)
 	DrawExplosion();
 	DrawEffect();
 	DrawModel();
-	DrawCylinder();
+	//DrawCylinder();
 }

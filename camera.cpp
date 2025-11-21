@@ -58,8 +58,8 @@ void InitCamera(void)
 	g_camera.posV = D3DXVECTOR3(0.0f, 150.0f, -100.0f);
 	g_camera.posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	g_camera.fDistance = 200.0f;
-	g_camera.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	g_camera.fDistance = 500.0f;
+	g_camera.rot = D3DXVECTOR3(0.0f, D3DXToRadian(-45), 0.0f);
 	g_camera.nCounterState = 0;
 
 }
@@ -79,20 +79,9 @@ void UpdateCamera(void)
 {
 	PLAYER* pPlayer = GetPlayer();
 
-	if (GetKeyboardPress(DIK_Z))
-	{
-		g_camera.rot.y += 0.05f;
-		g_camera.nCounterState = 0;
-	}
-	if (GetKeyboardPress(DIK_C))
-	{
-		g_camera.rot.y -= 0.05f;
-		g_camera.nCounterState = 0;
-	}
-
-	g_camera.posRDest.x = pPlayer->obj.pos.x - sinf(pPlayer->obj.rot.y) * 30.0f;
+	g_camera.posRDest.x = pPlayer->obj.pos.x;
 	g_camera.posRDest.y = pPlayer->obj.pos.y + 10.0f;
-	g_camera.posRDest.z = pPlayer->obj.pos.z - cosf(pPlayer->obj.rot.y) * 30.0f;
+	g_camera.posRDest.z = pPlayer->obj.pos.z + 200.0f;
 	g_camera.posVDest.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fDistance;
 	g_camera.posVDest.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
 
@@ -102,21 +91,21 @@ void UpdateCamera(void)
 	g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * 0.1f;
 	g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * 0.1f;
 
-	D3DXVECTOR3 vecPlayerMoved = pPlayer->obj.pos - pPlayer->posOld;
+	//D3DXVECTOR3 vecPlayerMoved = pPlayer->obj.pos - pPlayer->posOld;
 
-	if (sqrtf(vecPlayerMoved.x * vecPlayerMoved.x + vecPlayerMoved.y * vecPlayerMoved.y) < 0.1f)
-	{
-		g_camera.nCounterState++;
-	}
-	else
-	{
-		g_camera.nCounterState = 0;
-	}
+	//if (sqrtf(vecPlayerMoved.x * vecPlayerMoved.x + vecPlayerMoved.y * vecPlayerMoved.y) < 0.1f)
+	//{
+	//	g_camera.nCounterState++;
+	//}
+	//else
+	//{
+	//	g_camera.nCounterState = 0;
+	//}
 
-	if (g_camera.nCounterState > 90)
-	{
-		g_camera.rot.y += GetFixedRotation(pPlayer->obj.rot.y - g_camera.rot.y + D3DX_PI) * 0.05f;
-	}
+	//if (g_camera.nCounterState > 90)
+	//{
+	//	g_camera.rot.y += GetFixedRotation(pPlayer->obj.rot.y - g_camera.rot.y + D3DX_PI) * 0.05f;
+	//}
 }
 
 //=====================================================================
