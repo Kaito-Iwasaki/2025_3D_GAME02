@@ -54,7 +54,7 @@
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffMeshField = NULL;
 LPDIRECT3DTEXTURE9 g_pTexBuffMeshField = NULL;
 LPDIRECT3DINDEXBUFFER9 g_pIdxBuffMeshField = NULL;
-MESHFIELD g_MeshField;
+MESHFIELD g_aMeshField[MAX_MESHFIELD];
 
 //=====================================================================
 // 初期化処理
@@ -62,93 +62,11 @@ MESHFIELD g_MeshField;
 void InitMeshField(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	MESHFIELD* pMeshField = &g_aMeshField[0];
+	
+	ZeroMemory(pMeshField, sizeof(pMeshField));
 
-	// 構造体の初期化
-	memset(&g_MeshField, 0, sizeof(MESHFIELD));
-	g_MeshField.obj.pos = INIT_POS;
-	g_MeshField.obj.size = INIT_SIZE;
-	g_MeshField.obj.size.x *= NUM_BLOCK_X;
-	g_MeshField.obj.size.z *= NUM_BLOCK_Z;
-	g_MeshField.obj.color = INIT_COLOR;
-	g_MeshField.obj.bVisible = true;
-
-	if (TEXTURE_FILENAME)
-	{// テクスチャの読み込み
-		D3DXCreateTextureFromFile(
-			pDevice,
-			TEXTURE_FILENAME,
-			&g_pTexBuffMeshField
-		);
-	}
-
-	// 頂点バッファの生成
-	pDevice->CreateVertexBuffer(
-		sizeof(VERTEX_3D) * (NUM_BLOCK_X + 1) * (NUM_BLOCK_Z + 1),
-		D3DUSAGE_WRITEONLY,
-		FVF_VERTEX_3D,
-		D3DPOOL_MANAGED,
-		&g_pVtxBuffMeshField,
-		NULL
-	);
-
-	VERTEX_3D* pVtx;
-	D3DXVECTOR3 vecOrigin = g_MeshField.obj.pos + D3DXVECTOR3(-g_MeshField.obj.size.x / 2, 0.0f, g_MeshField.obj.size.z / 2);
-	D3DXVECTOR3 vecOffset = D3DXVECTOR3(g_MeshField.obj.size.x / NUM_BLOCK_X, 0.0f, -g_MeshField.obj.size.z / NUM_BLOCK_Z);
-
-	// 頂点バッファをロックして頂点情報へのポインタを取得
-	g_pVtxBuffMeshField->Lock(0, 0, (void**)&pVtx, 0);
-
-	// 頂点情報を設定
-	for (int nCntVtxZ = 0; nCntVtxZ < NUM_BLOCK_Z + 1; nCntVtxZ++)
-	{
-		for (int nCntVtxX = 0; nCntVtxX < NUM_BLOCK_X + 1; nCntVtxX++)
-		{
-			pVtx->pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * nCntVtxX, 0.0f, vecOrigin.z + vecOffset.z * nCntVtxZ);
-			pVtx->nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			pVtx->col = D3DXCOLOR_WHITE;
-			pVtx->tex = D3DXVECTOR2(1.0f / NUM_BLOCK_X * nCntVtxX, 1.0f / NUM_BLOCK_Z * nCntVtxZ);
-			pVtx++;
-		}
-	}
-
-	// 頂点バッファをアンロック
-	g_pVtxBuffMeshField->Unlock();
-
-	WORD* pIdx;		// インデックス情報へのポインタ
-
-	// インデックスバッファの生成
-	pDevice->CreateIndexBuffer(
-		sizeof(WORD) * ((4 + 2 * NUM_BLOCK_X) * NUM_BLOCK_Z) - 2,
-		D3DUSAGE_WRITEONLY,
-		D3DFMT_INDEX16,
-		D3DPOOL_MANAGED,
-		&g_pIdxBuffMeshField,
-		NULL
-	);
-
-	// インデックスバッファをロックし、頂点番号データへのポインタを取得
-	g_pIdxBuffMeshField->Lock(0, 0, (void**)&pIdx, 0);
-
-	// 頂点番号データの設定
-	for (int nCntIdxZ = 0; nCntIdxZ < NUM_BLOCK_Z; nCntIdxZ++)
-	{
-		for (int nCntIdxX = 0; nCntIdxX < NUM_BLOCK_X + 1; nCntIdxX++)
-		{
-			pIdx[0] = (nCntIdxZ + 1) * (NUM_BLOCK_X + 1) + nCntIdxX;
-			pIdx[1] = nCntIdxZ * (NUM_BLOCK_X + 1) + nCntIdxX;
-			pIdx += 2;
-
-			if (nCntIdxX == NUM_BLOCK_X && nCntIdxZ != NUM_BLOCK_Z - 1)
-			{
-				pIdx[0] = nCntIdxZ * (NUM_BLOCK_X + 1) + nCntIdxX;
-				pIdx[1] = (nCntIdxZ + 1) * (NUM_BLOCK_X + 1) + nCntIdxX + 1;
-				pIdx += 2;
-			}
-		}
-	}
-
-	// インデックスバッファをアンロック
-	g_pIdxBuffMeshField->Unlock();
+	SetMeshField(0, D3DXVECTOR3_ZERO, INIT_SIZE, NUM_BLOCK_X, NUM_BLOCK_Z);
 }
 
 //=====================================================================
@@ -156,22 +74,27 @@ void InitMeshField(void)
 //=====================================================================
 void UninitMeshField(void)
 {
+	MESHFIELD* pMeshField = &g_aMeshField[0];
+
 	if (g_pTexBuffMeshField != NULL)
 	{// テクスチャの破棄
 		g_pTexBuffMeshField->Release();
 		g_pTexBuffMeshField = NULL;
 	}
 
-	if (g_pVtxBuffMeshField != NULL)
-	{// 頂点バッファの破棄
-		g_pVtxBuffMeshField->Release();
-		g_pVtxBuffMeshField = NULL;
-	}
+	for (int nCntMField = 0; nCntMField < MAX_MESHFIELD; nCntMField++, pMeshField++)
+	{
+		if (pMeshField->pVtxBuff != NULL)
+		{// 頂点バッファの破棄
+			pMeshField->pVtxBuff->Release();
+			pMeshField->pVtxBuff = NULL;
+		}
 
-	if (g_pIdxBuffMeshField != NULL)
-	{// インデックスバッファの破棄
-		g_pIdxBuffMeshField->Release();
-		g_pIdxBuffMeshField = NULL;
+		if (pMeshField->pIdxBuff != NULL)
+		{// インデックスバッファの破棄
+			pMeshField->pIdxBuff->Release();
+			pMeshField->pIdxBuff = NULL;
+		}
 	}
 }
 
@@ -189,63 +112,171 @@ void UpdateMeshField(void)
 void DrawMeshField(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	MESHFIELD* pMeshField = &g_aMeshField[0];
 	D3DXMATRIX mtxRot, mtxTrans;	// 計算用マトリックス
 
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&g_MeshField.mtxWorld);
+	for (int nCntMField = 0; nCntMField < MAX_MESHFIELD; nCntMField++, pMeshField++)
+	{
+		if (pMeshField->bUsed == false) continue; // 使用中でないならパス
 
-	// 向きを反映
-	D3DXMatrixRotationYawPitchRoll(
-		&mtxRot,
-		g_MeshField.obj.rot.y, g_MeshField.obj.rot.x, g_MeshField.obj.rot.z
-	);
-	D3DXMatrixMultiply(
-		&g_MeshField.mtxWorld,
-		&g_MeshField.mtxWorld,
-		&mtxRot
-	);
+			// ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&pMeshField->mtxWorld);
 
-	// 位置を反映
-	D3DXMatrixTranslation(
-		&mtxTrans,
-		g_MeshField.obj.pos.x, g_MeshField.obj.pos.y, g_MeshField.obj.pos.z
-	);
-	D3DXMatrixMultiply(
-		&g_MeshField.mtxWorld,
-		&g_MeshField.mtxWorld,
-		&mtxTrans
-	);
-
-	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &g_MeshField.mtxWorld);
-
-	// 頂点バッファをデータストリームに設定
-	pDevice->SetStreamSource(0, g_pVtxBuffMeshField, 0, sizeof(VERTEX_3D));
-
-	// インデックスバッファをデータストリームに設定
-	pDevice->SetIndices(g_pIdxBuffMeshField);
-
-	// 頂点フォーマットの設定
-	pDevice->SetFVF(FVF_VERTEX_3D);
-
-	if (g_MeshField.obj.bVisible)
-	{// 表示状態
-		// テクスチャの設定
-		pDevice->SetTexture(0, g_pTexBuffMeshField);
-
-		// ポリゴンの描画
-		pDevice->DrawIndexedPrimitive(
-			D3DPT_TRIANGLESTRIP,
-			0,
-			0,
-			(NUM_BLOCK_X + 1) * (NUM_BLOCK_Z + 1),			// 用意した頂点数
-			0,
-			((4 + 2 * NUM_BLOCK_X) * NUM_BLOCK_Z) - 2 - 2	// 描画するポリゴン数
+		// 向きを反映
+		D3DXMatrixRotationYawPitchRoll(
+			&mtxRot,
+			pMeshField->obj.rot.y, pMeshField->obj.rot.x, pMeshField->obj.rot.z
 		);
+		D3DXMatrixMultiply(
+			& pMeshField->mtxWorld,
+			& pMeshField->mtxWorld,
+			&mtxRot
+		);
+
+		// 位置を反映
+		D3DXMatrixTranslation(
+			&mtxTrans,
+			pMeshField->obj.pos.x, pMeshField->obj.pos.y, pMeshField->obj.pos.z
+		);
+		D3DXMatrixMultiply(
+			&pMeshField->mtxWorld,
+			&pMeshField->mtxWorld,
+			&mtxTrans
+		);
+
+		// ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &pMeshField->mtxWorld);
+
+		// 頂点バッファをデータストリームに設定
+		pDevice->SetStreamSource(0, pMeshField->pVtxBuff, 0, sizeof(VERTEX_3D));
+
+		// インデックスバッファをデータストリームに設定
+		pDevice->SetIndices(pMeshField->pIdxBuff);
+
+		// 頂点フォーマットの設定
+		pDevice->SetFVF(FVF_VERTEX_3D);
+
+		if (pMeshField->obj.bVisible)
+		{// 表示状態
+			// テクスチャの設定
+			pDevice->SetTexture(0, g_pTexBuffMeshField);
+
+			// ポリゴンの描画
+			// （描画するポリゴン数＝インデックス数－２）
+			pDevice->DrawIndexedPrimitive(
+				D3DPT_TRIANGLESTRIP,
+				0,
+				0,
+				(pMeshField->nSegmentX + 1) * (pMeshField->nSegmentZ + 1),			// 用意した頂点数
+				0,
+				((4 + 2 * pMeshField->nSegmentX) * pMeshField->nSegmentZ) - 2 - 2	// 描画するポリゴン数
+			);
+		}
 	}
+
+
 }
 
-void SetMeshField(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, int nSegmentZ)
+void SetMeshField(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, int nSegmentZ)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	MESHFIELD* pMeshField = &g_aMeshField[0];
 
+	for (int nCntMField = 0; nCntMField < MAX_MESHFIELD; nCntMField++, pMeshField++)
+	{
+		if (pMeshField->bUsed == true) continue; // 使用中ならパス
+
+		memset(pMeshField, 0, sizeof(MESHFIELD));
+		pMeshField->bUsed = true;
+		pMeshField->obj.pos = pos;
+		pMeshField->obj.size = D3DXVECTOR3(size.x * nSegmentX, 0.0f, size.z * nSegmentZ);
+		pMeshField->obj.color = INIT_COLOR;
+		pMeshField->obj.bVisible = true;
+		pMeshField->nTexId = nTexId;
+		pMeshField->nSegmentX = nSegmentX;
+		pMeshField->nSegmentZ = nSegmentZ;
+
+		if (TEXTURE_FILENAME)
+		{// テクスチャの読み込み
+			D3DXCreateTextureFromFile(
+				pDevice,
+				TEXTURE_FILENAME,
+				&g_pTexBuffMeshField
+			);
+		}
+
+		// 頂点バッファの生成
+		pDevice->CreateVertexBuffer(
+			sizeof(VERTEX_3D) * (nSegmentX + 1) * (nSegmentZ + 1),
+			D3DUSAGE_WRITEONLY,
+			FVF_VERTEX_3D,
+			D3DPOOL_MANAGED,
+			&pMeshField->pVtxBuff,
+			NULL
+		);
+
+		VERTEX_3D* pVtx;
+		D3DXVECTOR3 vecOrigin = pMeshField->obj.pos + D3DXVECTOR3(-pMeshField->obj.size.x / 2, 0.0f, pMeshField->obj.size.z / 2);
+		D3DXVECTOR3 vecOffset = D3DXVECTOR3(pMeshField->obj.size.x / nSegmentX, 0.0f, -pMeshField->obj.size.z / nSegmentZ);
+
+		// 頂点バッファをロックして頂点情報へのポインタを取得
+		pMeshField->pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+		// 頂点情報を設定
+		for (int nCntVtxZ = 0; nCntVtxZ < nSegmentZ + 1; nCntVtxZ++)
+		{
+			for (int nCntVtxX = 0; nCntVtxX < nSegmentX + 1; nCntVtxX++)
+			{
+				pVtx->pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * nCntVtxX, 0.0f, vecOrigin.z + vecOffset.z * nCntVtxZ);
+				pVtx->nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+				pVtx->col = pMeshField->obj.color;
+				pVtx->tex = D3DXVECTOR2(1.0f / nSegmentX * nCntVtxX, 1.0f / nSegmentZ * nCntVtxZ);
+				pVtx++;
+			}
+		}
+
+		// 頂点バッファをアンロック
+		pMeshField->pVtxBuff->Unlock();
+
+		WORD* pIdx;		// インデックス情報へのポインタ
+
+		// インデックスバッファの生成
+		// （インデックスバッファのサイズは、メッシュでのポリゴン描画に必要な分用意する）
+		// （最低頂点数４＋２頂点×横の分割数×縦の分割数－最終行の重複している頂点数）
+		pDevice->CreateIndexBuffer(
+			sizeof(WORD) * ((4 + 2 * nSegmentX) * nSegmentZ) - 2,
+			D3DUSAGE_WRITEONLY,
+			D3DFMT_INDEX16,
+			D3DPOOL_MANAGED,
+			&pMeshField->pIdxBuff,
+			NULL
+		);
+
+		// インデックスバッファをロックし、頂点番号データへのポインタを取得
+		pMeshField->pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
+
+		// 頂点番号データの設定
+		for (int nCntIdxZ = 0; nCntIdxZ < NUM_BLOCK_Z; nCntIdxZ++)
+		{
+			for (int nCntIdxX = 0; nCntIdxX < NUM_BLOCK_X + 1; nCntIdxX++)
+			{
+				pIdx[0] = (nCntIdxZ + 1) * (nSegmentX + 1) + nCntIdxX;
+				pIdx[1] = nCntIdxZ * (nSegmentX + 1) + nCntIdxX;
+				pIdx += 2;
+
+				// 最終行以外の最終列では折り返すためにインデックスをもう二つ設定する
+				if (nCntIdxX == nSegmentX && nCntIdxZ != nSegmentZ - 1)
+				{
+					pIdx[0] = nCntIdxZ * (nSegmentX + 1) + nCntIdxX;
+					pIdx[1] = (nCntIdxZ + 1) * (nSegmentX + 1) + nCntIdxX + 1;
+					pIdx += 2;
+				}
+			}
+		}
+
+		// インデックスバッファをアンロック
+		pMeshField->pIdxBuff->Unlock();
+
+		break;
+	}
 }
