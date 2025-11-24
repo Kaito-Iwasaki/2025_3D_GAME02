@@ -23,7 +23,7 @@
 #define INIT_SIZE			D3DXVECTOR3(200.0f, 100.0f, 200.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
 #define NUM_BLOCK_X			(3)
-#define NUM_BLOCK_Z			(2)
+#define NUM_BLOCK_Y			(3)
 
 //*********************************************************************
 // 
@@ -66,7 +66,7 @@ void InitSphere(void)
 
 	ZeroMemory(pSphere, sizeof(pSphere));
 
-	SetSphere(0, D3DXVECTOR3_ZERO, INIT_SIZE, NUM_BLOCK_X, NUM_BLOCK_Z);
+	SetSphere(0, D3DXVECTOR3_ZERO, INIT_SIZE, NUM_BLOCK_X, NUM_BLOCK_Y);
 }
 
 //=====================================================================
@@ -230,7 +230,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		// 頂点バッファの生成
 		// スフィアの頂点数＝（縦の分割数－１）×（横の分割数＋１）＋上下の２頂点
 		pDevice->CreateVertexBuffer(
-			sizeof(VERTEX_3D) * ((3 - 1) * (3 + 1) + 2),	
+			sizeof(VERTEX_3D) * ((NUM_BLOCK_Y - 1) * (NUM_BLOCK_X + 1) + 2),
 			D3DUSAGE_WRITEONLY,
 			FVF_VERTEX_3D,
 			D3DPOOL_MANAGED,
@@ -245,51 +245,66 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		pSphere->pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 		// 頂点情報を設定
-		for (int nCntVtxV = 0; nCntVtxV < nSegmentV + 1; nCntVtxV++);
+		for (int nCntVtxV = 0; nCntVtxV < nSegmentV + 1; nCntVtxV++, pVtx++)
 		{
-			pVtx[0].pos = D3DXVECTOR3(0.0f, 90.0f, 0.0f);
-			pVtx[1].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
-			pVtx[2].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 60.0f, cosf(D3DXToRadian(-120)) * 50.0f);
-			pVtx[3].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 60.0f, cosf(D3DXToRadian(-240)) * 50.0f);
-			pVtx[4].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
-			pVtx[5].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
-			pVtx[6].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 30.0f, cosf(D3DXToRadian(-120)) * 50.0f);
-			pVtx[7].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 30.0f, cosf(D3DXToRadian(-240)) * 50.0f);
-			pVtx[8].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
-			pVtx[9].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			if (nCntVtxV == 0)
+			{
+				pVtx->pos = vecOrigin;
+				pVtx->tex = D3DXVECTOR2(0.0f, 0.0f);
+			}
+			else if (nCntVtxV == nSegmentV)
+			{
+				pVtx->pos = vecOrigin - D3DXVECTOR3(0.0f, pSphere->obj.size.y, 0.0f);
+				pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
+			}
+			else
+			{
 
-			pVtx[0].nor = Normalize(pVtx[0].pos - pSphere->obj.pos);
-			pVtx[1].nor = Normalize(pVtx[1].pos - pSphere->obj.pos);
-			pVtx[2].nor = Normalize(pVtx[2].pos - pSphere->obj.pos);
-			pVtx[3].nor = Normalize(pVtx[3].pos - pSphere->obj.pos);
-			pVtx[4].nor = Normalize(pVtx[4].pos - pSphere->obj.pos);
-			pVtx[5].nor = Normalize(pVtx[5].pos - pSphere->obj.pos);
-			pVtx[6].nor = Normalize(pVtx[6].pos - pSphere->obj.pos);
-			pVtx[7].nor = Normalize(pVtx[7].pos - pSphere->obj.pos);
-			pVtx[8].nor = Normalize(pVtx[8].pos - pSphere->obj.pos);
-			pVtx[9].nor = Normalize(pVtx[9].pos - pSphere->obj.pos);
+			}
 
-			pVtx[0].col = pSphere->obj.color;
-			pVtx[1].col = pSphere->obj.color;
-			pVtx[2].col = pSphere->obj.color;
-			pVtx[3].col = pSphere->obj.color;
-			pVtx[4].col = pSphere->obj.color;
-			pVtx[5].col = pSphere->obj.color;
-			pVtx[6].col = pSphere->obj.color;
-			pVtx[7].col = pSphere->obj.color;
-			pVtx[8].col = pSphere->obj.color;
-			pVtx[9].col = pSphere->obj.color;
+			//pVtx[0].pos = D3DXVECTOR3(0.0f, 90.0f, 0.0f);
+			//pVtx[1].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
+			//pVtx[2].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 60.0f, cosf(D3DXToRadian(-120)) * 50.0f);
+			//pVtx[3].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 60.0f, cosf(D3DXToRadian(-240)) * 50.0f);
+			//pVtx[4].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
+			//pVtx[5].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
+			//pVtx[6].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 30.0f, cosf(D3DXToRadian(-120)) * 50.0f);
+			//pVtx[7].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 30.0f, cosf(D3DXToRadian(-240)) * 50.0f);
+			//pVtx[8].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
+			//pVtx[9].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-			pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-			pVtx[1].tex = D3DXVECTOR2(0.0f, 0.3f);
-			pVtx[2].tex = D3DXVECTOR2(0.3f, 0.3f);
-			pVtx[3].tex = D3DXVECTOR2(0.6f, 0.3f);
-			pVtx[4].tex = D3DXVECTOR2(1.0f, 0.3f);
-			pVtx[5].tex = D3DXVECTOR2(0.0f, 0.6f);
-			pVtx[6].tex = D3DXVECTOR2(0.3f, 0.6f);
-			pVtx[7].tex = D3DXVECTOR2(0.6f, 0.6f);
-			pVtx[8].tex = D3DXVECTOR2(1.0f, 0.6f);
-			pVtx[9].tex = D3DXVECTOR2(1.0f, 1.0f);
+			//pVtx[0].nor = Normalize(pVtx[0].pos - pSphere->obj.pos);
+			//pVtx[1].nor = Normalize(pVtx[1].pos - pSphere->obj.pos);
+			//pVtx[2].nor = Normalize(pVtx[2].pos - pSphere->obj.pos);
+			//pVtx[3].nor = Normalize(pVtx[3].pos - pSphere->obj.pos);
+			//pVtx[4].nor = Normalize(pVtx[4].pos - pSphere->obj.pos);
+			//pVtx[5].nor = Normalize(pVtx[5].pos - pSphere->obj.pos);
+			//pVtx[6].nor = Normalize(pVtx[6].pos - pSphere->obj.pos);
+			//pVtx[7].nor = Normalize(pVtx[7].pos - pSphere->obj.pos);
+			//pVtx[8].nor = Normalize(pVtx[8].pos - pSphere->obj.pos);
+			//pVtx[9].nor = Normalize(pVtx[9].pos - pSphere->obj.pos);
+
+			//pVtx[0].col = pSphere->obj.color;
+			//pVtx[1].col = pSphere->obj.color;
+			//pVtx[2].col = pSphere->obj.color;
+			//pVtx[3].col = pSphere->obj.color;
+			//pVtx[4].col = pSphere->obj.color;
+			//pVtx[5].col = pSphere->obj.color;
+			//pVtx[6].col = pSphere->obj.color;
+			//pVtx[7].col = pSphere->obj.color;
+			//pVtx[8].col = pSphere->obj.color;
+			//pVtx[9].col = pSphere->obj.color;
+
+			//pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+			//pVtx[1].tex = D3DXVECTOR2(0.0f, 0.3f);
+			//pVtx[2].tex = D3DXVECTOR2(0.3f, 0.3f);
+			//pVtx[3].tex = D3DXVECTOR2(0.6f, 0.3f);
+			//pVtx[4].tex = D3DXVECTOR2(1.0f, 0.3f);
+			//pVtx[5].tex = D3DXVECTOR2(0.0f, 0.6f);
+			//pVtx[6].tex = D3DXVECTOR2(0.3f, 0.6f);
+			//pVtx[7].tex = D3DXVECTOR2(0.6f, 0.6f);
+			//pVtx[8].tex = D3DXVECTOR2(1.0f, 0.6f);
+			//pVtx[9].tex = D3DXVECTOR2(1.0f, 1.0f);
 
 			//D3DXVECTOR3 vecNormal;
 
