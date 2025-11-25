@@ -13,14 +13,15 @@
 // 
 //*********************************************************************
 #include "main.h"
+#include "model.h"
 
 //*********************************************************************
 // 
 // ***** É}ÉNÉçíËã` *****
 // 
 //*********************************************************************
-#define MAX_LOADBLE_TEXTURE		(256)
-#define MAX_LOADBLE_MODEL		(256)
+#define MAX_LOADABLE_TEXTURE		(256)
+#define MAX_LOADABLE_MODEL		(256)
 
 //*********************************************************************
 // 
@@ -29,20 +30,23 @@
 //*********************************************************************
 typedef struct
 {
-	int nNumTexture;
-	char aFilenameTexture[MAX_LOADBLE_TEXTURE][MAX_PATH];
-
-	int nNumModel;
-	char aFilenameModel[MAX_LOADBLE_MODEL][MAX_PATH];
-	
-}SCRIPTDATA;
-
-typedef struct
-{
 	int nType;
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 rot;
 }MODELSETDATA;
+
+typedef struct
+{
+	int nNumTexture;
+	char aFilenameTexture[MAX_LOADABLE_TEXTURE][MAX_PATH];
+
+	int nNumModel;
+	char aFilenameModel[MAX_LOADABLE_MODEL][MAX_PATH];
+
+	int nCountModelSet;
+
+	MODELSETDATA aInfoModelSet[MAX_MODEL];
+}SCRIPTDATA;
 
 //*********************************************************************
 // 

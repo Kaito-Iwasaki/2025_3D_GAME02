@@ -83,6 +83,21 @@ void InitGame(void)
 	g_bIsPaused = false;
 
 	LoadScript("data\\model.txt", &g_data);
+
+	for (int nCntMesh = 0; nCntMesh < g_data.nNumModel; nCntMesh++)
+	{
+		LoadModel(g_data.aFilenameModel[nCntMesh], nCntMesh);
+	}
+
+	for (int nCntModel = 0; nCntModel < g_data.nCountModelSet; nCntModel++)
+	{
+		SetModel(
+			g_data.aInfoModelSet[nCntModel].nType,
+			g_data.aInfoModelSet[nCntModel].pos,
+			D3DXVECTOR3(D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z))
+		);
+	}
+
 }
 
 //=====================================================================

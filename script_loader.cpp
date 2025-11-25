@@ -11,7 +11,6 @@
 // 
 //*********************************************************************
 #include "script_loader.h"
-#include "model.h"
 
 //*********************************************************************
 // 
@@ -98,7 +97,7 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "TEXTURE_FILENAME") == 0)
 		{// テクスチャファイル名読み込み
-			if (nTextureCount < MAX_LOADBLE_TEXTURE)
+			if (nTextureCount < MAX_LOADABLE_TEXTURE)
 			{// 最大読み込み数まで読み込む
 				fscanf(pFile, " = %s", &(*ppBuffer)->aFilenameTexture[nTextureCount][0]);
 				nTextureCount++;
@@ -110,7 +109,7 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "MODEL_FILENAME") == 0)
 		{// テクスチャファイル名読み込み
-			if (nModelCount < MAX_LOADBLE_MODEL)
+			if (nModelCount < MAX_LOADABLE_MODEL)
 			{// 最大読み込み数まで読み込む
 				fscanf(pFile, " = %s", &(*ppBuffer)->aFilenameModel[nModelCount][0]);
 				nModelCount++;
@@ -118,7 +117,7 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "MODELSET") == 0)
 		{// モデルセット情報読み込み
-			MODELSETDATA data = {};
+			MODELSETDATA* pData = &(*ppBuffer)->aInfoModelSet[(*ppBuffer)->nCountModelSet];
 
 			while (true)
 			{
@@ -134,28 +133,19 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 				}
 				else if (strcmp(&aStrLine[0], "TYPE") == 0)
 				{
-					fscanf(pFile, " = %d", &data.nType);
+					fscanf(pFile, " = %d", &pData->nType);
 				}
 				else if (strcmp(&aStrLine[0], "POS") == 0)
 				{
-					fscanf(pFile, " = %f %f %f", &data.pos.x, &data.pos.y, &data.pos.z);
+					fscanf(pFile, " = %f %f %f", &pData->pos.x, &pData->pos.y, &pData->pos.z);
 				}
 				else if (strcmp(&aStrLine[0], "ROT") == 0)
 				{
-					fscanf(pFile, " = %f %f %f", &data.rot.x, &data.rot.y, &data.rot.z);
+					fscanf(pFile, " = %f %f %f", &pData->rot.x, &pData->rot.y, &pData->rot.z);
 				}
 			}
 
-			SetModel(
-				&(*ppBuffer)->aFilenameModel[data.nType][0],
-				data.pos,
-				D3DXVECTOR3(D3DXToRadian(data.rot.x), D3DXToRadian(data.rot.y), D3DXToRadian(data.rot.z))
-			);
-
+			(*ppBuffer)->nCountModelSet++;
 		}
-
-
 	}
-
-
 }

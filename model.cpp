@@ -11,8 +11,8 @@
 // 
 //*********************************************************************
 #include "model.h"
-#include "script_loader.h"
 #include "player.h"
+#include "script_loader.h"
 
 //*********************************************************************
 // 
@@ -54,6 +54,7 @@
 // 
 //*********************************************************************
 MODEL g_aModel[MAX_MODEL];
+MESHDATA g_aMeshData[MAX_LOADABLE_MODEL];
 
 //=====================================================================
 // 初期化処理
@@ -71,29 +72,29 @@ void InitModel(void)
 //=====================================================================
 void UninitModel(void)
 {
-	MODEL* pModel = &g_aModel[0];
+	MESHDATA* pMeshData = &g_aMeshData[0];
 
-	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
+	for (int nCntMesh = 0; nCntMesh < MAX_LOADABLE_MODEL; nCntMesh++, pMeshData++)
 	{
-		for (int i = 0; i < (int)pModel->dwNumMat; i++)
+		for (int i = 0; i < (int)pMeshData->dwNumMat; i++)
 		{
-			if (pModel->apTexture[i] != NULL)
+			if (pMeshData->apTexture[i] != NULL)
 			{
-				pModel->apTexture[i]->Release();
-				pModel->apTexture[i] = NULL;
+				pMeshData->apTexture[i]->Release();
+				pMeshData->apTexture[i] = NULL;
 			}
 		}
 
-		if (pModel->pMesh != NULL)
+		if (pMeshData->pMesh != NULL)
 		{// メッシュの破棄
-			pModel->pMesh->Release();
-			pModel->pMesh = NULL;
+			pMeshData->pMesh->Release();
+			pMeshData->pMesh = NULL;
 		}
 
-		if (pModel->pBuffMat != NULL)
+		if (pMeshData->pBuffMat != NULL)
 		{// マテリアルの破棄
-			pModel->pBuffMat->Release();
-			pModel->pBuffMat = NULL;
+			pMeshData->pBuffMat->Release();
+			pMeshData->pBuffMat = NULL;
 		}
 	}
 
@@ -112,104 +113,105 @@ void UpdateModel(void)
 		if (pModel->bUsed == false) continue;
 
 		BYTE byHit = MODEL_HIT_NONE;
+		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
+		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
 
 		if (
-			pPlayer->posOld.x <= pModel->obj.pos.x + pModel->vtxMin.x
-			&& pPlayer->obj.pos.x > pModel->obj.pos.x + pModel->vtxMin.x
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + pModel->vtxMin.y
+			pPlayer->posOld.x <= pModel->obj.pos.x + vtxMin.x
+			&& pPlayer->obj.pos.x > pModel->obj.pos.x + vtxMin.x
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
+			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{
 			byHit |= MODEL_HIT_LEFT;
 		}
 
 		if (
-			pPlayer->posOld.x >= pModel->obj.pos.x + pModel->vtxMax.x
-			&& pPlayer->obj.pos.x < pModel->obj.pos.x + pModel->vtxMax.x
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + pModel->vtxMin.y
+			pPlayer->posOld.x >= pModel->obj.pos.x + vtxMax.x
+			&& pPlayer->obj.pos.x < pModel->obj.pos.x + vtxMax.x
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
+			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{
 			byHit |= MODEL_HIT_RIGHT;
 		}
 
 		if (
-			pPlayer->posOld.z <= pModel->obj.pos.z + pModel->vtxMin.z
-			&& pPlayer->obj.pos.z > pModel->obj.pos.z + pModel->vtxMin.z
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + pModel->vtxMin.y
+			pPlayer->posOld.z <= pModel->obj.pos.z + vtxMin.z
+			&& pPlayer->obj.pos.z > pModel->obj.pos.z + vtxMin.z
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
+			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{
 			byHit |= MODEL_HIT_FRONT;
 		}
 
 		if (
-			pPlayer->posOld.z >= pModel->obj.pos.z + pModel->vtxMax.z
-			&& pPlayer->obj.pos.z < pModel->obj.pos.z + pModel->vtxMax.z
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + pModel->vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + pModel->vtxMin.y
+			pPlayer->posOld.z >= pModel->obj.pos.z + vtxMax.z
+			&& pPlayer->obj.pos.z < pModel->obj.pos.z + vtxMax.z
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
+			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
+			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{
 			byHit |= MODEL_HIT_BACK;
 		}
 
 		if (
-			pPlayer->posOld.y >= pModel->obj.pos.y + pModel->vtxMax.y
-			&& pPlayer->obj.pos.y < pModel->obj.pos.y + pModel->vtxMax.y
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
+			pPlayer->posOld.y >= pModel->obj.pos.y + vtxMax.y
+			&& pPlayer->obj.pos.y < pModel->obj.pos.y + vtxMax.y
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
 			)
 		{
 			byHit |= MODEL_HIT_TOP;
 		}
 
 		if (
-			pPlayer->posOld.y <= pModel->obj.pos.y + pModel->vtxMin.y
-			&& pPlayer->obj.pos.y > pModel->obj.pos.y + pModel->vtxMin.y
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + pModel->vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + pModel->vtxMax.x
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + pModel->vtxMin.z
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + pModel->vtxMax.z
+			pPlayer->posOld.y <= pModel->obj.pos.y + vtxMin.y
+			&& pPlayer->obj.pos.y > pModel->obj.pos.y + vtxMin.y
+			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
+			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
+			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
+			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
 			)
 		{
 			byHit |= MODEL_HIT_BOTTOM;
 		}
 
-
 		if (byHit & MODEL_HIT_LEFT)
 		{
-			pPlayer->obj.pos.x = pModel->obj.pos.x + pModel->vtxMin.x;
+			pPlayer->obj.pos.x = pModel->obj.pos.x + vtxMin.x;
 		}
 		if (byHit & MODEL_HIT_RIGHT)
 		{
-			pPlayer->obj.pos.x = pModel->obj.pos.x + pModel->vtxMax.x;
+			pPlayer->obj.pos.x = pModel->obj.pos.x + vtxMax.x;
 		}
 		if (byHit & MODEL_HIT_FRONT)
 		{
-			pPlayer->obj.pos.z = pModel->obj.pos.z + pModel->vtxMin.z;
+			pPlayer->obj.pos.z = pModel->obj.pos.z + vtxMin.z;
 		}
 		if (byHit & MODEL_HIT_BACK)
 		{
-			pPlayer->obj.pos.z = pModel->obj.pos.z + pModel->vtxMax.z;
+			pPlayer->obj.pos.z = pModel->obj.pos.z + vtxMax.z;
 		}
 		if (byHit & MODEL_HIT_TOP)
 		{
-			pPlayer->obj.pos.y = pModel->obj.pos.y + pModel->vtxMax.y;
+			pPlayer->obj.pos.y = pModel->obj.pos.y + vtxMax.y;
 			pPlayer->move.y = 0;
 		}
 		if (byHit & MODEL_HIT_BOTTOM)
 		{
-			pPlayer->obj.pos.y = pModel->obj.pos.y + pModel->vtxMin.y;
+			pPlayer->obj.pos.y = pModel->obj.pos.y + vtxMin.y;
 			pPlayer->move.y = 0;
 		}
 	}
@@ -229,6 +231,8 @@ void DrawModel(void)
 	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
 	{
 		if (pModel->bUsed == false) continue;
+
+		MESHDATA* pMeshData = &g_aMeshData[pModel->nType];
 
 		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&pModel->mtxWorld);
@@ -262,18 +266,18 @@ void DrawModel(void)
 		pDevice->GetMaterial(&matDef);
 
 		// マテリアルデータへのポインタを取得
-		pMat = (D3DXMATERIAL*)pModel->pBuffMat->GetBufferPointer();
+		pMat = (D3DXMATERIAL*)pMeshData->pBuffMat->GetBufferPointer();
 
-		for (int nCntMat = 0; nCntMat < (int)pModel->dwNumMat; nCntMat++)
+		for (int nCntMat = 0; nCntMat < (int)pMeshData->dwNumMat; nCntMat++)
 		{
 			// マテリアルの設定
 			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
 			// テクスチャの設定
-			pDevice->SetTexture(0, pModel->apTexture[nCntMat]);
+			pDevice->SetTexture(0, pMeshData->apTexture[nCntMat]);
 
 			// モデル（パーツ）の描画
-			pModel->pMesh->DrawSubset(nCntMat);
+			pMeshData->pMesh->DrawSubset(nCntMat);
 		}
 
 		// 保存していたマテリアルを戻す
@@ -282,13 +286,10 @@ void DrawModel(void)
 
 }
 
-void SetModel(const char* pFilename, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	MODEL* pModel = &g_aModel[0];
-	int nNumVtx;
-	DWORD dwSizeFVF;
-	BYTE* pVtxBuff;
 
 	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
 	{
@@ -298,88 +299,120 @@ void SetModel(const char* pFilename, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		pModel->bUsed = true;
 		pModel->obj.pos = pos;
 		pModel->obj.rot = rot;
-		pModel->vtxMax = D3DXVECTOR3(-100000, -100000, -100000);
-		pModel->vtxMin = D3DXVECTOR3(100000, 100000, 100000);
-
-		// Xファイルの読み込み
-		HRESULT hr = D3DXLoadMeshFromX(
-			pFilename,
-			D3DXMESH_SYSTEMMEM,
-			pDevice,
-			NULL,
-			&pModel->pBuffMat,
-			NULL,
-			&pModel->dwNumMat,
-			&pModel->pMesh
-		);
-		if FAILED(hr)
-		{
-			MessageBox(GetMainWindow(), "ヤバい（モデルが）", "え？", MB_ICONERROR);
-			DestroyWindow(GetMainWindow());
-			break;
-		}
-
-		// 頂点数を取得
-		nNumVtx = pModel->pMesh->GetNumVertices();
-
-		// 頂点フォーマットのサイズを取得
-		dwSizeFVF = D3DXGetFVFVertexSize(pModel->pMesh->GetFVF());
-
-		// 頂点バッファをロックし、頂点情報へのポインタを取得
-		pModel->pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
-
-		for (int nCntVtx = 0; nCntVtx < nNumVtx; nCntVtx++)
-		{
-			D3DXVECTOR3 vtx = *(D3DXVECTOR3*)pVtxBuff;	// 頂点座標を代入
-
-			if (vtx.x < pModel->vtxMin.x)
-			{
-				pModel->vtxMin.x = vtx.x;
-			}
-			else if (vtx.x > pModel->vtxMax.x)
-			{
-				pModel->vtxMax.x = vtx.x;
-			}
-
-			if (vtx.z < pModel->vtxMin.z)
-			{
-				pModel->vtxMin.z = vtx.z;
-			}
-			else if (vtx.z > pModel->vtxMax.z)
-			{
-				pModel->vtxMax.z = vtx.z;
-			}
-
-			if (vtx.y < pModel->vtxMin.y)
-			{
-				pModel->vtxMin.y = vtx.y;
-			}
-			else if (vtx.y > pModel->vtxMax.y)
-			{
-				pModel->vtxMax.y = vtx.y;
-			}
-
-			pVtxBuff += dwSizeFVF;
-		}
-
-		D3DXMATERIAL* pMat;
-
-		// マテリアルデータへのポインタを取得
-		pMat = (D3DXMATERIAL*)pModel->pBuffMat->GetBufferPointer();
-
-		// テクスチャの読み込み
-		for (int i = 0; i < (int)pModel->dwNumMat; i++)
-		{
-			if (pMat[i].pTextureFilename != NULL)
-			{// テクスチャファイルが存在する
-				D3DXCreateTextureFromFile(
-					pDevice,
-					pMat[i].pTextureFilename,
-					&pModel->apTexture[i]
-				);
-			}
-		}
+		pModel->nType = nType;
 
 		break;
+	}
+}
+
+void LoadModel(const char* pFilename, int nIdx)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	MESHDATA* pMeshData = &g_aMeshData[nIdx];
+	int nNumVtx = 0;
+	DWORD dwSizeFVF;
+	BYTE* pVtxBuff;
+
+	for (int i = 0; i < (int)pMeshData->dwNumMat; i++)
+	{
+		if (pMeshData->apTexture[i] != NULL)
+		{
+			pMeshData->apTexture[i]->Release();
+			pMeshData->apTexture[i] = NULL;
+		}
+	}
+
+	if (pMeshData->pMesh != NULL)
+	{// メッシュの破棄
+		pMeshData->pMesh->Release();
+		pMeshData->pMesh = NULL;
+	}
+
+	if (pMeshData->pBuffMat != NULL)
+	{// マテリアルの破棄
+		pMeshData->pBuffMat->Release();
+		pMeshData->pBuffMat = NULL;
+	}
+
+	pMeshData->vtxMax = D3DXVECTOR3(-100000, -100000, -100000);
+	pMeshData->vtxMin = D3DXVECTOR3(100000, 100000, 100000);
+
+	// Xファイルの読み込み
+	HRESULT hr = D3DXLoadMeshFromX(
+		pFilename,
+		D3DXMESH_SYSTEMMEM,
+		pDevice,
+		NULL,
+		&pMeshData->pBuffMat,
+		NULL,
+		&pMeshData->dwNumMat,
+		&pMeshData->pMesh
+	);
+	if FAILED(hr)
+	{
+		MessageBox(GetMainWindow(), "ヤバい（モデルが）", "え？", MB_ICONERROR);
+		DestroyWindow(GetMainWindow());
+		return;
+	}
+
+	// 頂点数を取得
+	nNumVtx = pMeshData->pMesh->GetNumVertices();
+
+	// 頂点フォーマットのサイズを取得
+	dwSizeFVF = D3DXGetFVFVertexSize(pMeshData->pMesh->GetFVF());
+
+	// 頂点バッファをロックし、頂点情報へのポインタを取得
+	pMeshData->pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+
+	for (int nCntVtx = 0; nCntVtx < nNumVtx; nCntVtx++)
+	{
+		D3DXVECTOR3 vtx = *(D3DXVECTOR3*)pVtxBuff;	// 頂点座標を代入
+
+		if (vtx.x < pMeshData->vtxMin.x)
+		{
+			pMeshData->vtxMin.x = vtx.x;
+		}
+		else if (vtx.x > pMeshData->vtxMax.x)
+		{
+			pMeshData->vtxMax.x = vtx.x;
+		}
+
+		if (vtx.z < pMeshData->vtxMin.z)
+		{
+			pMeshData->vtxMin.z = vtx.z;
+		}
+		else if (vtx.z > pMeshData->vtxMax.z)
+		{
+			pMeshData->vtxMax.z = vtx.z;
+		}
+
+		if (vtx.y < pMeshData->vtxMin.y)
+		{
+			pMeshData->vtxMin.y = vtx.y;
+		}
+		else if (vtx.y > pMeshData->vtxMax.y)
+		{
+			pMeshData->vtxMax.y = vtx.y;
+		}
+
+		pVtxBuff += dwSizeFVF;
+	}
+
+	D3DXMATERIAL* pMat;
+
+	// マテリアルデータへのポインタを取得
+	pMat = (D3DXMATERIAL*)pMeshData->pBuffMat->GetBufferPointer();
+
+	// テクスチャの読み込み
+	for (int i = 0; i < (int)pMeshData->dwNumMat; i++)
+	{
+		if (pMat[i].pTextureFilename != NULL)
+		{// テクスチャファイルが存在する
+			D3DXCreateTextureFromFile(
+				pDevice,
+				pMat[i].pTextureFilename,
+				&pMeshData->apTexture[i]
+			);
+		}
 	}
 }

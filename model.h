@@ -14,7 +14,6 @@
 //*********************************************************************
 #include "main.h"
 #include "baseObject.h"
-#include "script_loader.h"
 
 //*********************************************************************
 // 
@@ -33,13 +32,19 @@ typedef struct
 {
 	BASEOBJECT obj;
 	D3DXMATRIX mtxWorld;
-	LPD3DXMESH pMesh;
-	LPDIRECT3DTEXTURE9 apTexture[MAX_TEXTURE_PER_MODEL];
-	LPD3DXBUFFER pBuffMat;
-	DWORD dwNumMat;
-	D3DXVECTOR3 vtxMin, vtxMax;
+	int nType;
 	bool bUsed;
 }MODEL;
+
+typedef struct
+{
+	LPD3DXMESH pMesh;										// メッシュ情報へのポインタ
+	LPDIRECT3DTEXTURE9 apTexture[MAX_TEXTURE_PER_MODEL];	// テクスチャへのポインタ
+	LPD3DXBUFFER pBuffMat;									// マテリアルへのポインタ
+	DWORD dwNumMat;											// マテリアル数
+	D3DXVECTOR3 vtxMin, vtxMax;								// 端の頂点位置
+}MESHDATA;
+
 //*********************************************************************
 // 
 // ***** 列挙型 *****
@@ -56,6 +61,7 @@ void InitModel(void);
 void UninitModel(void);
 void UpdateModel(void);
 void DrawModel(void);
-void SetModel(const char* pFilename, D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+void LoadModel(const char* pFilename, int nIdx);
 
 #endif
