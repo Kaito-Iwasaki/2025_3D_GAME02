@@ -1,4 +1,4 @@
-//=====================================================================
+Ôªø//=====================================================================
 //
 // Sphere [sphere.cpp]
 // Author : Kaito Iwasaki
@@ -7,7 +7,7 @@
 
 //*********************************************************************
 // 
-// ***** ÉCÉìÉNÉãÅ[ÉhÉtÉ@ÉCÉã *****
+// ***** „Ç§„É≥„ÇØ„É´„Éº„Éâ„Éï„Ç°„Ç§„É´ *****
 // 
 //*********************************************************************
 #include "sphere.h"
@@ -15,40 +15,40 @@
 
 //*********************************************************************
 // 
-// ***** É}ÉNÉçíËã` *****
+// ***** „Éû„ÇØ„É≠ÂÆöÁæ© *****
 // 
 //*********************************************************************
 #define TEXTURE_FILENAME	"data\\TEXTURE\\sakai000.png"
-#define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
-#define INIT_SIZE			D3DXVECTOR3(200.0f, 100.0f, 200.0f)
+#define INIT_POS			D3DXVECTOR3(0.0f, 50.0f, 0.0f)
+#define INIT_SIZE			D3DXVECTOR3(100.0f, 100.0f, 100.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
 #define NUM_BLOCK_X			(3)
 #define NUM_BLOCK_Y			(3)
 
 //*********************************************************************
 // 
-// ***** ç\ë¢ëÃ *****
+// ***** ÊßãÈÄ†‰Ωì *****
 // 
 //*********************************************************************
 
 
 //*********************************************************************
 // 
-// ***** óÒãìå^ *****
+// ***** ÂàóÊåôÂûã *****
 // 
 //*********************************************************************
 
 
 //*********************************************************************
 // 
-// ***** ÉvÉçÉgÉ^ÉCÉvêÈåæ *****
+// ***** „Éó„É≠„Éà„Çø„Ç§„ÉóÂÆ£Ë®Ä *****
 // 
 //*********************************************************************
 
 
 //*********************************************************************
 // 
-// ***** ÉOÉçÅ[ÉoÉãïœêî *****
+// ***** „Ç∞„É≠„Éº„Éê„É´Â§âÊï∞ *****
 // 
 //*********************************************************************
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffSphere = NULL;
@@ -57,7 +57,7 @@ LPDIRECT3DINDEXBUFFER9 g_pIdxBuffSphere = NULL;
 SPHERE g_aSphere[MAX_SPHERE];
 
 //=====================================================================
-// èâä˙âªèàóù
+// ÂàùÊúüÂåñÂá¶ÁêÜ
 //=====================================================================
 void InitSphere(void)
 {
@@ -70,14 +70,14 @@ void InitSphere(void)
 }
 
 //=====================================================================
-// èIóπèàóù
+// ÁµÇ‰∫ÜÂá¶ÁêÜ
 //=====================================================================
 void UninitSphere(void)
 {
 	SPHERE* pSphere = &g_aSphere[0];
 
 	if (g_pTexBuffSphere != NULL)
-	{// ÉeÉNÉXÉ`ÉÉÇÃîjä¸
+	{// „ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆÁ†¥Ê£Ñ
 		g_pTexBuffSphere->Release();
 		g_pTexBuffSphere = NULL;
 	}
@@ -85,13 +85,13 @@ void UninitSphere(void)
 	for (int nCntSphere = 0; nCntSphere < MAX_SPHERE; nCntSphere++, pSphere++)
 	{
 		if (pSphere->pVtxBuff != NULL)
-		{// í∏ì_ÉoÉbÉtÉ@ÇÃîjä¸
+		{// È†ÇÁÇπ„Éê„ÉÉ„Éï„Ç°„ÅÆÁ†¥Ê£Ñ
 			pSphere->pVtxBuff->Release();
 			pSphere->pVtxBuff = NULL;
 		}
 
 		if (pSphere->pIdxBuff != NULL)
-		{// ÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@ÇÃîjä¸
+		{// „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„Éê„ÉÉ„Éï„Ç°„ÅÆÁ†¥Ê£Ñ
 			pSphere->pIdxBuff->Release();
 			pSphere->pIdxBuff = NULL;
 		}
@@ -99,7 +99,7 @@ void UninitSphere(void)
 }
 
 //=====================================================================
-// çXêVèàóù
+// Êõ¥Êñ∞Âá¶ÁêÜ
 //=====================================================================
 void UpdateSphere(void)
 {
@@ -107,22 +107,22 @@ void UpdateSphere(void)
 }
 
 //=====================================================================
-// ï`âÊèàóù
+// ÊèèÁîªÂá¶ÁêÜ
 //=====================================================================
 void DrawSphere(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	SPHERE* pSphere = &g_aSphere[0];
-	D3DXMATRIX mtxRot, mtxTrans;	// åvéZópÉ}ÉgÉäÉbÉNÉX
+	D3DXMATRIX mtxRot, mtxTrans;	// Ë®àÁÆóÁî®„Éû„Éà„É™„ÉÉ„ÇØ„Çπ
 
 	for (int nCntSphere = 0; nCntSphere < MAX_SPHERE; nCntSphere++, pSphere++)
 	{
-		if (pSphere->bUsed == false) continue; // égópíÜÇ≈Ç»Ç¢Ç»ÇÁÉpÉX
+		if (pSphere->bUsed == false) continue; // ‰ΩøÁî®‰∏≠„Åß„Å™„ÅÑ„Å™„Çâ„Éë„Çπ
 
-			// ÉèÅ[ÉãÉhÉ}ÉgÉäÉbÉNÉXÇÃèâä˙âª
+		// „ÉØ„Éº„É´„Éâ„Éû„Éà„É™„ÉÉ„ÇØ„Çπ„ÅÆÂàùÊúüÂåñ
 		D3DXMatrixIdentity(&pSphere->mtxWorld);
 
-		// å¸Ç´ÇîΩâf
+		// Âêë„Åç„ÇíÂèçÊò†
 		D3DXMatrixRotationYawPitchRoll(
 			&mtxRot,
 			pSphere->obj.rot.y, pSphere->obj.rot.x, pSphere->obj.rot.z
@@ -133,7 +133,7 @@ void DrawSphere(void)
 			&mtxRot
 		);
 
-		// à íuÇîΩâf
+		// ‰ΩçÁΩÆ„ÇíÂèçÊò†
 		D3DXMatrixTranslation(
 			&mtxTrans,
 			pSphere->obj.pos.x, pSphere->obj.pos.y, pSphere->obj.pos.z
@@ -144,56 +144,54 @@ void DrawSphere(void)
 			&mtxTrans
 		);
 
-		// ÉèÅ[ÉãÉhÉ}ÉgÉäÉbÉNÉXÇÃê›íË
+		// „ÉØ„Éº„É´„Éâ„Éû„Éà„É™„ÉÉ„ÇØ„Çπ„ÅÆË®≠ÂÆö
 		pDevice->SetTransform(D3DTS_WORLD, &pSphere->mtxWorld);
 
-		// í∏ì_ÉoÉbÉtÉ@ÇÉfÅ[É^ÉXÉgÉäÅ[ÉÄÇ…ê›íË
+		// È†ÇÁÇπ„Éê„ÉÉ„Éï„Ç°„Çí„Éá„Éº„Çø„Çπ„Éà„É™„Éº„É†„Å´Ë®≠ÂÆö
 		pDevice->SetStreamSource(0, pSphere->pVtxBuff, 0, sizeof(VERTEX_3D));
 
-		// ÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@ÇÉfÅ[É^ÉXÉgÉäÅ[ÉÄÇ…ê›íË
+		// „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„Éê„ÉÉ„Éï„Ç°„Çí„Éá„Éº„Çø„Çπ„Éà„É™„Éº„É†„Å´Ë®≠ÂÆö
 		pDevice->SetIndices(pSphere->pIdxBuff);
 
-		// í∏ì_ÉtÉHÅ[É}ÉbÉgÇÃê›íË
+		// È†ÇÁÇπ„Éï„Ç©„Éº„Éû„ÉÉ„Éà„ÅÆË®≠ÂÆö
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
 		if (pSphere->obj.bVisible)
-		{// ï\é¶èÛë‘
-			// ÉeÉNÉXÉ`ÉÉÇÃê›íË
+		{// Ë°®Á§∫Áä∂ÊÖã
+			// „ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆË®≠ÂÆö
 			pDevice->SetTexture(0, g_pTexBuffSphere);
 
-			// É|ÉäÉSÉìÇÃï`âÊ
+			// „Éù„É™„Ç¥„É≥„ÅÆÊèèÁîª
 			pDevice->DrawIndexedPrimitive(
 				D3DPT_TRIANGLEFAN,
 				0,
 				0,
-				10,			// ópà”ÇµÇΩí∏ì_êî
+				((NUM_BLOCK_Y - 1) * (NUM_BLOCK_X + 1) + 2),			// Áî®ÊÑè„Åó„ÅüÈ†ÇÁÇπÊï∞
 				0,
 				3
 			);
 
-			// É|ÉäÉSÉìÇÃï`âÊ
+			// „Éù„É™„Ç¥„É≥„ÅÆÊèèÁîª
 			pDevice->DrawIndexedPrimitive(
 				D3DPT_TRIANGLESTRIP,
 				0,
 				0,
-				10,			// ópà”ÇµÇΩí∏ì_êî
+				10,			// Áî®ÊÑè„Åó„ÅüÈ†ÇÁÇπÊï∞
 				5,
 				6
 			);
 
-			// É|ÉäÉSÉìÇÃï`âÊ
+			// „Éù„É™„Ç¥„É≥„ÅÆÊèèÁîª
 			pDevice->DrawIndexedPrimitive(
 				D3DPT_TRIANGLEFAN,
 				0,
 				0,
-				10,			// ópà”ÇµÇΩí∏ì_êî
+				10,			// Áî®ÊÑè„Åó„ÅüÈ†ÇÁÇπÊï∞
 				13,
 				3
 			);
 		}
 	}
-
-
 }
 
 void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int nSegmentV)
@@ -203,12 +201,12 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 
 	for (int nCntSphere = 0; nCntSphere < MAX_SPHERE; nCntSphere++, pSphere++)
 	{
-		if (pSphere->bUsed == true) continue; // égópíÜÇ»ÇÁÉpÉX
+		if (pSphere->bUsed == true) continue; // ‰ΩøÁî®‰∏≠„Å™„Çâ„Éë„Çπ
 
 		memset(pSphere, 0, sizeof(SPHERE));
 		pSphere->bUsed = true;
 		pSphere->obj.pos = pos;
-		pSphere->obj.size = D3DXVECTOR3(size.x * nSegmentU, size.y * nSegmentV, 0.0f);
+		pSphere->obj.size = INIT_SIZE;
 		pSphere->obj.color = INIT_COLOR;
 		pSphere->obj.bVisible = true;
 		pSphere->nTexId = nTexId;
@@ -219,7 +217,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		Clamp(&nSegmentV, 2, nSegmentV);
 
 		if (TEXTURE_FILENAME)
-		{// ÉeÉNÉXÉ`ÉÉÇÃì«Ç›çûÇ›
+		{// „ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅÆË™≠„ÅøËæº„Åø
 			D3DXCreateTextureFromFile(
 				pDevice,
 				TEXTURE_FILENAME,
@@ -227,8 +225,8 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 			);
 		}
 
-		// í∏ì_ÉoÉbÉtÉ@ÇÃê∂ê¨
-		// ÉXÉtÉBÉAÇÃí∏ì_êîÅÅÅiècÇÃï™äÑêîÅ|ÇPÅjÅ~Åiâ°ÇÃï™äÑêîÅ{ÇPÅjÅ{è„â∫ÇÃÇQí∏ì_
+		// È†ÇÁÇπ„Éê„ÉÉ„Éï„Ç°„ÅÆÁîüÊàê
+		// „Çπ„Éï„Ç£„Ç¢„ÅÆÈ†ÇÁÇπÊï∞ÔºùÔºàÁ∏¶„ÅÆÂàÜÂâ≤Êï∞ÔºçÔºëÔºâ√óÔºàÊ®™„ÅÆÂàÜÂâ≤Êï∞ÔºãÔºëÔºâÔºã‰∏ä‰∏ã„ÅÆÔºíÈ†ÇÁÇπ
 		pDevice->CreateVertexBuffer(
 			sizeof(VERTEX_3D) * ((NUM_BLOCK_Y - 1) * (NUM_BLOCK_X + 1) + 2),
 			D3DUSAGE_WRITEONLY,
@@ -239,118 +237,105 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		);
 
 		VERTEX_3D* pVtx;
-		D3DXVECTOR3 vecOrigin = D3DXVECTOR3(0.0f, pSphere->obj.size.y, 0.0f);
+		D3DXVECTOR3 vecOrigin = D3DXVECTOR3(0.0f, pSphere->obj.size.y / 2, 0.0f);
 
-		// í∏ì_ÉoÉbÉtÉ@ÇÉçÉbÉNÇµÇƒí∏ì_èÓïÒÇ÷ÇÃÉ|ÉCÉìÉ^ÇéÊìæ
+		// È†ÇÁÇπ„Éê„ÉÉ„Éï„Ç°„Çí„É≠„ÉÉ„ÇØ„Åó„Å¶È†ÇÁÇπÊÉÖÂ†±„Å∏„ÅÆ„Éù„Ç§„É≥„Çø„ÇíÂèñÂæó
 		pSphere->pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-		// í∏ì_èÓïÒÇê›íË
-		for (int nCntVtxV = 0; nCntVtxV < nSegmentV + 1; nCntVtxV++, pVtx++)
+		int nCount = 0;
+
+		pVtx[0].pos = D3DXVECTOR3(0.0f, 90.0f, 0.0f);
+
+		pVtx[1].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
+		pVtx[2].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 60.0f, cosf(D3DXToRadian(-120)) * 50.0f);
+		pVtx[3].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 60.0f, cosf(D3DXToRadian(-240)) * 50.0f);
+		pVtx[4].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
+
+		pVtx[5].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
+		pVtx[6].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 30.0f, cosf(D3DXToRadian(-120)) * 50.0f);
+		pVtx[7].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 30.0f, cosf(D3DXToRadian(-240)) * 50.0f);
+		pVtx[8].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
+
+		pVtx[9].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+		//pVtx[0].nor = Normalize(pVtx[0].pos - pSphere->obj.pos);
+		//pVtx[1].nor = Normalize(pVtx[1].pos - pSphere->obj.pos);
+		//pVtx[2].nor = Normalize(pVtx[2].pos - pSphere->obj.pos);
+		//pVtx[3].nor = Normalize(pVtx[3].pos - pSphere->obj.pos);
+		//pVtx[4].nor = Normalize(pVtx[4].pos - pSphere->obj.pos);
+		//pVtx[5].nor = Normalize(pVtx[5].pos - pSphere->obj.pos);
+		//pVtx[6].nor = Normalize(pVtx[6].pos - pSphere->obj.pos);
+		//pVtx[7].nor = Normalize(pVtx[7].pos - pSphere->obj.pos);
+		//pVtx[8].nor = Normalize(pVtx[8].pos - pSphere->obj.pos);
+		//pVtx[9].nor = Normalize(pVtx[9].pos - pSphere->obj.pos);
+
+		//pVtx[0].col = pSphere->obj.color;
+		//pVtx[1].col = pSphere->obj.color;
+		//pVtx[2].col = pSphere->obj.color;
+		//pVtx[3].col = pSphere->obj.color;
+		//pVtx[4].col = pSphere->obj.color;
+		//pVtx[5].col = pSphere->obj.color;
+		//pVtx[6].col = pSphere->obj.color;
+		//pVtx[7].col = pSphere->obj.color;
+		//pVtx[8].col = pSphere->obj.color;
+		//pVtx[9].col = pSphere->obj.color;
+
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(0.0f, 0.3f);
+		pVtx[2].tex = D3DXVECTOR2(0.3f, 0.3f);
+		pVtx[3].tex = D3DXVECTOR2(0.6f, 0.3f);
+		pVtx[4].tex = D3DXVECTOR2(1.0f, 0.3f);
+
+		pVtx[5].tex = D3DXVECTOR2(0.0f, 0.6f);
+		pVtx[6].tex = D3DXVECTOR2(0.3f, 0.6f);
+		pVtx[7].tex = D3DXVECTOR2(0.6f, 0.6f);
+		pVtx[8].tex = D3DXVECTOR2(1.0f, 0.6f);
+
+		pVtx[9].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+		// È†ÇÁÇπÊÉÖÂ†±„ÇíË®≠ÂÆö
+		for (int nCntVtxV = 0; nCntVtxV < nSegmentV + 1; nCntVtxV++)
 		{
-			if (nCntVtxV == 0)
+			for (int nCntVtxU = 0; nCntVtxU < nSegmentU + 1; nCntVtxU++, pVtx++)
 			{
-				pVtx->pos = vecOrigin;
-				pVtx->tex = D3DXVECTOR2(0.0f, 0.0f);
+				if (nCntVtxV == 0)
+				{
+					pVtx->pos = vecOrigin;
+					pVtx->tex = D3DXVECTOR2(0.0f, 0.0f);
+				}
+				else if (nCntVtxV == nSegmentV)
+				{
+					pVtx->pos = vecOrigin - D3DXVECTOR3(0.0f, pSphere->obj.size.y, 0.0f);
+					pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
+
+				}
+				else
+				{
+					float fAngle = (D3DX_PI * 2) / nSegmentU * nCntVtxU;
+					pVtx->pos.x = -sinf(fAngle) * pSphere->obj.size.x / 2.0f;
+					pVtx->pos.z = cosf(fAngle) * pSphere->obj.size.z / 2.0f;
+					pVtx->tex = D3DXVECTOR2((float)nCntVtxU / (float)nSegmentU, (float)nCntVtxV / (float)nSegmentV);
+				}
+
+				pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
+				pVtx->col = pSphere->obj.color;
+				nCount++;
+
+				if (nCntVtxV == 0 || nCntVtxV == nSegmentV)
+				{
+					break;
+				}
 			}
-			else if (nCntVtxV == nSegmentV)
-			{
-				pVtx->pos = vecOrigin - D3DXVECTOR3(0.0f, pSphere->obj.size.y, 0.0f);
-				pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
-			}
-			else
-			{
-
-			}
-
-			//pVtx[0].pos = D3DXVECTOR3(0.0f, 90.0f, 0.0f);
-			//pVtx[1].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
-			//pVtx[2].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 60.0f, cosf(D3DXToRadian(-120)) * 50.0f);
-			//pVtx[3].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 60.0f, cosf(D3DXToRadian(-240)) * 50.0f);
-			//pVtx[4].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 60.0f, cosf(D3DXToRadian(0)) * 50.0f);
-			//pVtx[5].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
-			//pVtx[6].pos = D3DXVECTOR3(sinf(D3DXToRadian(-120)) * 50.0f, 30.0f, cosf(D3DXToRadian(-120)) * 50.0f);
-			//pVtx[7].pos = D3DXVECTOR3(sinf(D3DXToRadian(-240)) * 50.0f, 30.0f, cosf(D3DXToRadian(-240)) * 50.0f);
-			//pVtx[8].pos = D3DXVECTOR3(sinf(D3DXToRadian(0)) * 50.0f, 30.0f, cosf(D3DXToRadian(0)) * 50.0f);
-			//pVtx[9].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-			//pVtx[0].nor = Normalize(pVtx[0].pos - pSphere->obj.pos);
-			//pVtx[1].nor = Normalize(pVtx[1].pos - pSphere->obj.pos);
-			//pVtx[2].nor = Normalize(pVtx[2].pos - pSphere->obj.pos);
-			//pVtx[3].nor = Normalize(pVtx[3].pos - pSphere->obj.pos);
-			//pVtx[4].nor = Normalize(pVtx[4].pos - pSphere->obj.pos);
-			//pVtx[5].nor = Normalize(pVtx[5].pos - pSphere->obj.pos);
-			//pVtx[6].nor = Normalize(pVtx[6].pos - pSphere->obj.pos);
-			//pVtx[7].nor = Normalize(pVtx[7].pos - pSphere->obj.pos);
-			//pVtx[8].nor = Normalize(pVtx[8].pos - pSphere->obj.pos);
-			//pVtx[9].nor = Normalize(pVtx[9].pos - pSphere->obj.pos);
-
-			//pVtx[0].col = pSphere->obj.color;
-			//pVtx[1].col = pSphere->obj.color;
-			//pVtx[2].col = pSphere->obj.color;
-			//pVtx[3].col = pSphere->obj.color;
-			//pVtx[4].col = pSphere->obj.color;
-			//pVtx[5].col = pSphere->obj.color;
-			//pVtx[6].col = pSphere->obj.color;
-			//pVtx[7].col = pSphere->obj.color;
-			//pVtx[8].col = pSphere->obj.color;
-			//pVtx[9].col = pSphere->obj.color;
-
-			//pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-			//pVtx[1].tex = D3DXVECTOR2(0.0f, 0.3f);
-			//pVtx[2].tex = D3DXVECTOR2(0.3f, 0.3f);
-			//pVtx[3].tex = D3DXVECTOR2(0.6f, 0.3f);
-			//pVtx[4].tex = D3DXVECTOR2(1.0f, 0.3f);
-			//pVtx[5].tex = D3DXVECTOR2(0.0f, 0.6f);
-			//pVtx[6].tex = D3DXVECTOR2(0.3f, 0.6f);
-			//pVtx[7].tex = D3DXVECTOR2(0.6f, 0.6f);
-			//pVtx[8].tex = D3DXVECTOR2(1.0f, 0.6f);
-			//pVtx[9].tex = D3DXVECTOR2(1.0f, 1.0f);
-
-			//D3DXVECTOR3 vecNormal;
-
-			//if (nCntVtxV == 0)
-			//{
-			//	pVtx->pos = vecOrigin;
-			//	pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
-			//	pVtx->col = pSphere->obj.color;
-			//	pVtx->tex = D3DXVECTOR2(0.0f, 0.0f);
-			//	pVtx++;
-			//}
-			//else if (nCntVtxV == nSegmentV)
-			//{
-			//	pVtx->pos = vecOrigin - D3DXVECTOR3(0.0f, pSphere->obj.size.y, 0.0f);
-			//	pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
-			//	pVtx->col = pSphere->obj.color;
-			//	pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
-			//	pVtx++;
-			//}
-			//else
-			//{
-			//	for (int nCntVtxU = 0; nCntVtxU < nSegmentU; nCntVtxU++)
-			//	{
-			//		float fAngle = (D3DX_PI * 2.0f) * ((float)nCntVtxU + 1.0f) / (float)nSegmentU;
-
-			//		pVtx->pos = D3DXVECTOR3(
-			//			sinf(fAngle) * 100.0f,
-			//			vecOrigin.y - pSphere->obj.size.y * (((float)nCntVtxU + 1.0f) / (float)nSegmentU),
-			//			cosf(fAngle) * 100.0f
-			//		);
-			//		pVtx->nor = Normalize(pVtx->pos - pSphere->obj.pos);
-			//		pVtx->col = pSphere->obj.color;
-			//		pVtx->tex = D3DXVECTOR2(1.0f, 1.0f);
-			//		pVtx++;
-			//	}
-			//}
 		}
 
-		// í∏ì_ÉoÉbÉtÉ@ÇÉAÉìÉçÉbÉN
+		// È†ÇÁÇπ„Éê„ÉÉ„Éï„Ç°„Çí„Ç¢„É≥„É≠„ÉÉ„ÇØ
 		pSphere->pVtxBuff->Unlock();
 
-		WORD* pIdx;		// ÉCÉìÉfÉbÉNÉXèÓïÒÇ÷ÇÃÉ|ÉCÉìÉ^
+		WORD* pIdx;		// „Ç§„É≥„Éá„ÉÉ„ÇØ„ÇπÊÉÖÂ†±„Å∏„ÅÆ„Éù„Ç§„É≥„Çø
 
-		// ÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@ÇÃê∂ê¨
-		// ÅiÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@ÇÃÉTÉCÉYÇÕÅAÉÅÉbÉVÉÖÇ≈ÇÃÉ|ÉäÉSÉìï`âÊÇ…ïKóvÇ»ï™ópà”Ç∑ÇÈÅj
-		// Åiè„ñ Ç∆íÍñ ÇÃí∏ì_êîÅ{ÇQí∏ì_Å~â°ÇÃí∏ì_êîÅ~ècÇÃï™äÑêîÅ{ÇQí∏ì_Å~â°Ç…ê‹ÇËï‘Ç∑âÒêîÅj
+		// „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„Éê„ÉÉ„Éï„Ç°„ÅÆÁîüÊàê
+		// Ôºà„Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„Éê„ÉÉ„Éï„Ç°„ÅÆ„Çµ„Ç§„Ç∫„ÅØ„ÄÅ„É°„ÉÉ„Ç∑„É•„Åß„ÅÆ„Éù„É™„Ç¥„É≥ÊèèÁîª„Å´ÂøÖË¶Å„Å™ÂàÜÁî®ÊÑè„Åô„ÇãÔºâ
+		// Ôºà‰∏äÈù¢„Å®Â∫ïÈù¢„ÅÆÈ†ÇÁÇπÊï∞ÔºãÔºíÈ†ÇÁÇπ√óÊ®™„ÅÆÈ†ÇÁÇπÊï∞√óÁ∏¶„ÅÆÂàÜÂâ≤Êï∞ÔºãÔºíÈ†ÇÁÇπ√óÊ®™„Å´Êäò„ÇäËøî„ÅôÂõûÊï∞Ôºâ
 		pDevice->CreateIndexBuffer(
 			sizeof(WORD) * 18,
 			D3DUSAGE_WRITEONLY,
@@ -360,32 +345,34 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 			NULL
 		);
 
-		// ÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@ÇÉçÉbÉNÇµÅAí∏ì_î‘çÜÉfÅ[É^Ç÷ÇÃÉ|ÉCÉìÉ^ÇéÊìæ
+		// „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„Éê„ÉÉ„Éï„Ç°„Çí„É≠„ÉÉ„ÇØ„Åó„ÄÅÈ†ÇÁÇπÁï™Âè∑„Éá„Éº„Çø„Å∏„ÅÆ„Éù„Ç§„É≥„Çø„ÇíÂèñÂæó
 		pSphere->pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
-		// í∏ì_î‘çÜÉfÅ[É^ÇÃê›íË
-		for (int nCntIdxV = 0; nCntIdxV < nSegmentV - 1; nCntIdxV++);
-		{
-			pIdx[0] = 0;
-			pIdx[1] = 4;
-			pIdx[2] = 3;
-			pIdx[3] = 2;
-			pIdx[4] = 1;
-			pIdx[5] = 5;
-			pIdx[6] = 1;
-			pIdx[7] = 6;
-			pIdx[8] = 2;
-			pIdx[9] = 7;
-			pIdx[10] = 3;
-			pIdx[11] = 8;
-			pIdx[12] = 4;
-			pIdx[13] = 9;
-			pIdx[14] = 5;
-			pIdx[15] = 6;
-			pIdx[16] = 7;
-			pIdx[17] = 8;
+		pIdx[0] = 0;
+		pIdx[1] = 4;
+		pIdx[2] = 3;
+		pIdx[3] = 2;
+		pIdx[4] = 1;
+		pIdx[5] = 5;
+		pIdx[6] = 1;
+		pIdx[7] = 6;
+		pIdx[8] = 2;
+		pIdx[9] = 7;
+		pIdx[10] = 3;
+		pIdx[11] = 8;
+		pIdx[12] = 4;
+		pIdx[13] = 9;
+		pIdx[14] = 5;
+		pIdx[15] = 6;
+		pIdx[16] = 7;
+		pIdx[17] = 8;
 
-			
+		// È†ÇÁÇπÁï™Âè∑„Éá„Éº„Çø„ÅÆË®≠ÂÆö
+		//for (int nCntIdxV = 0; nCntIdxV < nSegmentV - 1; nCntIdxV++)
+		//{
+
+
+
 			//if (nCntIdxV == 0)
 			//{
 			//	*pIdx = 0;
@@ -411,9 +398,9 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 			//{
 
 			//}
-		}
+		//}
 
-		// ÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@ÇÉAÉìÉçÉbÉN
+		// „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„Éê„ÉÉ„Éï„Ç°„Çí„Ç¢„É≥„É≠„ÉÉ„ÇØ
 		pSphere->pIdxBuff->Unlock();
 
 		break;
