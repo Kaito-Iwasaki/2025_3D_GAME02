@@ -22,8 +22,8 @@
 #define INIT_POS			D3DXVECTOR3(0.0f, 150.0f, 0.0f)
 #define INIT_SIZE			D3DXVECTOR3(100.0f, 100.0f, 100.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
-#define NUM_BLOCK_X			(3)
-#define NUM_BLOCK_Y			(3)
+#define NUM_BLOCK_X			(4)
+#define NUM_BLOCK_Y			(4)
 
 //*********************************************************************
 // 
@@ -225,10 +225,12 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 			);
 		}
 
+		int nMaxVtx = ((NUM_BLOCK_Y - 1) * (NUM_BLOCK_X + 1) + 2);
+
 		// 頂点バッファの生成
 		// スフィアの頂点数＝（縦の分割数－１）×（横の分割数＋１）＋上下の２頂点
 		pDevice->CreateVertexBuffer(
-			sizeof(VERTEX_3D) * ((NUM_BLOCK_Y - 1) * (NUM_BLOCK_X + 1) + 2),
+			sizeof(VERTEX_3D) * nMaxVtx,
 			D3DUSAGE_WRITEONLY,
 			FVF_VERTEX_3D,
 			D3DPOOL_MANAGED,
@@ -283,9 +285,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 
 		WORD* pIdx;		// インデックス情報へのポインタ
 
-		int nSize = (1 + nSegmentU + 1) * 2 + 2 * (nSegmentU + 1) * (nSegmentV - 2);
-
-		printf("a");
+		int nSize = (1 + nSegmentU + 1) * 2 + 2 * (nSegmentU + 1) * (nSegmentV - 2) + (nSegmentV - 3) * 2;
 
 		// インデックスバッファの生成
 		// （インデックスバッファのサイズは、メッシュでのポリゴン描画に必要な分用意する）
@@ -302,32 +302,51 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		// インデックスバッファをロックし、頂点番号データへのポインタを取得
 		pSphere->pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
-		pIdx[0] = 0;
-		pIdx[1] = 1;
-		pIdx[2] = 2;
-		pIdx[3] = 3;
-		pIdx[4] = 4;
-		pIdx[5] = 8;
-		pIdx[6] = 4;
-		pIdx[7] = 7;
-		pIdx[8] = 3;
-		pIdx[9] = 6;
-		pIdx[10] = 2;
-		pIdx[11] = 5;
-		pIdx[12] = 1;
-		pIdx[13] = 9;
-		pIdx[14] = 8;
-		pIdx[15] = 7;
-		pIdx[16] = 6;
-		pIdx[17] = 5;
+		for (int nCntIdxV = 0; nCntIdxV < nSegmentV; nCntIdxV++)
+		{
+			for (int nCntIdxU = 0; nCntIdxU < nSegmentU + 1; nCntIdxU++)
+			{
+				if (nCntIdxV == 0)
+				{
+					*pIdx = 0;
+					pIdx++;
 
-		//for (int nCntIdxV = 0; nCntIdxV < nSegmentV; nCntIdxV++)
-		//{
-		//	for (int nCntIdxU = 0; nCntIdxU < nSegmentU + 1; nSegmentU++)
-		//	{
+					for (int nCount = 0; nCount < nSegmentU + 1; nCount++)
+					{
+						*pIdx = nCount + 1;
+						pIdx++;
+					}
 
-		//	}
-		//}
+					break;
+				}
+				else if (nCntIdxV == nSegmentV - 1)
+				{
+					*pIdx = nMaxVtx - 1;
+					pIdx++;
+
+					for (int nCount = 0; nCount < nSegmentU + 1; nCount++)
+					{
+						*pIdx = (nMaxVtx) - (nSegmentU + 1) + nCount;
+						pIdx++;
+					}
+
+					break;
+				}
+
+				pIdx[0] = (nCntIdxU + 1) + nCntIdxV * (nSegmentU + 1);
+				pIdx[1] = (nCntIdxU + 1) + (nCntIdxV - 1) * (nSegmentU + 1);
+
+				pIdx += 2;
+
+				if (nCntIdxV != (nSegmentV - 2) && nCntIdxU == nSegmentU)
+				{
+					pIdx[0] = (nCntIdxU + 1) + (nCntIdxV - 1) * (nSegmentU + 1);
+					pIdx[1] = ((nCntIdxU + 1) + nCntIdxV * (nSegmentU + 1)) + 1;
+					pIdx += 2;
+				}
+
+			}
+		}
 
 		// インデックスバッファをアンロック
 		pSphere->pIdxBuff->Unlock();
