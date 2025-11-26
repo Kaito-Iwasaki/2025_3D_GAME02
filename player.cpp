@@ -18,6 +18,7 @@
 #include "shadow.h"
 #include "bullet.h"
 #include "sound.h"
+#include "DebugProc.h"
 
 //*********************************************************************
 // 

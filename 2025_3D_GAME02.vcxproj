@@ -150,6 +150,10 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="cylinder.cpp" />
+    <ClCompile Include="DebugProc.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fade.cpp" />
@@ -175,6 +179,10 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="cylinder.h" />
+    <ClInclude Include="DebugProc.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="effect.h" />
     <ClInclude Include="explosion.h" />
     <ClInclude Include="fade.h" />
