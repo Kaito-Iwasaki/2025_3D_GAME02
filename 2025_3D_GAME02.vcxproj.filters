@@ -108,6 +108,9 @@
     <ClCompile Include="sphere.cpp">
       <Filter>ソース ファイル\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="DebugProc.cpp">
+      <Filter>ソース ファイル\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseObject.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="sphere.h">
       <Filter>ヘッダー ファイル\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugProc.h">
+      <Filter>ヘッダー ファイル\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

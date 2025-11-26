@@ -25,6 +25,7 @@
 #include "meshfield.h"
 #include "cylinder.h"
 #include "sphere.h"
+#include "DebugProc.h"
 
 //*********************************************************************
 // 
@@ -79,6 +80,7 @@ void InitGame(void)
 	InitModel();
 	InitCylinder();
 	InitSphere();
+	InitDebugProc();
 
 	g_bIsPaused = false;
 
@@ -97,7 +99,6 @@ void InitGame(void)
 			D3DXVECTOR3(D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z))
 		);
 	}
-
 }
 
 //=====================================================================
@@ -117,6 +118,7 @@ void UninitGame(void)
 	UninitModel();
 	UninitCylinder();
 	UninitSphere();
+	UninitDebugProc();
 }
 
 //=====================================================================
@@ -128,6 +130,8 @@ void UpdateGame(void)
 	{
 		g_bIsPaused ^= 1;
 	}
+
+	PrintDebugProc("É|Å[ÉY : %d", g_bIsPaused);
 
 	if (g_bIsPaused == false)
 	{
@@ -144,6 +148,8 @@ void UpdateGame(void)
 		UpdateCylinder();
 		UpdateSphere();
 	}
+
+	UpdateDebugProc();
 }
 
 //=====================================================================
@@ -163,4 +169,5 @@ void DrawGame(void)
 	DrawModel();
 	//DrawCylinder();
 	DrawSphere();
+	DrawDebugProc();
 }

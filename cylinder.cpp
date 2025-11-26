@@ -56,7 +56,6 @@ LPDIRECT3DTEXTURE9 g_pTexBuffCylinder = NULL;
 LPDIRECT3DINDEXBUFFER9 g_pIdxBuffCylinder = NULL;
 CYLINDER g_Cylinder;
 
-
 //=====================================================================
 // èâä˙âªèàóù
 //=====================================================================
