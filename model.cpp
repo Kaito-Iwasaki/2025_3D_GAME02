@@ -116,77 +116,81 @@ void UpdateModel(void)
 		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
 		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
 
-		if (
-			pPlayer->posOld.x <= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x > pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
-			)
-		{
-			byHit |= MODEL_HIT_LEFT;
-		}
+		//if (
+		//	pPlayer->posOld.x <= pModel->obj.pos.x + vtxMin.x
+		//	&& pPlayer->obj.pos.x > pModel->obj.pos.x + vtxMin.x
+		//	&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
+		//	&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
+		//	&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
+		//	&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
+		//	)
+		//{
+		//	byHit |= MODEL_HIT_LEFT;
+		//}
 
-		if (
-			pPlayer->posOld.x >= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.x < pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
-			)
-		{
-			byHit |= MODEL_HIT_RIGHT;
-		}
+		//if (
+		//	pPlayer->posOld.x >= pModel->obj.pos.x + vtxMax.x
+		//	&& pPlayer->obj.pos.x < pModel->obj.pos.x + vtxMax.x
+		//	&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
+		//	&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
+		//	&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
+		//	&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
+		//	)
+		//{
+		//	byHit |= MODEL_HIT_RIGHT;
+		//}
 
-		if (
-			pPlayer->posOld.z <= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.z > pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
-			)
-		{
-			byHit |= MODEL_HIT_FRONT;
-		}
+		//if (
+		//	pPlayer->posOld.z <= pModel->obj.pos.z + vtxMin.z
+		//	&& pPlayer->obj.pos.z > pModel->obj.pos.z + vtxMin.z
+		//	&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
+		//	&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
+		//	&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
+		//	&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
+		//	)
+		//{
+		//	byHit |= MODEL_HIT_FRONT;
+		//}
 
-		if (
-			pPlayer->posOld.z >= pModel->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.z < pModel->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
-			)
-		{
-			byHit |= MODEL_HIT_BACK;
-		}
+		//if (
+		//	pPlayer->posOld.z >= pModel->obj.pos.z + vtxMax.z
+		//	&& pPlayer->obj.pos.z < pModel->obj.pos.z + vtxMax.z
+		//	&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
+		//	&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
+		//	&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
+		//	&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
+		//	)
+		//{
+		//	byHit |= MODEL_HIT_BACK;
+		//}
 
-		if (
-			pPlayer->posOld.y >= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y < pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
-			)
-		{
-			byHit |= MODEL_HIT_TOP;
-		}
+		//if (
+		//	pPlayer->posOld.y >= pModel->obj.pos.y + vtxMax.y
+		//	&& pPlayer->obj.pos.y < pModel->obj.pos.y + vtxMax.y
+		//	&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
+		//	&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
+		//	&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
+		//	&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
+		//	)
+		//{
+		//	byHit |= MODEL_HIT_TOP;
+		//}
 
-		if (
-			pPlayer->posOld.y <= pModel->obj.pos.y + vtxMin.y
-			&& pPlayer->obj.pos.y > pModel->obj.pos.y + vtxMin.y
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
-			)
-		{
-			byHit |= MODEL_HIT_BOTTOM;
-		}
+		//if (
+		//	pPlayer->posOld.y <= pModel->obj.pos.y + vtxMin.y
+		//	&& pPlayer->obj.pos.y > pModel->obj.pos.y + vtxMin.y
+		//	&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
+		//	&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
+		//	&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
+		//	&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
+		//	)
+		//{
+		//	byHit |= MODEL_HIT_BOTTOM;
+		//}
+
+		D3DXVECTOR3 vecLine = D3DXVECTOR3(
+
+		);
 
 		if (byHit & MODEL_HIT_LEFT)
 		{

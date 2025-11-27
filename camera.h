@@ -32,6 +32,7 @@ typedef struct
 	D3DXVECTOR3 posVDest;		// 視点
 	D3DXVECTOR3 posR;			// 注視点
 	D3DXVECTOR3 posRDest;		// 注視点
+	D3DXVECTOR3 posOffset;		
 	D3DXVECTOR3 vecU;			// 上方向へのベクトル
 	D3DXVECTOR3 rot;			// 向き
 	D3DXMATRIX mtxProjection;	// プロジェクションマトリックス

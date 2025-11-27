@@ -28,13 +28,14 @@ TEXTURE_FILENAME = data/TEXTURE/mountain000.png		# [9]山テクスチャ
 #------------------------------------------------------------------------------
 # 読み込むモデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 2
+NUM_MODEL = 3
 
 #------------------------------------------------------------------------------
 # 読み込むモデルファイル名
 #------------------------------------------------------------------------------
 MODEL_FILENAME = data/MODEL/Perfect_Animal2.x				# [0]柱
 MODEL_FILENAME = data/MODEL/Perfect_Animal.x				# [0]柱
+MODEL_FILENAME = data/MODEL/building00.x				# [0]柱
 
 #------------------------------------------------------------------------------
 # 空情報
@@ -292,6 +293,27 @@ END_MODELSET
 MODELSET
 	TYPE = 1			# 種類
 	POS = -100 0 40		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+
+
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = -300 0 100		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = -200 0 300		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = -250 0 400		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
 

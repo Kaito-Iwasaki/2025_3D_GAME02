@@ -131,7 +131,7 @@ void UpdateGame(void)
 		g_bIsPaused ^= 1;
 	}
 
-	PrintDebugProc("ポーズ : %d", g_bIsPaused);
+	PrintDebugProc("ポーズ : %d\n", g_bIsPaused);
 
 	if (g_bIsPaused == false)
 	{
@@ -159,7 +159,7 @@ void DrawGame(void)
 {
 	DrawField();
 	DrawMeshField();
-	//DrawWall();
+	DrawWall();
 	DrawPlayer();
 	DrawShadow();
 	DrawBillboard();

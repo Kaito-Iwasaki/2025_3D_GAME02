@@ -12,6 +12,8 @@
 //*********************************************************************
 #include "wall.h"
 #include "input.h"
+#include "DebugProc.h"
+#include "player.h"
 
 //*********************************************************************
 // 
@@ -66,7 +68,7 @@ void InitWall(void)
 	for (int i = 0; i < MAX_WALL; i++, pWall++)
 	{
 		pWall->obj.size = INIT_SIZE;
-		pWall->obj.rot.y = D3DX_PI * 0.5f * i;
+		pWall->obj.rot.y = D3DX_PI * 0.5f * (i);
 		pWall->obj.pos = D3DXVECTOR3(sinf(pWall->obj.rot.y), 0.0f, cosf(pWall->obj.rot.y)) * 200.0f;
 		pWall->obj.color = INIT_COLOR;
 		pWall->obj.bVisible = true;
@@ -164,6 +166,63 @@ void UninitWall(void)
 //=====================================================================
 void UpdateWall(void)
 {
+	WALL* pWall = &g_Wall[0];
+	PLAYER* pPlayer = GetPlayer();
+
+	for (int i = 0; i < MAX_WALL; i++, pWall++)
+	{
+		if (GetKeyboardPress(DIK_R))
+		{
+			pWall->obj.rot.y += 0.1f;
+		}
+		if (GetKeyboardPress(DIK_E))
+		{
+			pWall->obj.pos.x += 1.0f;
+		}
+
+		D3DXVECTOR3 vec0 = D3DXVECTOR3(
+			pWall->obj.pos.x - pWall->obj.size.x * cosf(pWall->obj.rot.y),
+			0,
+			pWall->obj.pos.z - pWall->obj.size.x * -sinf(pWall->obj.rot.y)
+		);
+		D3DXVECTOR3 vec1 = D3DXVECTOR3(
+			pWall->obj.pos.x + pWall->obj.size.x * cosf(pWall->obj.rot.y),
+			0,
+			pWall->obj.pos.z + pWall->obj.size.x * -sinf(pWall->obj.rot.y)
+		);
+		D3DXVECTOR3 vecLine = vec1 - vec0;
+		D3DXVECTOR3 vecToPos = pPlayer->obj.pos - vec0;
+		D3DXVECTOR3 vecToPosOld = pPlayer->posOld - vec0;
+
+		float cross0 = vecLine.x * vecToPos.z - vecLine.z * vecToPos.x;
+		float cross1 = vecLine.x * vecToPosOld.z - vecLine.z * vecToPosOld.x;
+
+		PrintDebugProc("vec0 : %f, %f, %f\n", vec0.x, vec0.y, vec0.z);
+		PrintDebugProc("vec1 : %f, %f, %f\n", vec1.x, vec1.y, vec1.z);
+		PrintDebugProc("cross: %f\n", cross0);
+
+		float rate = 0;
+
+		if (cross0 >= 0 && cross1 < 0 or cross0 < 0 && cross1 >= 0)
+		{
+			D3DXVECTOR3 vecMove = pPlayer->obj.pos - pPlayer->posOld;
+
+			float a = vecToPos.x * vecMove.z - vecToPos.z * vecMove.x;
+			float b = vecLine.x * vecMove.z - vecLine.z * vecMove.x;
+			rate = a / b;
+
+			if (rate >= 0 && rate <= 1.0f)
+			{
+				pPlayer->obj.pos = pPlayer->posOld;
+			}
+
+		}
+
+		PrintDebugProc("rate: %f\n", rate);
+
+
+	}
+
 
 }
 
