@@ -22,8 +22,8 @@
 #define INIT_POS			D3DXVECTOR3(0.0f, 150.0f, 0.0f)
 #define INIT_SIZE			D3DXVECTOR3(100.0f, 100.0f, 100.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
-#define NUM_BLOCK_X			(4)
-#define NUM_BLOCK_Y			(4)
+#define NUM_BLOCK_X			(32)
+#define NUM_BLOCK_Y			(32)
 
 //*********************************************************************
 // 
@@ -166,9 +166,9 @@ void DrawSphere(void)
 				D3DPT_TRIANGLEFAN,
 				0,
 				0,
-				((NUM_BLOCK_Y - 1) * (NUM_BLOCK_X + 1) + 2),			// 用意した頂点数
+				pSphere->nMaxVtx,			// 用意した頂点数
 				0,
-				3
+				pSphere->nSegmentX
 			);
 
 			// ポリゴンの描画
@@ -176,9 +176,9 @@ void DrawSphere(void)
 				D3DPT_TRIANGLESTRIP,
 				0,
 				0,
-				10,			// 用意した頂点数
-				5,
-				6
+				pSphere->nMaxVtx,			// 用意した頂点数
+				pSphere->nSegmentX + 1,
+				pSphere->nMaxIdx - (pSphere->nSegmentX + 1) * 2 - 3
 			);
 
 			// ポリゴンの描画
@@ -186,9 +186,9 @@ void DrawSphere(void)
 				D3DPT_TRIANGLEFAN,
 				0,
 				0,
-				10,			// 用意した頂点数
-				13,
-				3
+				pSphere->nMaxVtx,			// 用意した頂点数
+				(pSphere->nMaxIdx - 1) - (pSphere->nSegmentX + 1),
+				pSphere->nSegmentX
 			);
 		}
 	}
@@ -212,6 +212,8 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		pSphere->nTexId = nTexId;
 		pSphere->nSegmentX = nSegmentU;
 		pSphere->nSegmentZ = nSegmentV;
+		pSphere->nMaxVtx = ((nSegmentV - 1) * (nSegmentU + 1) + 2);
+		pSphere->nMaxIdx = (1 + nSegmentU + 1) * 2 + 2 * (nSegmentU + 1) * (nSegmentV - 2) + (nSegmentV - 3) * 2;
 
 		Clamp(&nSegmentU, 3, nSegmentU);
 		Clamp(&nSegmentV, 2, nSegmentV);
@@ -225,12 +227,10 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 			);
 		}
 
-		int nMaxVtx = ((NUM_BLOCK_Y - 1) * (NUM_BLOCK_X + 1) + 2);
-
 		// 頂点バッファの生成
 		// スフィアの頂点数＝（縦の分割数－１）×（横の分割数＋１）＋上下の２頂点
 		pDevice->CreateVertexBuffer(
-			sizeof(VERTEX_3D) * nMaxVtx,
+			sizeof(VERTEX_3D) * pSphere->nMaxVtx,
 			D3DUSAGE_WRITEONLY,
 			FVF_VERTEX_3D,
 			D3DPOOL_MANAGED,
@@ -263,7 +263,11 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 				}
 				else
 				{
-					pVtx->pos = D3DXVECTOR3(sinf(fAngleU) * 50.0f, cosf(fAngleV) * 50.0f, cosf(fAngleU) * 50.0f);
+					pVtx->pos = D3DXVECTOR3(
+						sinf(fAngleU) * pSphere->obj.size.x / 2 * sinf(fAngleV),
+						cosf(fAngleV) * pSphere->obj.size.y / 2,
+						cosf(fAngleU) * pSphere->obj.size.z / 2 * sinf(fAngleV)
+					);
 					pVtx->tex = D3DXVECTOR2((float)nCntVtxU / (float)nSegmentU, (float)nCntVtxV / (float)nSegmentV);
 				}
 
@@ -285,13 +289,11 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 
 		WORD* pIdx;		// インデックス情報へのポインタ
 
-		int nSize = (1 + nSegmentU + 1) * 2 + 2 * (nSegmentU + 1) * (nSegmentV - 2) + (nSegmentV - 3) * 2;
-
 		// インデックスバッファの生成
 		// （インデックスバッファのサイズは、メッシュでのポリゴン描画に必要な分用意する）
 		// 
 		pDevice->CreateIndexBuffer(
-			sizeof(WORD) * nSize,
+			sizeof(WORD) * pSphere->nMaxIdx,
 			D3DUSAGE_WRITEONLY,
 			D3DFMT_INDEX16,
 			D3DPOOL_MANAGED,
@@ -301,6 +303,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 
 		// インデックスバッファをロックし、頂点番号データへのポインタを取得
 		pSphere->pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
+
 
 		for (int nCntIdxV = 0; nCntIdxV < nSegmentV; nCntIdxV++)
 		{
@@ -321,12 +324,12 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 				}
 				else if (nCntIdxV == nSegmentV - 1)
 				{
-					*pIdx = nMaxVtx - 1;
+					*pIdx = pSphere->nMaxVtx - 1;
 					pIdx++;
 
 					for (int nCount = 0; nCount < nSegmentU + 1; nCount++)
 					{
-						*pIdx = (nMaxVtx) - (nSegmentU + 1) + nCount;
+						*pIdx = (pSphere->nMaxVtx - 1) - (nCount + 1);
 						pIdx++;
 					}
 

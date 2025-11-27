@@ -197,7 +197,7 @@ void UpdateWall(void)
 		float cross0 = vecLine.x * vecToPos.z - vecLine.z * vecToPos.x;
 		float cross1 = vecLine.x * vecToPosOld.z - vecLine.z * vecToPosOld.x;
 
-		PrintDebugProc("vec0 : %f, %f, %f\n", vec0.x, vec0.y, vec0.z);
+		PrintDebugProc("vec0 : %.1f, %f, %f\n", vec0.x, vec0.y, vec0.z);
 		PrintDebugProc("vec1 : %f, %f, %f\n", vec1.x, vec1.y, vec1.z);
 		PrintDebugProc("cross: %f\n", cross0);
 

@@ -38,6 +38,8 @@ typedef struct
 	int nSegmentX;
 	int nSegmentZ;
 	bool bUsed;
+	int nMaxVtx;
+	int nMaxIdx;
 }SPHERE;
 
 //*********************************************************************
