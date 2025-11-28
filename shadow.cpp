@@ -62,7 +62,7 @@ void InitShadow(void)
 	SHADOW* pShadow = &g_aShadow[0];
 
 	// ç\ë¢ëÃÇÃèâä˙âª
-	//memset(pShadow, 0, sizeof(pShadow));
+	memset(pShadow, 0, sizeof(SHADOW) * MAX_SHADOW);
 	for (int i = 0; i < MAX_SHADOW; i++, pShadow++)
 	{
 		pShadow->obj.pos = INIT_POS;

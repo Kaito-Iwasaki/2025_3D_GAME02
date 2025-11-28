@@ -51,9 +51,7 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffMeshField = NULL;
 LPDIRECT3DTEXTURE9 g_pTexBuffMeshField = NULL;
-LPDIRECT3DINDEXBUFFER9 g_pIdxBuffMeshField = NULL;
 MESHFIELD g_aMeshField[MAX_MESHFIELD];
 
 //=====================================================================
@@ -64,7 +62,16 @@ void InitMeshField(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	MESHFIELD* pMeshField = &g_aMeshField[0];
 	
-	ZeroMemory(pMeshField, sizeof(pMeshField));
+	ZeroMemory(pMeshField, sizeof(MESHFIELD));
+
+	if (TEXTURE_FILENAME)
+	{// テクスチャの読み込み
+		D3DXCreateTextureFromFile(
+			pDevice,
+			TEXTURE_FILENAME,
+			&g_pTexBuffMeshField
+		);
+	}
 
 	SetMeshField(0, D3DXVECTOR3_ZERO, INIT_SIZE, NUM_BLOCK_X, NUM_BLOCK_Z);
 }
@@ -119,7 +126,7 @@ void DrawMeshField(void)
 	{
 		if (pMeshField->bUsed == false) continue; // 使用中でないならパス
 
-			// ワールドマトリックスの初期化
+		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&pMeshField->mtxWorld);
 
 		// 向きを反映
@@ -173,10 +180,11 @@ void DrawMeshField(void)
 			);
 		}
 	}
-
-
 }
 
+//=====================================================================
+// メッシュフィールドの設定処理
+//=====================================================================
 void SetMeshField(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, int nSegmentZ)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
@@ -195,15 +203,6 @@ void SetMeshField(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, 
 		pMeshField->nTexId = nTexId;
 		pMeshField->nSegmentX = nSegmentX;
 		pMeshField->nSegmentZ = nSegmentZ;
-
-		if (TEXTURE_FILENAME)
-		{// テクスチャの読み込み
-			D3DXCreateTextureFromFile(
-				pDevice,
-				TEXTURE_FILENAME,
-				&g_pTexBuffMeshField
-			);
-		}
 
 		// 頂点バッファの生成
 		pDevice->CreateVertexBuffer(
@@ -227,7 +226,11 @@ void SetMeshField(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, 
 		{
 			for (int nCntVtxX = 0; nCntVtxX < nSegmentX + 1; nCntVtxX++)
 			{
-				pVtx->pos = D3DXVECTOR3(vecOrigin.x + vecOffset.x * nCntVtxX, 0.0f, vecOrigin.z + vecOffset.z * nCntVtxZ);
+				pVtx->pos = D3DXVECTOR3(
+					vecOrigin.x + vecOffset.x * nCntVtxX,
+					pMeshField->obj.pos.y, 
+					vecOrigin.z + vecOffset.z * nCntVtxZ
+				);
 				pVtx->nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 				pVtx->col = pMeshField->obj.color;
 				pVtx->tex = D3DXVECTOR2(1.0f / nSegmentX * nCntVtxX, 1.0f / nSegmentZ * nCntVtxZ);
@@ -244,7 +247,7 @@ void SetMeshField(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentX, 
 		// （インデックスバッファのサイズは、メッシュでのポリゴン描画に必要な分用意する）
 		// （最低頂点数４＋２頂点×横の分割数×縦の分割数－最終行の重複している頂点数）
 		pDevice->CreateIndexBuffer(
-			sizeof(WORD) * ((4 + 2 * nSegmentX) * nSegmentZ) - 2,
+			sizeof(WORD) * (((4 + 2 * nSegmentX) * nSegmentZ) - 2),
 			D3DUSAGE_WRITEONLY,
 			D3DFMT_INDEX16,
 			D3DPOOL_MANAGED,

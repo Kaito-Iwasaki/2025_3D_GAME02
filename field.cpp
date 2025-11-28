@@ -18,10 +18,12 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define TEXTURE_FILENAME	"data\\TEXTURE\\field000.jpg"
-#define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 900.0f)
-#define INIT_SIZE			D3DXVECTOR3(200.0f, 0.0f, 2000.0f)
-#define INIT_COLOR			D3DXCOLOR_WHITE
+#define TEXTURE_FILENAME		"data\\TEXTURE\\field000.jpg"
+#define INIT_POS				D3DXVECTOR3(0.0f, 0.0f, 900.0f)
+#define INIT_SIZE				D3DXVECTOR3(200.0f, 0.0f, 2000.0f)
+#define INIT_COLOR				D3DXCOLOR_WHITE
+#define INIT_TEXTURE_SIZE_X		(50.0f)
+#define INIT_TEXTURE_SIZE_Y		(50.0f)
 
 //*********************************************************************
 // 
@@ -109,9 +111,9 @@ void InitField(void)
 	pVtx[3].col = D3DXCOLOR_WHITE;
 
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2((g_Field.obj.size.x / 100.0f), 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, (g_Field.obj.size.z / 100.0f));
-	pVtx[3].tex = D3DXVECTOR2((g_Field.obj.size.x / 100.0f), (g_Field.obj.size.z / 100.0f));
+	pVtx[1].tex = D3DXVECTOR2((g_Field.obj.size.x / INIT_TEXTURE_SIZE_X), 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, (g_Field.obj.size.z / INIT_TEXTURE_SIZE_Y));
+	pVtx[3].tex = D3DXVECTOR2((g_Field.obj.size.x / INIT_TEXTURE_SIZE_X), (g_Field.obj.size.z / INIT_TEXTURE_SIZE_Y));
 
 	// 頂点バッファをアンロック
 	g_pVtxBuffField->Unlock();

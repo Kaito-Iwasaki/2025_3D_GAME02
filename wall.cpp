@@ -64,7 +64,7 @@ void InitWall(void)
 	WALL* pWall = &g_Wall[0];
 
 	// 構造体の初期化
-	memset(&g_Wall, 0, sizeof(WALL) * MAX_WALL);
+	memset(&g_Wall[0], 0, sizeof(WALL) * MAX_WALL);
 	for (int i = 0; i < MAX_WALL; i++, pWall++)
 	{
 		pWall->obj.size = INIT_SIZE;
@@ -169,7 +169,7 @@ void UpdateWall(void)
 	WALL* pWall = &g_Wall[0];
 	PLAYER* pPlayer = GetPlayer();
 
-	for (int i = 0; i < MAX_WALL; i++, pWall++)
+	//for (int i = 0; i < MAX_WALL; i++, pWall++)
 	{
 		if (GetKeyboardPress(DIK_R))
 		{
@@ -190,40 +190,44 @@ void UpdateWall(void)
 			0,
 			pWall->obj.pos.z + pWall->obj.size.x * -sinf(pWall->obj.rot.y)
 		);
-		D3DXVECTOR3 vecLine = vec1 - vec0;
-		D3DXVECTOR3 vecToPos = pPlayer->obj.pos - vec0;
-		D3DXVECTOR3 vecToPosOld = pPlayer->posOld - vec0;
 
-		float cross0 = vecLine.x * vecToPos.z - vecLine.z * vecToPos.x;
-		float cross1 = vecLine.x * vecToPosOld.z - vecLine.z * vecToPosOld.x;
+		D3DXVECTOR3 vecLineWall = vec1 - vec0;				// 壁の境界線ベクトル
+		D3DXVECTOR3 vecToPos = pPlayer->obj.pos - vec0;		// 壁の始まりからプレイヤー位置までのベクトル
+		D3DXVECTOR3 vecToPosOld = pPlayer->posOld - vec0;	// 壁の始まりから前回のプレイヤー位置までのベクトル
+		D3DXVECTOR3 vecMove = pPlayer->obj.pos - pPlayer->posOld;	// プレイヤーの移動ベクトル
+		D3DXVECTOR3 vecNor = Normalize(D3DXVECTOR3(vecLineWall.y, 0.0f, -vecLineWall.x));	// 法線ベクトル
 
-		PrintDebugProc("vec0 : %.1f, %f, %f\n", vec0.x, vec0.y, vec0.z);
-		PrintDebugProc("vec1 : %f, %f, %f\n", vec1.x, vec1.y, vec1.z);
-		PrintDebugProc("cross: %f\n", cross0);
+		PrintDebugProc("Pos : %f, %f, %f\n", pPlayer->obj.pos.x, pPlayer->obj.pos.y, pPlayer->obj.pos.z);
 
-		float rate = 0;
+		PrintDebugProc("vecLineWall : %f, %f, %f\n", vecLineWall.x, vecLineWall.y, vecLineWall.z);
+		PrintDebugProc("vecToPos : %f, %f, %f\n", vecToPos.x, vecToPos.y, vecToPos.z);
+		PrintDebugProc("vecToPosOld : %f, %f, %f\n", vecToPosOld.x, vecToPosOld.y, vecToPosOld.z);
+		PrintDebugProc("isEqual? : %d, %d, %d\n\n", vecToPos.x == vecToPosOld.x, vecToPos.y == vecToPosOld.y, vecToPos.z == vecToPosOld.z);
 
-		if (cross0 >= 0 && cross1 < 0 or cross0 < 0 && cross1 >= 0)
+		D3DXVECTOR3 vecCross0 = CrossProduct(vecLineWall, vecToPos);
+		PrintDebugProc("vecCross0 : %f, %f, %f\n", vecCross0.x, vecCross0.y, vecCross0.z);
+
+		D3DXVECTOR3	a = CrossProduct(vecToPos, vecMove);
+		D3DXVECTOR3	b = CrossProduct(vecLineWall, vecMove);
+		float fRate = a.y / b.y;
+
+		PrintDebugProc("rate : %f\n", fRate);
+
+		D3DXVECTOR3 vecHit = vec0 + D3DXVECTOR3(vecLineWall.x * fRate, pPlayer->obj.pos.y, vecLineWall.z * fRate);
+		D3DXVECTOR3 vecToHit = vecHit - pPlayer->obj.pos;
+		D3DXVECTOR3 vecOver = pPlayer->obj.pos - vecHit;
+		float fMagnitudeOver = Magnitude(vecOver);
+
+
+		//float fDot = -vecMove.x * vecNor.x + -vecMove.z * vecNor.z;
+
+		if (vecCross0.y > 0 && fRate >= 0.0f && fRate <= 1.0f)
 		{
-			D3DXVECTOR3 vecMove = pPlayer->obj.pos - pPlayer->posOld;
-
-			float a = vecToPos.x * vecMove.z - vecToPos.z * vecMove.x;
-			float b = vecLine.x * vecMove.z - vecLine.z * vecMove.x;
-			rate = a / b;
-
-			if (rate >= 0 && rate <= 1.0f)
-			{
-				pPlayer->obj.pos = pPlayer->posOld;
-			}
-
+			pPlayer->obj.pos -= vecOver;
+			PrintDebugProc("vecHit : %f, %f, %f\n", vecHit.x, vecHit.y, vecHit.z);
+			PrintDebugProc("vecOver : %f, %f, %f\n", vecOver.x, vecOver.y, vecOver.z);
 		}
-
-		PrintDebugProc("rate: %f\n", rate);
-
-
 	}
-
-
 }
 
 //=====================================================================

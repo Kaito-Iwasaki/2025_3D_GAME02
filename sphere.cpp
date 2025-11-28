@@ -18,12 +18,12 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define TEXTURE_FILENAME	"data\\TEXTURE\\sakai000.png"
-#define INIT_POS			D3DXVECTOR3(0.0f, 150.0f, 0.0f)
-#define INIT_SIZE			D3DXVECTOR3(100.0f, 100.0f, 100.0f)
+#define TEXTURE_FILENAME	"data\\TEXTURE\\peach000.jpg"
+#define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
+#define INIT_SIZE			D3DXVECTOR3(10000.0f, 1000.0f, 10000.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
-#define NUM_BLOCK_X			(32)
-#define NUM_BLOCK_Y			(32)
+#define NUM_BLOCK_X			(8)
+#define NUM_BLOCK_Y			(8)
 
 //*********************************************************************
 // 
@@ -64,7 +64,7 @@ void InitSphere(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	SPHERE* pSphere = &g_aSphere[0];
 
-	ZeroMemory(pSphere, sizeof(pSphere));
+	ZeroMemory(pSphere, sizeof(SPHERE));
 
 	SetSphere(0, INIT_POS, INIT_SIZE, NUM_BLOCK_X, NUM_BLOCK_Y);
 }
@@ -216,7 +216,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 		pSphere->nMaxIdx = (1 + nSegmentU + 1) * 2 + 2 * (nSegmentU + 1) * (nSegmentV - 2) + (nSegmentV - 3) * 2;
 
 		Clamp(&nSegmentU, 3, nSegmentU);
-		Clamp(&nSegmentV, 2, nSegmentV);
+		Clamp(&nSegmentV, 3, nSegmentV);
 
 		if (TEXTURE_FILENAME)
 		{// テクスチャの読み込み
@@ -249,7 +249,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 
 			for (int nCntVtxU = 0; nCntVtxU < nSegmentU + 1; nCntVtxU++)
 			{
-				float fAngleU = (D3DX_PI * 2.0f) / nSegmentU * nCntVtxU;
+				float fAngleU = (-D3DX_PI * 2.0f) / nSegmentU * nCntVtxU;
 
 				if (nCntVtxV == 0)
 				{
@@ -269,6 +269,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 						cosf(fAngleU) * pSphere->obj.size.z / 2 * sinf(fAngleV)
 					);
 					pVtx->tex = D3DXVECTOR2((float)nCntVtxU / (float)nSegmentU, (float)nCntVtxV / (float)nSegmentV);
+					pVtx->tex = D3DXVECTOR2((float)nCntVtxU, (float)nCntVtxV);
 				}
 
 				pVtx->nor = Normalize(pVtx->pos);

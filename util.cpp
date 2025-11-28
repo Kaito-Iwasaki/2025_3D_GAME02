@@ -87,9 +87,26 @@ float Lerpf(float a, float b, float t)
 //=====================================================================
 // ベクトルの内積
 //=====================================================================
-float Dot(D3DXVECTOR2 vectorA, D3DXVECTOR2 vectorB)
+float DotProduct(D3DXVECTOR2 vectorA, D3DXVECTOR2 vectorB)
 {
 	return vectorA.x * vectorB.x + vectorA.y * vectorB.y;
+}
+
+float DotProduct(D3DXVECTOR3 vectorA, D3DXVECTOR3 vectorB)
+{
+	return vectorA.x * vectorB.x + vectorA.y * vectorB.y;
+}
+
+//=====================================================================
+// ベクトルの外積
+//=====================================================================
+D3DXVECTOR3 CrossProduct(D3DXVECTOR3 vectorA, D3DXVECTOR3 vectorB)
+{
+	return D3DXVECTOR3(
+		vectorA.y * vectorB.z - vectorA.z * vectorB.y,
+		vectorA.x * vectorB.z - vectorA.z * vectorB.x,
+		vectorA.y * vectorB.x - vectorA.x * vectorB.y
+	);
 }
 
 //=====================================================================

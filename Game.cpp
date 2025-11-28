@@ -26,6 +26,7 @@
 #include "cylinder.h"
 #include "sphere.h"
 #include "DebugProc.h"
+#include "fade.h"
 
 //*********************************************************************
 // 
@@ -78,7 +79,7 @@ void InitGame(void)
 	InitExplosion();
 	InitEffect();
 	InitModel();
-	InitCylinder();
+	//InitCylinder();
 	InitSphere();
 	InitDebugProc();
 
@@ -116,7 +117,7 @@ void UninitGame(void)
 	UninitExplosion();
 	UninitEffect();
 	UninitModel();
-	UninitCylinder();
+	//UninitCylinder();
 	UninitSphere();
 	UninitDebugProc();
 }
@@ -126,6 +127,11 @@ void UninitGame(void)
 //=====================================================================
 void UpdateGame(void)
 {
+	if (GetKeyboardTrigger(DIK_DELETE))
+	{
+		SetFade(SCENE_GAME);
+	}
+
 	if (GetKeyboardTrigger(DIK_P))
 	{
 		g_bIsPaused ^= 1;
@@ -137,15 +143,15 @@ void UpdateGame(void)
 	{
 		UpdateField();
 		UpdateMeshField();
-		UpdateWall();
 		UpdatePlayer();
+		UpdateWall();
 		UpdateShadow();
 		UpdateBillboard();
 		UpdateBullet();
 		UpdateExplosion();
 		UpdateEffect();
 		UpdateModel();
-		UpdateCylinder();
+		//UpdateCylinder();
 		UpdateSphere();
 	}
 
