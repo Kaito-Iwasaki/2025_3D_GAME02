@@ -94,7 +94,7 @@ float DotProduct(D3DXVECTOR2 vectorA, D3DXVECTOR2 vectorB)
 
 float DotProduct(D3DXVECTOR3 vectorA, D3DXVECTOR3 vectorB)
 {
-	return vectorA.x * vectorB.x + vectorA.y * vectorB.y;
+	return vectorA.x * vectorB.x + vectorA.y * vectorB.y + vectorA.z * vectorB.z;
 }
 
 //=====================================================================

@@ -19,6 +19,7 @@
 #include "bullet.h"
 #include "sound.h"
 #include "DebugProc.h"
+#include "wall.h"
 
 //*********************************************************************
 // 
@@ -217,6 +218,8 @@ void UpdatePlayer(void)
 
 	g_player.move.y -= 0.6f;
 	Clampf(&g_player.obj.pos.y, 0.0f, g_player.obj.pos.y);
+
+	CollisionWall(g_player.obj.pos, g_player.posOld);
 
 	SetShadowPosition(g_player.nIdxShadow, D3DXVECTOR3(g_player.obj.pos.x, 0.01f, g_player.obj.pos.z));
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(10.0f, 0.01f, 10.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.03f, 0.0f, g_player.obj.pos.y * 0.03f));

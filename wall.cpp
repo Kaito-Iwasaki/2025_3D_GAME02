@@ -166,68 +166,7 @@ void UninitWall(void)
 //=====================================================================
 void UpdateWall(void)
 {
-	WALL* pWall = &g_Wall[0];
-	PLAYER* pPlayer = GetPlayer();
 
-	//for (int i = 0; i < MAX_WALL; i++, pWall++)
-	{
-		if (GetKeyboardPress(DIK_R))
-		{
-			pWall->obj.rot.y += 0.1f;
-		}
-		if (GetKeyboardPress(DIK_E))
-		{
-			pWall->obj.pos.x += 1.0f;
-		}
-
-		D3DXVECTOR3 vec0 = D3DXVECTOR3(
-			pWall->obj.pos.x - pWall->obj.size.x * cosf(pWall->obj.rot.y),
-			0,
-			pWall->obj.pos.z - pWall->obj.size.x * -sinf(pWall->obj.rot.y)
-		);
-		D3DXVECTOR3 vec1 = D3DXVECTOR3(
-			pWall->obj.pos.x + pWall->obj.size.x * cosf(pWall->obj.rot.y),
-			0,
-			pWall->obj.pos.z + pWall->obj.size.x * -sinf(pWall->obj.rot.y)
-		);
-
-		D3DXVECTOR3 vecLineWall = vec1 - vec0;				// 壁の境界線ベクトル
-		D3DXVECTOR3 vecToPos = pPlayer->obj.pos - vec0;		// 壁の始まりからプレイヤー位置までのベクトル
-		D3DXVECTOR3 vecToPosOld = pPlayer->posOld - vec0;	// 壁の始まりから前回のプレイヤー位置までのベクトル
-		D3DXVECTOR3 vecMove = pPlayer->obj.pos - pPlayer->posOld;	// プレイヤーの移動ベクトル
-		D3DXVECTOR3 vecNor = Normalize(D3DXVECTOR3(vecLineWall.y, 0.0f, -vecLineWall.x));	// 法線ベクトル
-
-		PrintDebugProc("Pos : %f, %f, %f\n", pPlayer->obj.pos.x, pPlayer->obj.pos.y, pPlayer->obj.pos.z);
-
-		PrintDebugProc("vecLineWall : %f, %f, %f\n", vecLineWall.x, vecLineWall.y, vecLineWall.z);
-		PrintDebugProc("vecToPos : %f, %f, %f\n", vecToPos.x, vecToPos.y, vecToPos.z);
-		PrintDebugProc("vecToPosOld : %f, %f, %f\n", vecToPosOld.x, vecToPosOld.y, vecToPosOld.z);
-		PrintDebugProc("isEqual? : %d, %d, %d\n\n", vecToPos.x == vecToPosOld.x, vecToPos.y == vecToPosOld.y, vecToPos.z == vecToPosOld.z);
-
-		D3DXVECTOR3 vecCross0 = CrossProduct(vecLineWall, vecToPos);
-		PrintDebugProc("vecCross0 : %f, %f, %f\n", vecCross0.x, vecCross0.y, vecCross0.z);
-
-		D3DXVECTOR3	a = CrossProduct(vecToPos, vecMove);
-		D3DXVECTOR3	b = CrossProduct(vecLineWall, vecMove);
-		float fRate = a.y / b.y;
-
-		PrintDebugProc("rate : %f\n", fRate);
-
-		D3DXVECTOR3 vecHit = vec0 + D3DXVECTOR3(vecLineWall.x * fRate, pPlayer->obj.pos.y, vecLineWall.z * fRate);
-		D3DXVECTOR3 vecToHit = vecHit - pPlayer->obj.pos;
-		D3DXVECTOR3 vecOver = pPlayer->obj.pos - vecHit;
-		float fMagnitudeOver = Magnitude(vecOver);
-
-
-		//float fDot = -vecMove.x * vecNor.x + -vecMove.z * vecNor.z;
-
-		if (vecCross0.y > 0 && fRate >= 0.0f && fRate <= 1.0f)
-		{
-			pPlayer->obj.pos -= vecOver;
-			PrintDebugProc("vecHit : %f, %f, %f\n", vecHit.x, vecHit.y, vecHit.z);
-			PrintDebugProc("vecOver : %f, %f, %f\n", vecOver.x, vecOver.y, vecOver.z);
-		}
-	}
 }
 
 //=====================================================================
@@ -284,4 +223,87 @@ void DrawWall(void)
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, i * 4, 2);
 		}
 	}
+}
+
+bool CollisionWall(D3DXVECTOR3 pos, D3DXVECTOR3 posOld)
+{
+	WALL* pWall = &g_Wall[0];
+	PLAYER* pPlayer = GetPlayer();
+
+	for (int i = 0; i < MAX_WALL; i++, pWall++)
+	{
+		if (GetKeyboardPress(DIK_R))
+		{
+			pWall->obj.rot.y += 0.1f;
+		}
+		if (GetKeyboardPress(DIK_E))
+		{
+			pWall->obj.pos.x += 1.0f;
+		}
+
+		D3DXVECTOR3 vec0 = D3DXVECTOR3(
+			pWall->obj.pos.x - pWall->obj.size.x * cosf(pWall->obj.rot.y),
+			0,
+			pWall->obj.pos.z - pWall->obj.size.x * -sinf(pWall->obj.rot.y)
+		);
+		D3DXVECTOR3 vec1 = D3DXVECTOR3(
+			pWall->obj.pos.x + pWall->obj.size.x * cosf(pWall->obj.rot.y),
+			0,
+			pWall->obj.pos.z + pWall->obj.size.x * -sinf(pWall->obj.rot.y)
+		);
+
+		D3DXVECTOR3 vecLineWall = vec1 - vec0;				// 壁の境界線ベクトル
+		D3DXVECTOR3 vecToPos = pPlayer->obj.pos - vec0;		// 壁の始まりからプレイヤー位置までのベクトル
+		D3DXVECTOR3 vecToPosOld = pPlayer->posOld - vec0;	// 壁の始まりから前回のプレイヤー位置までのベクトル
+		D3DXVECTOR3 vecMove = pPlayer->obj.pos - pPlayer->posOld;	// プレイヤーの移動ベクトル
+		D3DXVECTOR3 vecNor = Normalize(D3DXVECTOR3(vecLineWall.z, 0.0f, -vecLineWall.x));	// 法線ベクトル
+
+		//PrintDebugProc("Pos : %f, %f, %f\n", pPlayer->obj.pos.x, pPlayer->obj.pos.y, pPlayer->obj.pos.z);
+
+		//PrintDebugProc("vecLineWall : %f, %f, %f\n", vecLineWall.x, vecLineWall.y, vecLineWall.z);
+		//PrintDebugProc("vecToPos : %f, %f, %f\n", vecToPos.x, vecToPos.y, vecToPos.z);
+		//PrintDebugProc("vecToPosOld : %f, %f, %f\n", vecToPosOld.x, vecToPosOld.y, vecToPosOld.z);
+		//PrintDebugProc("isEqual? : %d, %d, %d\n\n", vecToPos.x == vecToPosOld.x, vecToPos.y == vecToPosOld.y, vecToPos.z == vecToPosOld.z);
+
+		D3DXVECTOR3 vecCross0 = CrossProduct(vecLineWall, vecToPos);
+		D3DXVECTOR3 vecCross1 = CrossProduct(vecLineWall, vecToPosOld);
+		//PrintDebugProc("vecCross0 : %f, %f, %f\n", vecCross0.x, vecCross0.y, vecCross0.z);
+
+		D3DXVECTOR3	a = CrossProduct(vecToPos, vecMove);
+		D3DXVECTOR3	b = CrossProduct(vecLineWall, vecMove);
+		float fRate = a.y / b.y;
+
+		//PrintDebugProc("rate : %f\n", fRate);
+
+		D3DXVECTOR3 vecHit = vec0 + D3DXVECTOR3(vecLineWall.x * fRate, pPlayer->obj.pos.y, vecLineWall.z * fRate);
+		D3DXVECTOR3 vecToHit = vecHit - pPlayer->obj.pos;
+		D3DXVECTOR3 vecOver = pPlayer->obj.pos - vecHit;
+		float fMagnitudeOver = Magnitude(vecOver);
+		float fDot = DotProduct(vecNor, Normalize(vecToHit));
+		float fAngle = asinf(fDot);
+		float x = sqrtf(Magnitude(vecToHit) - fDot);
+		D3DXVECTOR3	vecCorss2 = CrossProduct(vecNor, vecOver);
+
+		if (vecCross0.y >= 0 && vecCross1.y <= 0.1f && fRate >= 0.0f && fRate <= 1.0f && pPlayer->obj.pos.y < pWall->obj.pos.y + pWall->obj.size.y)
+		{
+
+			if (vecCorss2.y < 0)
+			{
+				pPlayer->obj.pos = vecHit + Normalize(-vecLineWall) * fMagnitudeOver * cosf(fAngle);
+			}
+			else
+			{
+				pPlayer->obj.pos = vecHit + Normalize(vecLineWall) * fMagnitudeOver * cosf(fAngle);
+			}
+			
+			//PrintDebugProc("vecHit : %f, %f, %f\n", vecHit.x, vecHit.y, vecHit.z);
+			//PrintDebugProc("vecOver : %f, %f, %f\n", vecOver.x, vecOver.y, vecOver.z);
+			//PrintDebugProc("Angle : %f\n", fAngle);
+			//PrintDebugProc("Dot : %f\n", fDot);
+
+			return true;
+		}
+	}
+
+	return false;
 }

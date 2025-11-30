@@ -50,5 +50,6 @@ void InitWall(void);
 void UninitWall(void);
 void UpdateWall(void);
 void DrawWall(void);
+bool CollisionWall(D3DXVECTOR3 pos, D3DXVECTOR3 posOld);
 
 #endif
