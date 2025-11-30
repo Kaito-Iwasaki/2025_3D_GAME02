@@ -260,7 +260,8 @@ bool CollisionWall(D3DXVECTOR3 pos, D3DXVECTOR3 posOld)
 
 		//PrintDebugProc("Pos : %f, %f, %f\n", pPlayer->obj.pos.x, pPlayer->obj.pos.y, pPlayer->obj.pos.z);
 
-		//PrintDebugProc("vecLineWall : %f, %f, %f\n", vecLineWall.x, vecLineWall.y, vecLineWall.z);
+		PrintDebugProc("vecLineWall : %f, %f, %f\n", vecLineWall.x, vecLineWall.y, vecLineWall.z);
+		PrintDebugProc("vecNor : %f, %f, %f\n", vecNor.x, vecNor.y, vecNor.z);
 		//PrintDebugProc("vecToPos : %f, %f, %f\n", vecToPos.x, vecToPos.y, vecToPos.z);
 		//PrintDebugProc("vecToPosOld : %f, %f, %f\n", vecToPosOld.x, vecToPosOld.y, vecToPosOld.z);
 		//PrintDebugProc("isEqual? : %d, %d, %d\n\n", vecToPos.x == vecToPosOld.x, vecToPos.y == vecToPosOld.y, vecToPos.z == vecToPosOld.z);
@@ -284,7 +285,7 @@ bool CollisionWall(D3DXVECTOR3 pos, D3DXVECTOR3 posOld)
 		float x = sqrtf(Magnitude(vecToHit) - fDot);
 		D3DXVECTOR3	vecCorss2 = CrossProduct(vecNor, vecOver);
 
-		if (vecCross0.y >= 0 && vecCross1.y <= 0.1f && fRate >= 0.0f && fRate <= 1.0f && pPlayer->obj.pos.y < pWall->obj.pos.y + pWall->obj.size.y)
+		if (vecCross0.y >= -0.1f && vecCross1.y <= 0.1f && fRate >= 0.0f && fRate <= 1.0f && pPlayer->obj.pos.y < pWall->obj.pos.y + pWall->obj.size.y)
 		{
 
 			if (vecCorss2.y < 0)
@@ -301,7 +302,6 @@ bool CollisionWall(D3DXVECTOR3 pos, D3DXVECTOR3 posOld)
 			//PrintDebugProc("Angle : %f\n", fAngle);
 			//PrintDebugProc("Dot : %f\n", fDot);
 
-			return true;
 		}
 	}
 

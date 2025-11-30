@@ -58,5 +58,7 @@ void UninitCamera(void);
 void UpdateCamera(void);
 void SetCamera(void);
 CAMERA* GetCamera(void);
+void SetCameraPosV(D3DXVECTOR3 pos);
+void SetCameraPosR(D3DXVECTOR3 pos);
 
 #endif

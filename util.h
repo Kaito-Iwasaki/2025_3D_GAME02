@@ -45,6 +45,7 @@ D3DXVECTOR3 CrossProduct(D3DXVECTOR3 vectorA, D3DXVECTOR3 vectorB);
 D3DXVECTOR3 Normalize(D3DXVECTOR3 vector);
 D3DXVECTOR3 Direction(D3DXVECTOR3 from, D3DXVECTOR3 to);
 D3DXVECTOR3 Direction(float fAngle);
+D3DXVECTOR3 GetRandomVector(void);
 float Angle(float fromX, float fromY, float toX, float toY);
 float GetFixedRotation(float fRot);
 float Magnitude(D3DXVECTOR3 vector);

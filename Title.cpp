@@ -13,6 +13,10 @@
 #include "Title.h"
 #include "input.h"
 #include "fade.h"
+#include "model.h"
+#include "camera.h"
+#include "light.h"
+#include "util.h"
 
 //*********************************************************************
 // 
@@ -54,7 +58,17 @@
 //=====================================================================
 void InitTitle(void)
 {
+	InitModel();
 
+	LoadModel("data\\MODEL\\Perfect_Animal.x", 0);
+
+	SetModel(0, D3DXVECTOR3_ZERO, D3DXVECTOR3_ZERO);
+
+	CAMERA* pCamera = GetCamera();
+	pCamera->rot = D3DXVECTOR3_ZERO;
+	pCamera->posOffset = D3DXVECTOR3_ZERO;
+	SetCameraPosV(D3DXVECTOR3(0, 0, -100));
+	SetCameraPosR(D3DXVECTOR3(0, 0, 0));
 }
 
 //=====================================================================
@@ -62,7 +76,7 @@ void InitTitle(void)
 //=====================================================================
 void UninitTitle(void)
 {
-
+	UninitModel();
 }
 
 //=====================================================================
@@ -74,6 +88,8 @@ void UpdateTitle(void)
 	{
 		SetFade(SCENE_GAME);
 	}
+
+	UpdateModel();
 }
 
 //=====================================================================
@@ -81,5 +97,5 @@ void UpdateTitle(void)
 //=====================================================================
 void DrawTitle(void)
 {
-
+	DrawModel();
 }

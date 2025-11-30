@@ -27,6 +27,7 @@
 #include "sphere.h"
 #include "DebugProc.h"
 #include "fade.h"
+#include "camera.h"
 
 //*********************************************************************
 // 
@@ -69,6 +70,7 @@ SCRIPTDATA g_data;
 //=====================================================================
 void InitGame(void)
 {
+	InitCamera();
 	InitField();
 	InitMeshField();
 	InitWall();
@@ -130,6 +132,10 @@ void UpdateGame(void)
 	if (GetKeyboardTrigger(DIK_DELETE))
 	{
 		SetFade(SCENE_GAME);
+	}
+	if (GetKeyboardTrigger(DIK_F2))
+	{
+		SetFade(SCENE_TITLE);
 	}
 
 	if (GetKeyboardTrigger(DIK_P))

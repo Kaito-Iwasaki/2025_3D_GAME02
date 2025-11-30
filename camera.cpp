@@ -62,9 +62,6 @@ void InitCamera(void)
 	g_camera.rot = D3DXVECTOR3(0.0f, D3DXToRadian(-45), 0.0f);
 	g_camera.posOffset = D3DXVECTOR3(0, 50, 200);
 
-	//g_camera.fDistance = 300.0f;
-	//g_camera.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
 	g_camera.nCounterState = 0;
 
 }
@@ -165,4 +162,16 @@ void SetCamera(void)
 CAMERA* GetCamera(void)
 {
 	return &g_camera;
+}
+
+void SetCameraPosV(D3DXVECTOR3 pos)
+{
+	g_camera.posV = pos;
+	g_camera.posVDest = pos;
+}
+
+void SetCameraPosR(D3DXVECTOR3 pos)
+{
+	g_camera.posR = pos;
+	g_camera.posRDest = pos;
 }

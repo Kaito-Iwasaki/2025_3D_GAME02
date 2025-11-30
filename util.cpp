@@ -143,6 +143,21 @@ D3DXVECTOR3 Direction(float fAngle)
 }
 
 //=====================================================================
+// ランダムな方向のベクトルを生成
+//=====================================================================
+D3DXVECTOR3 GetRandomVector(void)
+{
+	float fTheta = RandRange(0, 627) * 0.01f;
+	float fPhi = RandRange(0, 627) * 0.01f;;
+
+	return D3DXVECTOR3(
+		sin(fPhi) * sin(fTheta),
+		cos(fTheta),
+		cosf(fPhi) * sin(fTheta)
+	);
+}
+
+//=====================================================================
 // ベクトルの大きさ（距離）を求める処理
 //=====================================================================
 float Magnitude(D3DXVECTOR3 vector)
