@@ -15,8 +15,6 @@
 #include "input.h"
 #include "sound.h"
 #include "scene.h"
-#include "camera.h"
-#include "light.h"
 
 //*********************************************************************
 // 
@@ -347,10 +345,6 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 	// サウンドの初期化処理
 	InitSound(hWnd);
 
-	InitCamera();
-
-	InitLight();
-
 	// シーンの初期化処理
 	InitScene();
 
@@ -364,10 +358,6 @@ void Uninit(void)
 {
 	// シーンの終了処理
 	UninitScene();
-
-	UninitLight();
-
-	UninitCamera();
 
 	// サウンドの終了処理
 	UninitSound();
@@ -417,10 +407,6 @@ void Update(void)
 	// ジョイパッドの更新処理
 	UpdateJoypad();
 
-	UpdateCamera();
-
-	UpdateLight();
-
 	// シーンの更新処理
 	UpdateScene();
 }
@@ -440,8 +426,6 @@ void Draw(void)
 	// 描画開始
 	if (SUCCEEDED(g_pD3DDevice->BeginScene()))
 	{// オブジェクトの描画
-		SetCamera();
-		
 		// シーンを描画
 		DrawScene();
 

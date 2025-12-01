@@ -1,11 +1,11 @@
 //=====================================================================
 //
-// model.cppのヘッダファイル [model.h]
+// Line.cppのヘッダファイル [Line.h]
 // Author : 
 // 
 //=====================================================================
-#ifndef _MODEL_H_
-#define _MODEL_H_
+#ifndef _Line_H_
+#define _Line_H_
 
 //*********************************************************************
 // 
@@ -13,15 +13,13 @@
 // 
 //*********************************************************************
 #include "main.h"
-#include "baseObject.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_TEXTURE_PER_MODEL		(32)
-#define MAX_MODEL					(1024)
+#define MAX_LINE		(512)
 
 //*********************************************************************
 // 
@@ -30,31 +28,11 @@
 //*********************************************************************
 typedef struct
 {
-	BASEOBJECT obj;
-	D3DXMATRIX mtxWorld;
-	int nType;
+	D3DXVECTOR3 vecStart;
+	D3DXVECTOR3 vecEnd;
+	D3DXCOLOR col;
 	bool bUsed;
-}MODEL;
-
-typedef struct
-{
-	LPDIRECT3DTEXTURE9 apTexture[MAX_TEXTURE_PER_MODEL];	// テクスチャへのポインタ
-	LPD3DXMESH pMesh;										// メッシュ情報へのポインタ
-	LPD3DXBUFFER pBuffMat;									// マテリアルへのポインタ
-	DWORD dwNumMat;											// マテリアル数
-	int nIdxModelParent;									// 親モデルのインデックス
-	BASEOBJECT obj;
-	D3DXMATRIX mtxWorld;
-}PART;
-
-typedef struct
-{
-	LPDIRECT3DTEXTURE9 apTexture[MAX_TEXTURE_PER_MODEL];	// テクスチャへのポインタ
-	LPD3DXMESH pMesh;										// メッシュ情報へのポインタ
-	LPD3DXBUFFER pBuffMat;									// マテリアルへのポインタ
-	DWORD dwNumMat;											// マテリアル数
-	D3DXVECTOR3 vtxMin, vtxMax;								// 端の頂点位置
-}MESHDATA;
+}LINE;
 
 //*********************************************************************
 // 
@@ -68,11 +46,10 @@ typedef struct
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitModel(void);
-void UninitModel(void);
-void UpdateModel(void);
-void DrawModel(void);
-void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot);
-void LoadModel(const char* pFilename, int nIdx);
+void InitLine(void);
+void UninitLine(void);
+void UpdateLine(void);
+void DrawLine(void);
+void SetLine(void);
 
 #endif

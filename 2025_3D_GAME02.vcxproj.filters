@@ -114,6 +114,9 @@
     <ClCompile Include="Title.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>ソース ファイル\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseObject.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="Title.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>ヘッダー ファイル\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

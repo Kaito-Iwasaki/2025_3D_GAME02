@@ -217,6 +217,26 @@ D3DXVECTOR3 Vector2To3(D3DXVECTOR2 source, float fValueZ)
 }
 
 //=====================================================================
+// ベクトルとベクトルの交差判定
+//=====================================================================
+bool IsCrossingVector(
+	D3DXVECTOR3 vec0,
+	D3DXVECTOR3 vec1,
+	D3DXVECTOR3 pos,
+	D3DXVECTOR3 posOld,
+	D3DXVECTOR3* vecHit
+)
+{
+	D3DXVECTOR3 vecLine = vec1 - vec0;
+	D3DXVECTOR3 vecMove = pos - posOld;
+	D3DXVECTOR3 vecToPos = pos - vec0;
+	D3DXVECTOR3 vecToOld = posOld - vec0;
+
+
+	return false;
+}
+
+//=====================================================================
 // 指定した範囲の乱数（整数）を取得する処理
 //=====================================================================
 int RandRange(int nMin, int nMax)

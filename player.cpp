@@ -54,11 +54,16 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-LPD3DXMESH g_pMeshPlayer = NULL;			// メッシュ（頂点情報）へのポインタ
-LPDIRECT3DTEXTURE9 g_apTexturePlayer[MAX_TEXTURE] = {};
-LPD3DXBUFFER g_pBuffMatPlayer = NULL;	// マテリアルへのポインタ
-DWORD g_dwNumMatPlayer = 0;				// マテリアル数
 PLAYER g_player;
+
+const char* aFilenamePart[NUM_PART] = {
+	"data\\MODEL\\body.x",
+	"data\\MODEL\\head.x",
+	"data\\MODEL\\arm_left.x",
+	"data\\MODEL\\hand_left.x",
+	"data\\MODEL\\arm_right.x",
+	"data\\MODEL\\hand_right.x",
+};
 
 //=====================================================================
 // 初期化処理
@@ -66,41 +71,99 @@ PLAYER g_player;
 void InitPlayer(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	D3DXMATERIAL* pMat;
 
 	memset(&g_player, 0, sizeof(PLAYER));
 	g_player.obj.bVisible = true;
+	g_player.nIdxShadow = SetShadow();
+	g_player.nNumPart = NUM_PART;
 
-	// Xファイルの読み込み
-	D3DXLoadMeshFromX(
-		"data\\MODEL\\Perfect_Animal.x",
-		D3DXMESH_SYSTEMMEM,
-		pDevice,
-		NULL,
-		&g_pBuffMatPlayer,
-		NULL,
-		&g_dwNumMatPlayer,
-		&g_pMeshPlayer
-	);
-
-	D3DXMATERIAL* pMat;
-
-	// マテリアルデータへのポインタを取得
-	pMat = (D3DXMATERIAL*)g_pBuffMatPlayer->GetBufferPointer();
-
-	// テクスチャの読み込み
-	for (int i = 0; i < (int)g_dwNumMatPlayer; i++)
+	for (int nCntPart = 0; nCntPart < NUM_PART; nCntPart++)
 	{
-		if (pMat[i].pTextureFilename != NULL)
-		{// テクスチャファイルが存在する
-			D3DXCreateTextureFromFile(
-				pDevice,
-				pMat[i].pTextureFilename,
-				&g_apTexturePlayer[i]
-			);
+		D3DXLoadMeshFromX(
+			aFilenamePart[nCntPart],
+			D3DXMESH_SYSTEMMEM,
+			pDevice,
+			NULL,
+			&g_player.aPart[nCntPart].pBuffMat,
+			NULL,
+			&g_player.aPart[nCntPart].dwNumMat,
+			&g_player.aPart[nCntPart].pMesh
+		);
+
+
+		// マテリアルデータへのポインタを取得
+		pMat = (D3DXMATERIAL*)g_player.aPart[nCntPart].pBuffMat->GetBufferPointer();
+
+		// テクスチャの読み込み
+		for (int i = 0; i < (int)g_player.aPart[nCntPart].dwNumMat; i++)
+		{
+			if (pMat[i].pTextureFilename != NULL)
+			{// テクスチャファイルが存在する
+				D3DXCreateTextureFromFile(
+					pDevice,
+					pMat[i].pTextureFilename,
+					&g_player.aPart[nCntPart].apTexture[i]
+				);
+			}
 		}
 	}
 
-	g_player.nIdxShadow = SetShadow();
+	// 各パーツの階層構造設定
+	g_player.aPart[0].nIdxModelParent = -1;
+	g_player.aPart[0].obj.pos = D3DXVECTOR3(0, 20, 0);
+	g_player.aPart[0].obj.rot = D3DXVECTOR3(0, 0, 0);
+
+	g_player.aPart[1].nIdxModelParent = 0;
+	g_player.aPart[1].obj.pos = D3DXVECTOR3(0, 18, 0);
+	g_player.aPart[1].obj.rot = D3DXVECTOR3(0, 0, 0);
+
+	g_player.aPart[2].nIdxModelParent = 0;
+	g_player.aPart[2].obj.pos = D3DXVECTOR3(15, 15, 0);
+	g_player.aPart[2].obj.rot = D3DXVECTOR3(0, 0, D3DXToRadian(90));
+
+	g_player.aPart[3].nIdxModelParent = 2;
+	g_player.aPart[3].obj.pos = D3DXVECTOR3(6, -25, 0);
+	g_player.aPart[3].obj.rot = D3DXVECTOR3(0, 0, 0);
+
+	g_player.aPart[4].nIdxModelParent = 0;
+	g_player.aPart[4].obj.pos = D3DXVECTOR3(-15, 15, 0);
+	g_player.aPart[4].obj.rot = D3DXVECTOR3(0, 0, D3DXToRadian(-90));
+
+	g_player.aPart[5].nIdxModelParent = 4;
+	g_player.aPart[5].obj.pos = D3DXVECTOR3(-6, -25, 0);
+	g_player.aPart[5].obj.rot = D3DXVECTOR3(0, 0, 0);
+
+	//// Xファイルの読み込み
+	//D3DXLoadMeshFromX(
+	//	"data\\MODEL\\Perfect_Animal.x",
+	//	D3DXMESH_SYSTEMMEM,
+	//	pDevice,
+	//	NULL,
+	//	&g_pBuffMatPlayer,
+	//	NULL,
+	//	&g_dwNumMatPlayer,
+	//	&g_pMeshPlayer
+	//);
+
+	//D3DXMATERIAL* pMat;
+
+	//// マテリアルデータへのポインタを取得
+	//pMat = (D3DXMATERIAL*)g_pBuffMatPlayer->GetBufferPointer();
+
+	//// テクスチャの読み込み
+	//for (int i = 0; i < (int)g_dwNumMatPlayer; i++)
+	//{
+	//	if (pMat[i].pTextureFilename != NULL)
+	//	{// テクスチャファイルが存在する
+	//		D3DXCreateTextureFromFile(
+	//			pDevice,
+	//			pMat[i].pTextureFilename,
+	//			&g_apTexturePlayer[i]
+	//		);
+	//	}
+	//}
+
 }
 
 //=====================================================================
@@ -108,25 +171,28 @@ void InitPlayer(void)
 //=====================================================================
 void UninitPlayer(void)
 {
-	for (int i = 0; i < (int)g_dwNumMatPlayer; i++)
+	for (int nCntPart = 0; nCntPart < NUM_PART; nCntPart++)
 	{
-		if (g_apTexturePlayer[i] != NULL)
+		for (int i = 0; i < (int)g_player.aPart[nCntPart].dwNumMat; i++)
 		{
-			g_apTexturePlayer[i]->Release();
-			g_apTexturePlayer[i] = NULL;
+			if (g_player.aPart[nCntPart].apTexture[i] != NULL)
+			{
+				g_player.aPart[nCntPart].apTexture[i]->Release();
+				g_player.aPart[nCntPart].apTexture[i] = NULL;
+			}
 		}
-	}
 
-	if (g_pMeshPlayer != NULL)
-	{// メッシュの破棄
-		g_pMeshPlayer->Release();
-		g_pMeshPlayer = NULL;
-	}
+		if (g_player.aPart[nCntPart].pMesh != NULL)
+		{// メッシュの破棄
+			g_player.aPart[nCntPart].pMesh->Release();
+			g_player.aPart[nCntPart].pMesh = NULL;
+		}
 
-	if (g_pBuffMatPlayer != NULL)
-	{// マテリアルの破棄
-		g_pBuffMatPlayer->Release();
-		g_pBuffMatPlayer = NULL;
+		if (g_player.aPart[nCntPart].pBuffMat != NULL)
+		{// マテリアルの破棄
+			g_player.aPart[nCntPart].pBuffMat->Release();
+			g_player.aPart[nCntPart].pBuffMat = NULL;
+		}
 	}
 }
 
@@ -224,6 +290,18 @@ void UpdatePlayer(void)
 	SetShadowPosition(g_player.nIdxShadow, D3DXVECTOR3(g_player.obj.pos.x, 0.01f, g_player.obj.pos.z));
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(10.0f, 0.01f, 10.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.03f, 0.0f, g_player.obj.pos.y * 0.03f));
 	SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f - g_player.obj.pos.y * 0.001f, 0.0f, 0.5f));
+
+	for (int nCntPart = 0; nCntPart < NUM_PART; nCntPart++)
+	{
+		if (nCntPart == 0)
+		{
+			g_player.aPart[nCntPart].obj.rot.y += 0.5f;
+		}
+		else if (nCntPart == 1)
+		{
+			g_player.aPart[nCntPart].obj.rot.y -= 0.5f;
+		}
+	}
 }
 
 //=====================================================================
@@ -267,19 +345,68 @@ void DrawPlayer(void)
 	// 現在のマテリアルを取得
 	pDevice->GetMaterial(&matDef);
 
-	// マテリアルデータへのポインタを取得
-	pMat = (D3DXMATERIAL*)g_pBuffMatPlayer->GetBufferPointer();
-
-	for (int nCntMat = 0; nCntMat < (int)g_dwNumMatPlayer; nCntMat++)
+	for (int nCntPart = 0; nCntPart < NUM_PART; nCntPart++)
 	{
-		// マテリアルの設定
-		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+		D3DXMATRIX mtxParent;
 
-		// テクスチャの設定
-		pDevice->SetTexture(0, g_apTexturePlayer[nCntMat]);
+		// ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&g_player.aPart[nCntPart].mtxWorld);
 
-		// モデル（パーツ）の描画
-		g_pMeshPlayer->DrawSubset(nCntMat);
+		// 向きを反映
+		D3DXMatrixRotationYawPitchRoll(
+			&mtxRot,
+			g_player.aPart[nCntPart].obj.rot.y, g_player.aPart[nCntPart].obj.rot.x, g_player.aPart[nCntPart].obj.rot.z
+		);
+		D3DXMatrixMultiply(
+			&g_player.aPart[nCntPart].mtxWorld,
+			&g_player.aPart[nCntPart].mtxWorld,
+			&mtxRot
+		);
+
+		// 位置を反映
+		D3DXMatrixTranslation(
+			&mtxTrans,
+			g_player.aPart[nCntPart].obj.pos.x, g_player.aPart[nCntPart].obj.pos.y, g_player.aPart[nCntPart].obj.pos.z
+		);
+		D3DXMatrixMultiply(
+			&g_player.aPart[nCntPart].mtxWorld,
+			&g_player.aPart[nCntPart].mtxWorld,
+			&mtxTrans
+		);
+
+		if (g_player.aPart[nCntPart].nIdxModelParent != -1)
+		{// 親モデルがあるなら
+			mtxParent = g_player.aPart[g_player.aPart[nCntPart].nIdxModelParent].mtxWorld;
+		}
+		else
+		{// 親モデルがないなら
+			mtxParent = g_player.mtxWorld;
+		}
+
+		// パーツと親のマトリックス掛け合わせる
+		D3DXMatrixMultiply(
+			&g_player.aPart[nCntPart].mtxWorld,
+			&g_player.aPart[nCntPart].mtxWorld,
+			&mtxParent
+		);
+
+		// ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &g_player.aPart[nCntPart].mtxWorld);
+
+		// マテリアルデータへのポインタを取得
+		pMat = (D3DXMATERIAL*)g_player.aPart[nCntPart].pBuffMat->GetBufferPointer();
+
+		for (int nCntMat = 0; nCntMat < (int)g_player.aPart[nCntPart].dwNumMat; nCntMat++)
+		{
+			// マテリアルの設定
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+
+			// テクスチャの設定
+			pDevice->SetTexture(0, g_player.aPart[nCntPart].apTexture[nCntMat]);
+
+			// モデル（パーツ）の描画
+			g_player.aPart[nCntPart].pMesh->DrawSubset(nCntMat);
+		}
 	}
 
 	// 保存していたマテリアルを戻す

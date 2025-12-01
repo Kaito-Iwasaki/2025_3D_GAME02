@@ -52,6 +52,7 @@ float Magnitude(D3DXVECTOR3 vector);
 float Magnitude(D3DXVECTOR3 from, D3DXVECTOR3 to);
 D3DXVECTOR2 Vector3To2(D3DXVECTOR3 source);
 D3DXVECTOR3 Vector2To3(D3DXVECTOR2 source, float fValueZ = 0.0f);
+bool IsCrossingVector(D3DXVECTOR3 vec0, D3DXVECTOR3 vec1, D3DXVECTOR3 pos, D3DXVECTOR3 posOld, D3DXVECTOR3* vecHit);
 bool LoadBin(const char* pFilePath, void* pBuffer, size_t ElementSize, size_t ElementCount);
 bool SaveBin(const char* pFilePath, void* pBuffer, size_t ElementSize, size_t ElementCount);
 

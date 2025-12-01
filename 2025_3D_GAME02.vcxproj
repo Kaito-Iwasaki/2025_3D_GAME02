@@ -161,6 +161,10 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="Line.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="meshfield.cpp" />
     <ClCompile Include="model.cpp" />
@@ -194,6 +198,10 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="Line.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="main.h" />
     <ClInclude Include="meshfield.h" />
     <ClInclude Include="model.h" />

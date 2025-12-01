@@ -17,6 +17,8 @@
 
 #include "Title.h"
 #include "Game.h"
+#include "camera.h"
+#include "light.h"
 
 //*********************************************************************
 // 
@@ -39,6 +41,12 @@ SCENEDATA g_scenes[SCENE_MAX] = {
 //=====================================================================
 void InitScene(void)
 {
+	// カメラの初期化処理
+	InitCamera();
+
+	// ライトの初期化処理
+	InitLight();
+
 	// フェード＆シーンの初期化処理
 	InitFade(g_currentScene);
 }
@@ -54,6 +62,12 @@ void UninitScene(void)
 		g_scenes[nCount].Uninit();
 	}
 
+	// ライトの終了処理
+	UninitLight();
+	
+	// カメラの終了処理
+	UninitCamera();
+
 	// フェードのの終了処理
 	UninitFade();
 }
@@ -63,6 +77,10 @@ void UninitScene(void)
 //=====================================================================
 void UpdateScene(void)
 {
+	UpdateLight();
+
+	UpdateCamera();
+
 	// 現在のシーンの更新処理
 	g_scenes[g_currentScene].Update();
 
@@ -75,6 +93,8 @@ void UpdateScene(void)
 //=====================================================================
 void DrawScene(void)
 {
+	SetCamera();
+
 	// 現在のシーンの描画処理
 	g_scenes[g_currentScene].Draw();
 
