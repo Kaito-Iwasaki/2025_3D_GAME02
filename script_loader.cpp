@@ -90,6 +90,10 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 		{// ファイルの最後まで読み込んだら終了する
 			break;
 		}
+		else if (strcmp(&aStrLine[0], "END_SCRIPT") == 0)
+		{// スクリプトの終了が宣言されたら終了する
+			break;
+		}
 
 		if (strcmp(&aStrLine[0], "NUM_TEXTURE") == 0)
 		{// テクスチャ数読み込み

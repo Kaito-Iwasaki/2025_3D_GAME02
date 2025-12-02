@@ -161,13 +161,17 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
-    <ClCompile Include="Line.cpp">
+    <ClCompile Include="line.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="meshfield.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="motion_loader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="script_loader.cpp" />
@@ -198,13 +202,21 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
-    <ClInclude Include="Line.h">
+    <ClInclude Include="line.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="main.h" />
     <ClInclude Include="meshfield.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="motion.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="motion_loader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="player.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="script_loader.h" />

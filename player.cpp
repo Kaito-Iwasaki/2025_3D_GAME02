@@ -65,6 +65,46 @@ const char* aFilenamePart[NUM_PART] = {
 	"data\\MODEL\\hand_right.x",
 };
 
+//static MOTION_INFO g_aMotionInfo[] = {
+//
+//};
+
+static KEY_INFO g_aKeyNetural[] = {
+	{
+		40,
+		{
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{50.0f, 18.0f, 0.0f, 0.0f, 0.0f, -0.5f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+		}
+	},
+	{
+		40,
+		{
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{-50.0f, 18.0f, 0.0f, 0.0f, 0.0f, 0.5f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+		}
+	},
+		{
+		40,
+		{
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 68.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+		}
+	},
+};
+
 //=====================================================================
 // 初期化処理
 //=====================================================================
@@ -134,35 +174,8 @@ void InitPlayer(void)
 	g_player.aPart[5].obj.pos = D3DXVECTOR3(-6, -25, 0);
 	g_player.aPart[5].obj.rot = D3DXVECTOR3(0, 0, 0);
 
-	//// Xファイルの読み込み
-	//D3DXLoadMeshFromX(
-	//	"data\\MODEL\\Perfect_Animal.x",
-	//	D3DXMESH_SYSTEMMEM,
-	//	pDevice,
-	//	NULL,
-	//	&g_pBuffMatPlayer,
-	//	NULL,
-	//	&g_dwNumMatPlayer,
-	//	&g_pMeshPlayer
-	//);
-
-	//D3DXMATERIAL* pMat;
-
-	//// マテリアルデータへのポインタを取得
-	//pMat = (D3DXMATERIAL*)g_pBuffMatPlayer->GetBufferPointer();
-
-	//// テクスチャの読み込み
-	//for (int i = 0; i < (int)g_dwNumMatPlayer; i++)
-	//{
-	//	if (pMat[i].pTextureFilename != NULL)
-	//	{// テクスチャファイルが存在する
-	//		D3DXCreateTextureFromFile(
-	//			pDevice,
-	//			pMat[i].pTextureFilename,
-	//			&g_apTexturePlayer[i]
-	//		);
-	//	}
-	//}
+	//LoadMotionScript("data\\motion.txt", &g_player.aMotionInfo[0]);
+	SetMotion(MOTIONTYPE_NETURAL);
 
 }
 
@@ -291,17 +304,53 @@ void UpdatePlayer(void)
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(10.0f, 0.01f, 10.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.03f, 0.0f, g_player.obj.pos.y * 0.03f));
 	SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f - g_player.obj.pos.y * 0.001f, 0.0f, 0.5f));
 
+	int nKeyNext = (g_player.nKey + 1) % g_player.nNumKey;
+	KEY_INFO* currentKeyInfo;
+	KEY_INFO* nextKeyInfo;
+
+	// 全モデル（パーツの更新）
 	for (int nCntPart = 0; nCntPart < NUM_PART; nCntPart++)
 	{
-		if (nCntPart == 0)
+		currentKeyInfo = &g_player.aMotionInfo[g_player.motionType].aKeyInfo[g_player.nKey];
+		nextKeyInfo = &g_player.aMotionInfo[g_player.motionType].aKeyInfo[nKeyNext];
+
+		float fRate = (float)g_player.nCounterMotion / (float)g_aKeyNetural[g_player.nKey].nFrame;
+		float fFixedRate;
+
+		if (g_player.nKey % 2 == 0)
 		{
-			g_player.aPart[nCntPart].obj.rot.y += 0.5f;
+			fFixedRate = 1 - (fRate - 1) * (fRate - 1);
 		}
-		else if (nCntPart == 1)
+		else
 		{
-			g_player.aPart[nCntPart].obj.rot.y -= 0.5f;
+			fFixedRate = fRate * fRate;
 		}
+
+		float fDiffPosX = nextKeyInfo->aKey[nCntPart].fPosX - currentKeyInfo->aKey[nCntPart].fPosX;
+		float fDiffPosY = nextKeyInfo->aKey[nCntPart].fPosY - currentKeyInfo->aKey[nCntPart].fPosY;
+		float fDiffPosZ = nextKeyInfo->aKey[nCntPart].fPosZ - currentKeyInfo->aKey[nCntPart].fPosZ;
+		float fDiffRotX = GetFixedRotation(nextKeyInfo->aKey[nCntPart].fRotX - currentKeyInfo->aKey[nCntPart].fRotX);
+		float fDiffRotY = GetFixedRotation(nextKeyInfo->aKey[nCntPart].fRotY - currentKeyInfo->aKey[nCntPart].fRotY);
+		float fDiffRotZ = GetFixedRotation(nextKeyInfo->aKey[nCntPart].fRotZ - currentKeyInfo->aKey[nCntPart].fRotZ);
+
+		g_player.aPart[nCntPart].obj.pos.x = currentKeyInfo->aKey[nCntPart].fPosX + fDiffPosX * fFixedRate;
+		g_player.aPart[nCntPart].obj.pos.y = currentKeyInfo->aKey[nCntPart].fPosY + fDiffPosY * fFixedRate;
+		g_player.aPart[nCntPart].obj.pos.z = currentKeyInfo->aKey[nCntPart].fPosZ + fDiffPosZ * fFixedRate;
+		g_player.aPart[nCntPart].obj.rot.x = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotX + fDiffRotX * fFixedRate);
+		g_player.aPart[nCntPart].obj.rot.y = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotY + fDiffRotY * fFixedRate);
+		g_player.aPart[nCntPart].obj.rot.z = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotZ + fDiffRotZ * fFixedRate);
+
+		PrintDebugProc("%f\n", fRate);
+		PrintDebugProc("%f\n", fFixedRate);
 	}
+	g_player.nCounterMotion++;
+	if (g_player.nCounterMotion >= currentKeyInfo->nFrame)
+	{
+		g_player.nKey = nKeyNext;
+		g_player.nCounterMotion = 0;
+	}
+	PrintDebugProc("%d\n", g_player.nCounterMotion);
+	PrintDebugProc("%d\n", g_player.nKey);
 }
 
 //=====================================================================
@@ -416,4 +465,13 @@ void DrawPlayer(void)
 PLAYER* GetPlayer(void)
 {
 	return &g_player;
+}
+
+void SetMotion(MOTIONTYPE type)
+{
+	g_player.motionType = type;
+	g_player.nNumKey = 3;
+	g_player.nKey = 0;
+	g_player.nCounterMotion = 0;
+	g_player.bLoopMotion = true;
 }

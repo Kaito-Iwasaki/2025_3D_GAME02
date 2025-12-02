@@ -37,6 +37,12 @@
     <Filter Include="ヘッダー ファイル\Scenes">
       <UniqueIdentifier>{12b255f1-6297-4f86-99da-878bd7c515b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Components\Script">
+      <UniqueIdentifier>{c3db3011-099a-4d61-a568-2a6f21d07d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Components\Script">
+      <UniqueIdentifier>{45397c4d-7e56-4e5c-9d85-03260ac5d2fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="billboard.cpp">
@@ -75,9 +81,6 @@
     <ClCompile Include="fade.cpp">
       <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
-    <ClCompile Include="script_loader.cpp">
-      <Filter>ソース ファイル\Components</Filter>
-    </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>ソース ファイル\Components</Filter>
     </ClCompile>
@@ -114,8 +117,14 @@
     <ClCompile Include="Title.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Line.cpp">
+    <ClCompile Include="line.cpp">
       <Filter>ソース ファイル\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="script_loader.cpp">
+      <Filter>ソース ファイル\Components\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="motion_loader.cpp">
+      <Filter>ソース ファイル\Components\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +164,6 @@
     <ClInclude Include="util.h">
       <Filter>ヘッダー ファイル\Components</Filter>
     </ClInclude>
-    <ClInclude Include="script_loader.h">
-      <Filter>ヘッダー ファイル\Components</Filter>
-    </ClInclude>
     <ClInclude Include="fade.h">
       <Filter>ヘッダー ファイル\Components</Filter>
     </ClInclude>
@@ -194,8 +200,17 @@
     <ClInclude Include="Title.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Line.h">
+    <ClInclude Include="line.h">
       <Filter>ヘッダー ファイル\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="motion.h">
+      <Filter>ヘッダー ファイル\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="script_loader.h">
+      <Filter>ヘッダー ファイル\Components\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="motion_loader.h">
+      <Filter>ヘッダー ファイル\Components\Script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

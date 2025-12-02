@@ -1,11 +1,11 @@
 //=====================================================================
 //
-// player.cppのヘッダファイル [player.h]
+// motion_loader.cppのヘッダファイル [motion_loader.h]
 // Author : 
 // 
 //=====================================================================
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef _MOTION_LOADER_H_
+#define _MOTION_LOADER_H_
 
 //*********************************************************************
 // 
@@ -13,27 +13,22 @@
 // 
 //*********************************************************************
 #include "main.h"
-#include "baseObject.h"
 #include "model.h"
-#include "motion_loader.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define NUM_PART			(6)
+#define MAX_MOTION_INFO		(32)
+#define MAX_KEY_INFO		(32)
+#define MAX_PART_PER_KEY	(32)
 
 //*********************************************************************
 // 
 // ***** 列挙型 *****
 // 
 //*********************************************************************
-typedef enum
-{
-	MOTIONTYPE_NETURAL = 0,
-	MOTIONTYPE_MAX
-}MOTIONTYPE;
 
 
 //*********************************************************************
@@ -43,34 +38,33 @@ typedef enum
 //*********************************************************************
 typedef struct
 {
-	BASEOBJECT obj;
-	D3DXMATRIX mtxWorld;
-	D3DXVECTOR3 posOld;
-	D3DXVECTOR3 move;
-	D3DXVECTOR3 rotMove;
-	int nIdxShadow;
-	PART aPart[NUM_PART];
-	int nNumPart;
+	float fPosX;
+	float fPosY;
+	float fPosZ;
+	float fRotX;
+	float fRotY;
+	float fRotZ;
+}KEY;
 
-	MOTION_INFO aMotionInfo[MAX_MOTION_INFO];	// モーション情報
-	int nNumMotion;								// モーションの総数
-	MOTIONTYPE motionType;						// モーションの種類
-	bool bLoopMotion;							// ループするかどうか
-	int nNumKey;								// キー総数S
-	int nKey;									// 現在のキーNo.
-	int nCounterMotion;							// モーションのカウンター
-}PLAYER;
+typedef struct
+{
+	int nFrame;					// 再生フレーム
+	KEY aKey[MAX_PART_PER_KEY];			// 各パーツのキー要素
+}KEY_INFO;
+
+typedef struct
+{
+	bool bLoop;								// ループするかどうか
+	int nNumKey;							// キーの総数
+	KEY_INFO aKeyInfo[MAX_KEY_INFO];		// キー情報
+}MOTION_INFO;
+
 
 //*********************************************************************
 // 
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitPlayer(void);
-void UninitPlayer(void);
-void UpdatePlayer(void);
-void DrawPlayer(void);
-PLAYER* GetPlayer(void);
-void SetMotion(MOTIONTYPE type);
+void LoadMotionScript(const char* pFileName, MOTION_INFO* pBuffer);
 
 #endif
