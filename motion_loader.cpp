@@ -51,6 +51,14 @@ void _Read_KEY(FILE* pFile, KEY* pBuffer);
 //*********************************************************************
 
 
+
+/*	TODO
+sscanf()を使った読み込み処理
+	→「#」（コメント）の検知
+
+*/
+
+
 //=====================================================================
 // スクリプト読み込み処理
 //=====================================================================
@@ -105,7 +113,8 @@ void _Read_SCRIPT(FILE* pFile, MOTION_INFO** ppBuffer)
 
 		if (strcmp(&aStrLine[0], "MOTIONSET") == 0)
 		{// モーション読み込み
-			_Read_MOTIONSET(pFile, ppBuffer);
+			_Read_MOTIONSET(pFile, &pData);
+			pData++;
 		}
 	}
 }
@@ -114,6 +123,7 @@ void _Read_MOTIONSET(FILE* pFile, MOTION_INFO** ppBuffer)
 {
 	char aStrLine[MAX_READABLE_CHAR] = {};
 	MOTION_INFO* pData = *ppBuffer;
+	KEY_INFO* pKeyInfo = &pData->aKeyInfo[0];
 	
 	while (true)
 	{
@@ -137,7 +147,8 @@ void _Read_MOTIONSET(FILE* pFile, MOTION_INFO** ppBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "KEYSET") == 0)
 		{
-			_Read_KEYSET(pFile, &pData->aKeyInfo[0]);
+			_Read_KEYSET(pFile, pKeyInfo);
+			pKeyInfo++;
 		}
 	}
 }

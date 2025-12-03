@@ -44,6 +44,7 @@ typedef struct
 	DWORD dwNumMat;											// マテリアル数
 	int nIdxModelParent;									// 親モデルのインデックス
 	BASEOBJECT obj;
+	BASEOBJECT offset;
 	D3DXMATRIX mtxWorld;
 }PART;
 

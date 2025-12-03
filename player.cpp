@@ -65,45 +65,41 @@ const char* aFilenamePart[NUM_PART] = {
 	"data\\MODEL\\hand_right.x",
 };
 
-//static MOTION_INFO g_aMotionInfo[] = {
-//
+//static KEY_INFO g_aKeyNetural[] = {
+//	{
+//		40,
+//		{
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{50.0f, 18.0f, 0.0f, 0.0f, 0.0f, -0.5f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//		}
+//	},
+//	{
+//		40,
+//		{
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{-50.0f, 18.0f, 0.0f, 0.0f, 0.0f, 0.5f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//		}
+//	},
+//		{
+//		40,
+//		{
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 68.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+//		}
+//	},
 //};
-
-static KEY_INFO g_aKeyNetural[] = {
-	{
-		40,
-		{
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{50.0f, 18.0f, 0.0f, 0.0f, 0.0f, -0.5f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-		}
-	},
-	{
-		40,
-		{
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{-50.0f, 18.0f, 0.0f, 0.0f, 0.0f, 0.5f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-		}
-	},
-		{
-		40,
-		{
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 68.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-			{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-		}
-	},
-};
 
 //=====================================================================
 // 初期化処理
@@ -112,6 +108,7 @@ void InitPlayer(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATERIAL* pMat;
+	MOTION_INFO* pMotionInfo = &g_player.aMotionInfo[0];
 
 	memset(&g_player, 0, sizeof(PLAYER));
 	g_player.obj.bVisible = true;
@@ -151,32 +148,31 @@ void InitPlayer(void)
 
 	// 各パーツの階層構造設定
 	g_player.aPart[0].nIdxModelParent = -1;
-	g_player.aPart[0].obj.pos = D3DXVECTOR3(0, 20, 0);
-	g_player.aPart[0].obj.rot = D3DXVECTOR3(0, 0, 0);
+	g_player.aPart[0].offset.pos = D3DXVECTOR3(0, 20, 0);
+	g_player.aPart[0].offset.rot = D3DXVECTOR3(0, 0, 0);
 
 	g_player.aPart[1].nIdxModelParent = 0;
-	g_player.aPart[1].obj.pos = D3DXVECTOR3(0, 18, 0);
-	g_player.aPart[1].obj.rot = D3DXVECTOR3(0, 0, 0);
+	g_player.aPart[1].offset.pos = D3DXVECTOR3(0, 18, 0);
+	g_player.aPart[1].offset.rot = D3DXVECTOR3(0, 0, 0);
 
 	g_player.aPart[2].nIdxModelParent = 0;
-	g_player.aPart[2].obj.pos = D3DXVECTOR3(15, 15, 0);
-	g_player.aPart[2].obj.rot = D3DXVECTOR3(0, 0, D3DXToRadian(90));
+	g_player.aPart[2].offset.pos = D3DXVECTOR3(15, 15, 0);
+	g_player.aPart[2].offset.rot = D3DXVECTOR3(0, 0, D3DXToRadian(90));
 
 	g_player.aPart[3].nIdxModelParent = 2;
-	g_player.aPart[3].obj.pos = D3DXVECTOR3(6, -25, 0);
-	g_player.aPart[3].obj.rot = D3DXVECTOR3(0, 0, 0);
+	g_player.aPart[3].offset.pos = D3DXVECTOR3(6, -25, 0);
+	g_player.aPart[3].offset.rot = D3DXVECTOR3(0, 0, 0);
 
 	g_player.aPart[4].nIdxModelParent = 0;
-	g_player.aPart[4].obj.pos = D3DXVECTOR3(-15, 15, 0);
-	g_player.aPart[4].obj.rot = D3DXVECTOR3(0, 0, D3DXToRadian(-90));
+	g_player.aPart[4].offset.pos = D3DXVECTOR3(-15, 15, 0);
+	g_player.aPart[4].offset.rot = D3DXVECTOR3(0, 0, D3DXToRadian(-90));
 
 	g_player.aPart[5].nIdxModelParent = 4;
-	g_player.aPart[5].obj.pos = D3DXVECTOR3(-6, -25, 0);
-	g_player.aPart[5].obj.rot = D3DXVECTOR3(0, 0, 0);
+	g_player.aPart[5].offset.pos = D3DXVECTOR3(-6, -25, 0);
+	g_player.aPart[5].offset.rot = D3DXVECTOR3(0, 0, 0);
 
-	//LoadMotionScript("data\\motion.txt", &g_player.aMotionInfo[0]);
+	LoadMotionScript("data\\motion.txt", &pMotionInfo);
 	SetMotion(MOTIONTYPE_NETURAL);
-
 }
 
 //=====================================================================
@@ -314,17 +310,8 @@ void UpdatePlayer(void)
 		currentKeyInfo = &g_player.aMotionInfo[g_player.motionType].aKeyInfo[g_player.nKey];
 		nextKeyInfo = &g_player.aMotionInfo[g_player.motionType].aKeyInfo[nKeyNext];
 
-		float fRate = (float)g_player.nCounterMotion / (float)g_aKeyNetural[g_player.nKey].nFrame;
-		float fFixedRate;
-
-		if (g_player.nKey % 2 == 0)
-		{
-			fFixedRate = 1 - (fRate - 1) * (fRate - 1);
-		}
-		else
-		{
-			fFixedRate = fRate * fRate;
-		}
+		float fRate = (float)g_player.nCounterMotion / (float)currentKeyInfo[g_player.nKey].nFrame;
+		float fFixedRate = fRate;
 
 		float fDiffPosX = nextKeyInfo->aKey[nCntPart].fPosX - currentKeyInfo->aKey[nCntPart].fPosX;
 		float fDiffPosY = nextKeyInfo->aKey[nCntPart].fPosY - currentKeyInfo->aKey[nCntPart].fPosY;
@@ -333,12 +320,12 @@ void UpdatePlayer(void)
 		float fDiffRotY = GetFixedRotation(nextKeyInfo->aKey[nCntPart].fRotY - currentKeyInfo->aKey[nCntPart].fRotY);
 		float fDiffRotZ = GetFixedRotation(nextKeyInfo->aKey[nCntPart].fRotZ - currentKeyInfo->aKey[nCntPart].fRotZ);
 
-		g_player.aPart[nCntPart].obj.pos.x = currentKeyInfo->aKey[nCntPart].fPosX + fDiffPosX * fFixedRate;
-		g_player.aPart[nCntPart].obj.pos.y = currentKeyInfo->aKey[nCntPart].fPosY + fDiffPosY * fFixedRate;
-		g_player.aPart[nCntPart].obj.pos.z = currentKeyInfo->aKey[nCntPart].fPosZ + fDiffPosZ * fFixedRate;
-		g_player.aPart[nCntPart].obj.rot.x = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotX + fDiffRotX * fFixedRate);
-		g_player.aPart[nCntPart].obj.rot.y = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotY + fDiffRotY * fFixedRate);
-		g_player.aPart[nCntPart].obj.rot.z = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotZ + fDiffRotZ * fFixedRate);
+		g_player.aPart[nCntPart].obj.pos.x = currentKeyInfo->aKey[nCntPart].fPosX + g_player.aPart[nCntPart].offset.pos.x + fDiffPosX * fFixedRate;
+		g_player.aPart[nCntPart].obj.pos.y = currentKeyInfo->aKey[nCntPart].fPosY + g_player.aPart[nCntPart].offset.pos.y + fDiffPosY * fFixedRate;
+		g_player.aPart[nCntPart].obj.pos.z = currentKeyInfo->aKey[nCntPart].fPosZ + g_player.aPart[nCntPart].offset.pos.z + fDiffPosZ * fFixedRate;
+		g_player.aPart[nCntPart].obj.rot.x = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotX + g_player.aPart[nCntPart].offset.rot.x + fDiffRotX * fFixedRate);
+		g_player.aPart[nCntPart].obj.rot.y = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotY + g_player.aPart[nCntPart].offset.rot.y + fDiffRotY * fFixedRate);
+		g_player.aPart[nCntPart].obj.rot.z = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotZ + g_player.aPart[nCntPart].offset.rot.z + fDiffRotZ * fFixedRate);
 
 		PrintDebugProc("%f\n", fRate);
 		PrintDebugProc("%f\n", fFixedRate);
@@ -470,7 +457,7 @@ PLAYER* GetPlayer(void)
 void SetMotion(MOTIONTYPE type)
 {
 	g_player.motionType = type;
-	g_player.nNumKey = 3;
+	g_player.nNumKey = 2;
 	g_player.nKey = 0;
 	g_player.nCounterMotion = 0;
 	g_player.bLoopMotion = true;
