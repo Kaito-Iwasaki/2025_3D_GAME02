@@ -1,52 +1,30 @@
 //=====================================================================
 //
-// script_loader.cppのヘッダファイル [script_loader.h]
+// script [script.cpp]
 // Author : 
 // 
 //=====================================================================
-#ifndef _SCRIPT_LOADER_H_
-#define _SCRIPT_LOADER_H_
 
 //*********************************************************************
 // 
 // ***** インクルードファイル *****
 // 
 //*********************************************************************
-#include "main.h"
-#include "model.h"
+#include "script.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_LOADABLE_TEXTURE		(256)
-#define MAX_LOADABLE_MODEL		(256)
+
 
 //*********************************************************************
 // 
 // ***** 構造体 *****
 // 
 //*********************************************************************
-typedef struct
-{
-	int nType;
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 rot;
-}MODELSETDATA;
 
-typedef struct
-{
-	int nNumTexture;
-	char aFilenameTexture[MAX_LOADABLE_TEXTURE][MAX_PATH];
-
-	int nNumModel;
-	char aFilenameModel[MAX_LOADABLE_MODEL][MAX_PATH];
-
-	int nCountModelSet;
-
-	MODELSETDATA aInfoModelSet[MAX_MODEL];
-}SCRIPTDATA;
 
 //*********************************************************************
 // 
@@ -60,6 +38,33 @@ typedef struct
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void LoadScript(const char* pFileName, SCRIPTDATA* pBuffer);
 
-#endif
+
+//*********************************************************************
+// 
+// ***** グローバル変数 *****
+// 
+//*********************************************************************
+
+
+//=====================================================================
+// 行の読み取り処理
+//=====================================================================
+int ReadLine(FILE* pFile, char* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	if (fgets(&aStrLine[0], sizeof(aStrLine), pFile) == NULL)
+	{
+		return EOF;
+	}
+
+	sscanf(&aStrLine[0], "%[^\n]", pBuffer);
+
+	if (strchr(&aStrLine[0], '#') != NULL)
+	{
+		sscanf(&aStrLine[0], "%[^#]", pBuffer);
+	}
+
+	return 0;
+}

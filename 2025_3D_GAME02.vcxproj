@@ -174,7 +174,11 @@
     </ClCompile>
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scene.cpp" />
-    <ClCompile Include="script_loader.cpp" />
+    <ClCompile Include="model_loader.cpp" />
+    <ClCompile Include="script.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sphere.cpp" />
@@ -219,7 +223,11 @@
     </ClInclude>
     <ClInclude Include="player.h" />
     <ClInclude Include="scene.h" />
-    <ClInclude Include="script_loader.h" />
+    <ClInclude Include="model_loader.h" />
+    <ClInclude Include="script.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sphere.h" />

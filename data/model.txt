@@ -276,45 +276,82 @@ END_WALLSET
 #------------------------------------------------------------------------------
 # 表示するモデルの配置情報
 #------------------------------------------------------------------------------
-#--------------------------------------
-# 柱
-#--------------------------------------
 MODELSET
-	TYPE = 0			# 種類
-	POS = 0 60 40		# 位置
-	ROT = 0 0 0			# 向き
+	TYPE = 2
+	POS = 0 -330 0
+	ROT = 0 0 0
 END_MODELSET
 
 MODELSET
-	TYPE = 1			# 種類
-	POS = 100 0 40		# 位置
-	ROT = 0 0 0			# 向き
+	TYPE = 2
+	POS = 0 -330 300
+	ROT = 0 0 0
 END_MODELSET
 
 MODELSET
-	TYPE = 1			# 種類
-	POS = -100 0 40		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-
-
-
-MODELSET
-	TYPE = 2			# 種類
-	POS = -300 0 100		# 位置
-	ROT = 0 0 0			# 向き
+	TYPE = 2
+	POS = 0 -330 600
+	ROT = 0 0 0
 END_MODELSET
 
 MODELSET
-	TYPE = 2			# 種類
-	POS = -200 0 300		# 位置
+	TYPE = 2
+	POS = 0 -330 900
+	ROT = 0 0 0
+END_MODELSET
+
+MODELSET
+	TYPE = 2
+	POS = 0 -330 1200
+	ROT = 0 0 0
+END_MODELSET
+
+MODELSET
+	TYPE = 2
+	POS = 0 -330 1500
+	ROT = 0 0 0
+END_MODELSET
+
+MODELSET
+	TYPE = 2
+	POS = 0 -330 1800
+	ROT = 0 0 0
+END_MODELSET
+
+MODELSET
+	TYPE = 2
+	POS = 0 -330 2100
+	ROT = 0 0 0
+END_MODELSET
+
+MODELSET
+	TYPE = 2
+	POS = 0 -330 2400
+	ROT = 0 0 0
+END_MODELSET
+
+MODELSET
+	TYPE = 2
+	POS = 0 -330 2700
+	ROT = 0 0 0
+END_MODELSET
+
+
+MODELSET
+	TYPE = 3			# 種類
+	POS = -900 0 400		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
 
 MODELSET
 	TYPE = 3			# 種類
-	POS = -250 0 400		# 位置
+	POS = -900 0 1400		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 3			# 種類
+	POS = -900 0 1400		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
 

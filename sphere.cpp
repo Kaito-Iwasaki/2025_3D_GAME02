@@ -18,7 +18,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define TEXTURE_FILENAME	"data\\TEXTURE\\peach000.jpg"
+#define TEXTURE_FILENAME	"data\\TEXTURE\\skybox00.jpg"
 #define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
 #define INIT_SIZE			D3DXVECTOR3(10000.0f, 10000.0f, 10000.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
@@ -156,6 +156,8 @@ void DrawSphere(void)
 		// 頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
+		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 		if (pSphere->obj.bVisible)
 		{// 表示状態
 			// テクスチャの設定
@@ -191,6 +193,8 @@ void DrawSphere(void)
 				pSphere->nSegmentX
 			);
 		}
+
+		pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	}
 }
 
@@ -269,7 +273,7 @@ void SetSphere(int nTexId, D3DXVECTOR3 pos, D3DXVECTOR3 size, int nSegmentU, int
 						cosf(fAngleU) * pSphere->obj.size.z / 2 * sinf(fAngleV)
 					);
 					pVtx->tex = D3DXVECTOR2((float)nCntVtxU / (float)nSegmentU, (float)nCntVtxV / (float)nSegmentV);
-					pVtx->tex = D3DXVECTOR2((float)nCntVtxU, (float)nCntVtxV);
+					//pVtx->tex = D3DXVECTOR2((float)nCntVtxU, (float)nCntVtxV);
 				}
 
 				pVtx->nor = Normalize(pVtx->pos);

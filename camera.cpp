@@ -94,12 +94,14 @@ void UpdateCamera(void)
 	g_camera.posRDest.y = pPlayer->obj.pos.y + g_camera.posOffset.y;
 	g_camera.posRDest.z = pPlayer->obj.pos.z + g_camera.posOffset.z;
 	g_camera.posVDest.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fDistance;
+	g_camera.posVDest.y = g_camera.posRDest.y + 50.0f;
 	g_camera.posVDest.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
 
 	g_camera.posR.x += (g_camera.posRDest.x - g_camera.posR.x) * 0.1f;
 	g_camera.posR.y += (g_camera.posRDest.y - g_camera.posR.y) * 0.1f;
 	g_camera.posR.z += (g_camera.posRDest.z - g_camera.posR.z) * 0.1f;
 	g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * 0.1f;
+	g_camera.posV.y += (g_camera.posVDest.y - g_camera.posV.y) * 0.1f;
 	g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * 0.1f;
 
 	//D3DXVECTOR3 vecPlayerMoved = pPlayer->obj.pos - pPlayer->posOld;

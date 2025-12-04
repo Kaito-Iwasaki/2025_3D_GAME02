@@ -65,6 +65,6 @@ typedef struct
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void LoadMotionScript(const char* pFileName, MOTION_INFO** pBuffer);
+void LoadMotionScript(const char* pFileName, MOTION_INFO* pBuffer);
 
 #endif

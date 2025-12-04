@@ -114,6 +114,7 @@ void InitPlayer(void)
 	g_player.obj.bVisible = true;
 	g_player.nIdxShadow = SetShadow();
 	g_player.nNumPart = NUM_PART;
+	g_player.obj.pos = D3DXVECTOR3(0.0f, 350.0f, 0.0f);
 
 	for (int nCntPart = 0; nCntPart < NUM_PART; nCntPart++)
 	{
@@ -157,7 +158,7 @@ void InitPlayer(void)
 
 	g_player.aPart[2].nIdxModelParent = 0;
 	g_player.aPart[2].offset.pos = D3DXVECTOR3(15, 15, 0);
-	g_player.aPart[2].offset.rot = D3DXVECTOR3(0, 0, D3DXToRadian(90));
+	g_player.aPart[2].offset.rot = D3DXVECTOR3(0, 0, 0);
 
 	g_player.aPart[3].nIdxModelParent = 2;
 	g_player.aPart[3].offset.pos = D3DXVECTOR3(6, -25, 0);
@@ -165,13 +166,13 @@ void InitPlayer(void)
 
 	g_player.aPart[4].nIdxModelParent = 0;
 	g_player.aPart[4].offset.pos = D3DXVECTOR3(-15, 15, 0);
-	g_player.aPart[4].offset.rot = D3DXVECTOR3(0, 0, D3DXToRadian(-90));
+	g_player.aPart[4].offset.rot = D3DXVECTOR3(0, 0, 0);
 
 	g_player.aPart[5].nIdxModelParent = 4;
 	g_player.aPart[5].offset.pos = D3DXVECTOR3(-6, -25, 0);
 	g_player.aPart[5].offset.rot = D3DXVECTOR3(0, 0, 0);
 
-	LoadMotionScript("data\\motion.txt", &pMotionInfo);
+	LoadMotionScript("data\\motion.txt", pMotionInfo);
 	SetMotion(MOTIONTYPE_NETURAL);
 }
 
@@ -218,7 +219,7 @@ void UpdatePlayer(void)
 
 	g_player.posOld = g_player.obj.pos;
 
-	// カメラ移動
+	// プレイヤー操作
 	if (GetKeyboardPress(DIK_A))
 	{// 左
 		dir += D3DXVECTOR3(
@@ -234,6 +235,7 @@ void UpdatePlayer(void)
 			0.0f,
 			sinf(pCamera->rot.y)
 		);
+
 	}
 	if (GetKeyboardPress(DIK_W))
 	{// 前
@@ -252,18 +254,9 @@ void UpdatePlayer(void)
 		);
 	}
 
-	if (GetKeyboardTrigger(DIK_SPACE))
-	{
-		SetBullet(
-			g_player.obj.pos + D3DXVECTOR3(0.0f, 10.0f, 0.0f),
-			D3DXVECTOR3(sinf(g_player.obj.rot.y), 0.0f, cosf(g_player.obj.rot.y)) * 10.0f
-		);
-		PlaySound(SOUND_LABEL_SE_SHOOT);
-	}
-
 	if (GetKeyboardTrigger(DIK_RETURN))
 	{
-		g_player.move.y = 10.0f;
+		g_player.move.y = 12.0f;
 	}
 
 	dirPad.x = joypad->Gamepad.sThumbLX;
@@ -283,7 +276,7 @@ void UpdatePlayer(void)
 	if (fMagnitude != 0)
 	{
 		g_player.rotMove.y = atan2f(dir.x, dir.z) + D3DX_PI;
-		g_player.obj.pos += dir / fMagnitude * 1.5f;
+		g_player.obj.pos += dir / fMagnitude * 5.0f;
 	}
 	g_player.obj.pos.y += g_player.move.y;
 
@@ -292,43 +285,37 @@ void UpdatePlayer(void)
 	g_player.obj.rot.y = GetFixedRotation(g_player.obj.rot.y + fRotDiff * 0.1f);
 
 	g_player.move.y -= 0.6f;
-	Clampf(&g_player.obj.pos.y, 0.0f, g_player.obj.pos.y);
-
-	CollisionWall(g_player.obj.pos, g_player.posOld);
 
 	SetShadowPosition(g_player.nIdxShadow, D3DXVECTOR3(g_player.obj.pos.x, 0.01f, g_player.obj.pos.z));
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(10.0f, 0.01f, 10.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.03f, 0.0f, g_player.obj.pos.y * 0.03f));
 	SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f - g_player.obj.pos.y * 0.001f, 0.0f, 0.5f));
 
 	int nKeyNext = (g_player.nKey + 1) % g_player.nNumKey;
-	KEY_INFO* currentKeyInfo;
-	KEY_INFO* nextKeyInfo;
+	KEY_INFO* currentKeyInfo = &g_player.aMotionInfo[g_player.motionType].aKeyInfo[g_player.nKey];
+	KEY_INFO* nextKeyInfo = &g_player.aMotionInfo[g_player.motionType].aKeyInfo[nKeyNext];
 
 	// 全モデル（パーツの更新）
 	for (int nCntPart = 0; nCntPart < NUM_PART; nCntPart++)
 	{
-		currentKeyInfo = &g_player.aMotionInfo[g_player.motionType].aKeyInfo[g_player.nKey];
-		nextKeyInfo = &g_player.aMotionInfo[g_player.motionType].aKeyInfo[nKeyNext];
+		KEY* pCurrentKey = &currentKeyInfo->aKey[nCntPart];
+		KEY* pNextKey = &nextKeyInfo->aKey[nCntPart];
 
-		float fRate = (float)g_player.nCounterMotion / (float)currentKeyInfo[g_player.nKey].nFrame;
+		float fRate = (float)g_player.nCounterMotion / (float)currentKeyInfo->nFrame;
 		float fFixedRate = fRate;
 
-		float fDiffPosX = nextKeyInfo->aKey[nCntPart].fPosX - currentKeyInfo->aKey[nCntPart].fPosX;
-		float fDiffPosY = nextKeyInfo->aKey[nCntPart].fPosY - currentKeyInfo->aKey[nCntPart].fPosY;
-		float fDiffPosZ = nextKeyInfo->aKey[nCntPart].fPosZ - currentKeyInfo->aKey[nCntPart].fPosZ;
-		float fDiffRotX = GetFixedRotation(nextKeyInfo->aKey[nCntPart].fRotX - currentKeyInfo->aKey[nCntPart].fRotX);
-		float fDiffRotY = GetFixedRotation(nextKeyInfo->aKey[nCntPart].fRotY - currentKeyInfo->aKey[nCntPart].fRotY);
-		float fDiffRotZ = GetFixedRotation(nextKeyInfo->aKey[nCntPart].fRotZ - currentKeyInfo->aKey[nCntPart].fRotZ);
+		float fDiffPosX = pNextKey->fPosX - pCurrentKey->fPosX;
+		float fDiffPosY = pNextKey->fPosY - pCurrentKey->fPosY;
+		float fDiffPosZ = pNextKey->fPosZ - pCurrentKey->fPosZ;
+		float fDiffRotX = GetFixedRotation(pNextKey->fRotX - pCurrentKey->fRotX);
+		float fDiffRotY = GetFixedRotation(pNextKey->fRotY - pCurrentKey->fRotY);
+		float fDiffRotZ = GetFixedRotation(pNextKey->fRotZ - pCurrentKey->fRotZ);
 
-		g_player.aPart[nCntPart].obj.pos.x = currentKeyInfo->aKey[nCntPart].fPosX + g_player.aPart[nCntPart].offset.pos.x + fDiffPosX * fFixedRate;
-		g_player.aPart[nCntPart].obj.pos.y = currentKeyInfo->aKey[nCntPart].fPosY + g_player.aPart[nCntPart].offset.pos.y + fDiffPosY * fFixedRate;
-		g_player.aPart[nCntPart].obj.pos.z = currentKeyInfo->aKey[nCntPart].fPosZ + g_player.aPart[nCntPart].offset.pos.z + fDiffPosZ * fFixedRate;
+		g_player.aPart[nCntPart].obj.pos.x = pCurrentKey->fPosX + g_player.aPart[nCntPart].offset.pos.x + fDiffPosX * fFixedRate;
+		g_player.aPart[nCntPart].obj.pos.y = pCurrentKey->fPosY + g_player.aPart[nCntPart].offset.pos.y + fDiffPosY * fFixedRate;
+		g_player.aPart[nCntPart].obj.pos.z = pCurrentKey->fPosZ + g_player.aPart[nCntPart].offset.pos.z + fDiffPosZ * fFixedRate;
 		g_player.aPart[nCntPart].obj.rot.x = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotX + g_player.aPart[nCntPart].offset.rot.x + fDiffRotX * fFixedRate);
 		g_player.aPart[nCntPart].obj.rot.y = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotY + g_player.aPart[nCntPart].offset.rot.y + fDiffRotY * fFixedRate);
 		g_player.aPart[nCntPart].obj.rot.z = GetFixedRotation(currentKeyInfo->aKey[nCntPart].fRotZ + g_player.aPart[nCntPart].offset.rot.z + fDiffRotZ * fFixedRate);
-
-		PrintDebugProc("%f\n", fRate);
-		PrintDebugProc("%f\n", fFixedRate);
 	}
 	g_player.nCounterMotion++;
 	if (g_player.nCounterMotion >= currentKeyInfo->nFrame)
@@ -336,8 +323,9 @@ void UpdatePlayer(void)
 		g_player.nKey = nKeyNext;
 		g_player.nCounterMotion = 0;
 	}
-	PrintDebugProc("%d\n", g_player.nCounterMotion);
-	PrintDebugProc("%d\n", g_player.nKey);
+	PrintDebugProc("\nキーカウント : %d\n", g_player.nCounterMotion);
+	PrintDebugProc("現在のキー : %d\n", g_player.nKey);
+	PrintDebugProc("合計キー数 : %d\n", g_player.nNumKey);
 }
 
 //=====================================================================
@@ -457,7 +445,7 @@ PLAYER* GetPlayer(void)
 void SetMotion(MOTIONTYPE type)
 {
 	g_player.motionType = type;
-	g_player.nNumKey = 2;
+	g_player.nNumKey = g_player.aMotionInfo[type].nNumKey;
 	g_player.nKey = 0;
 	g_player.nCounterMotion = 0;
 	g_player.bLoopMotion = true;

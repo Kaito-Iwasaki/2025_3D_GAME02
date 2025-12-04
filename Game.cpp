@@ -15,7 +15,7 @@
 #include "player.h"
 #include "shadow.h"
 #include "wall.h"
-#include "script_loader.h"
+#include "model_loader.h"
 #include "billboard.h"
 #include "bullet.h"
 #include "explosion.h"
@@ -147,10 +147,10 @@ void UpdateGame(void)
 
 	if (g_bIsPaused == false)
 	{
-		UpdateField();
-		UpdateMeshField();
+		//UpdateField();
+		//UpdateMeshField();
 		UpdatePlayer();
-		UpdateWall();
+		//UpdateWall();
 		UpdateShadow();
 		UpdateBillboard();
 		UpdateBullet();
@@ -169,9 +169,9 @@ void UpdateGame(void)
 //=====================================================================
 void DrawGame(void)
 {
-	DrawField();
-	DrawMeshField();
-	DrawWall();
+	//DrawField();
+	//DrawMeshField();
+	//DrawWall();
 	DrawPlayer();
 	DrawShadow();
 	DrawBillboard();
