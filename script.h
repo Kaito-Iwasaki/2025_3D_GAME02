@@ -41,5 +41,7 @@
 // 
 //*********************************************************************
 int ReadLine(FILE* pFile, char* pBuffer);
+int ReadWord(FILE* pFile, char* pBuffer);
+char* ReadWordFromString(char* pSource, char* pBuffer);
 
 #endif

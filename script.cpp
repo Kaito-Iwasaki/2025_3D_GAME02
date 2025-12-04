@@ -59,7 +59,7 @@ int ReadLine(FILE* pFile, char* pBuffer)
 		return EOF;
 	}
 
-	sscanf(&aStrLine[0], "%[^\n]", pBuffer);
+	sscanf(&aStrLine[0], "%[^\n]", &aStrLine[0]);
 
 	if (strchr(&aStrLine[0], '#') != NULL)
 	{
@@ -67,4 +67,30 @@ int ReadLine(FILE* pFile, char* pBuffer)
 	}
 
 	return 0;
+}
+
+//=====================================================================
+// •¶š—ñ‚Ì“Ç‚İæ‚èˆ—
+//=====================================================================
+int ReadWord(FILE* pFile, char* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	if (fscanf(pFile, "%s", &aStrLine[0]) == EOF)
+	{
+		return EOF;
+	}
+}
+
+//=====================================================================
+// •¶š—ñ‚©‚ç•¶š—ñ‚ğ“Ç‚İæ‚éˆ—
+//=====================================================================
+char* ReadWordFromString(char* pSource, char* pBuffer)
+{
+	if (sscanf(pSource, "%s", pBuffer) == EOF)
+	{
+		return NULL;
+	}
+
+	return &pSource[strlen(pBuffer)];
 }

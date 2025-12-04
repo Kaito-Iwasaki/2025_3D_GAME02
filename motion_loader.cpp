@@ -70,6 +70,7 @@ void LoadMotionScript(const char* pFileName, MOTION_INFO* pBuffer)
 	if (pFile != NULL)
 	{
 		char aStrLine[MAX_READABLE_CHAR] = {};
+		char* pStr;
 
 		while (true)
 		{
@@ -78,13 +79,22 @@ void LoadMotionScript(const char* pFileName, MOTION_INFO* pBuffer)
 			{// ファイルの最後まで読み込んだら終了する
 				break;
 			}
-			sscanf(&aStrLine[0], "%s", &aStrLine[0]);
 
-			if (strcmp(&aStrLine[0], "SCRIPT") == 0)
+			pStr = &aStrLine[0];
+
+			while (true)
 			{
-				OutputDebugString("[motion_loader.cpp] Script Start\n");
-				_Read_SCRIPT(pFile, pBuffer);
+				pStr = ReadWordFromString(pStr, &aStrLine[0]);
+				if (pStr == NULL) break;
+
+				if (strcmp(&aStrLine[0], "SCRIPT") == 0)
+				{
+					OutputDebugString("[motion_loader.cpp] Script Start\n");
+					_Read_SCRIPT(pFile, pBuffer);
+				}
 			}
+
+
 		}
 
 		OutputDebugString("[motion_loader.cpp] Script End\n");
@@ -135,23 +145,21 @@ void _Read_MOTIONSET(FILE* pFile, MOTION_INFO* pBuffer)
 		{// ファイルの最後まで読み込んだら終了する
 			break;
 		}
-		sscanf(&aStrLine[0], "%s", &aStrLine[0]);
+		sscanf(&aStrLine[0], "%s", &aStrWord[0]);
 
-		if (strcmp(&aStrLine[0], "END_MOTIONSET") == 0)
+		if (strcmp(&aStrWord[0], "END_MOTIONSET") == 0)
 		{
 			break;
 		}
-		else if (strcmp(&aStrLine[0], "LOOP") == 0)
+		else if (strcmp(&aStrWord[0], "LOOP") == 0)
 		{
-			int nFrame;
-			sscanf(&aStrLine[0], "LOOP = %d", &nFrame);
-			pBuffer->bLoop = (bool)nFrame;
+			sscanf(&aStrLine[0], "LOOP = %d", &pBuffer->bLoop);
 		}
-		else if (strcmp(&aStrLine[0], "NUM_KEY") == 0)
+		else if (strcmp(&aStrWord[0], "NUM_KEY") == 0)
 		{
 			sscanf(&aStrLine[0], "NUM_KEY = %d", &pBuffer->nNumKey);
 		}
-		else if (strcmp(&aStrLine[0], "KEYSET") == 0)
+		else if (strcmp(&aStrWord[0], "KEYSET") == 0)
 		{
 			_Read_KEYSET(pFile, &pBuffer->aKeyInfo[nCountKeyInfo]);
 			nCountKeyInfo++;
