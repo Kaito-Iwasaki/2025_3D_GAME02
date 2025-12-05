@@ -81,7 +81,7 @@ void InitGame(void)
 	InitExplosion();
 	InitEffect();
 	InitModel();
-	//InitCylinder();
+	InitCylinder();
 	InitSphere();
 	InitDebugProc();
 
@@ -119,7 +119,7 @@ void UninitGame(void)
 	UninitExplosion();
 	UninitEffect();
 	UninitModel();
-	//UninitCylinder();
+	UninitCylinder();
 	UninitSphere();
 	UninitDebugProc();
 }
@@ -157,7 +157,7 @@ void UpdateGame(void)
 		UpdateExplosion();
 		UpdateEffect();
 		UpdateModel();
-		//UpdateCylinder();
+		UpdateCylinder();
 		UpdateSphere();
 	}
 
@@ -173,13 +173,13 @@ void DrawGame(void)
 	//DrawMeshField();
 	//DrawWall();
 	DrawPlayer();
-	DrawShadow();
 	DrawBillboard();
 	DrawBullet();
 	DrawExplosion();
 	DrawEffect();
 	DrawModel();
-	//DrawCylinder();
 	DrawSphere();
+	DrawCylinder();
+	DrawShadow();
 	DrawDebugProc();
 }

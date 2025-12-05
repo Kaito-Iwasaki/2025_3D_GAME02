@@ -18,9 +18,9 @@
 // ***** É}ÉNÉçíËã` *****
 // 
 //*********************************************************************
-#define TEXTURE_FILENAME	"data\\TEXTURE\\sakai000b.png"
-#define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
-#define INIT_SIZE			D3DXVECTOR3(200.0f, 200.0f, 200.0f)
+#define TEXTURE_FILENAME	"data\\TEXTURE\\buildings000.png"
+#define INIT_POS			D3DXVECTOR3(0.0f, -2500.0f, 0.0f)
+#define INIT_SIZE			D3DXVECTOR3(10000.0f, 10000.0f, 10000.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
 #define NUM_SEGMENT_X		(16)
 #define NUM_SEGMENT_Y		(4)
@@ -100,7 +100,7 @@ void InitCylinder(void)
 	{
 		for (int nCntVtxX = 0; nCntVtxX < NUM_SEGMENT_X + 1; nCntVtxX++)
 		{
-			float fAngle = -(D3DX_PI * 2) / NUM_SEGMENT_X * nCntVtxX;
+			float fAngle = (D3DX_PI * 2) / NUM_SEGMENT_X * nCntVtxX;
 			D3DXVECTOR3 vecOffset = D3DXVECTOR3(
 				sinf(fAngle) * g_Cylinder.obj.size.z,
 				vecOrigin.y - (g_Cylinder.obj.size.y / NUM_SEGMENT_Y) * nCntVtxY,
@@ -109,7 +109,7 @@ void InitCylinder(void)
 			pVtx->pos = vecOffset;
 			pVtx->nor = -D3DXVECTOR3(sinf(fAngle), 0.0f, cosf(fAngle));
 			pVtx->col = D3DXCOLOR_WHITE;
-			pVtx->tex = D3DXVECTOR2(nCntVtxX, nCntVtxY);
+			pVtx->tex = D3DXVECTOR2(((float)nCntVtxX / (float)4), (float)nCntVtxY / (float)4);
 			pVtx++;
 		}
 	}

@@ -75,25 +75,16 @@ void LoadMotionScript(const char* pFileName, MOTION_INFO* pBuffer)
 		while (true)
 		{
 			// 一行読み込む
-			if (ReadLine(pFile, &aStrLine[0]))
+			if (ReadWord(pFile, &aStrLine[0]) == EOF)
 			{// ファイルの最後まで読み込んだら終了する
 				break;
 			}
 
-			pStr = &aStrLine[0];
-
-			while (true)
+			if (strcmp(&aStrLine[0], "SCRIPT") == 0)
 			{
-				pStr = ReadWordFromString(pStr, &aStrLine[0]);
-				if (pStr == NULL) break;
-
-				if (strcmp(&aStrLine[0], "SCRIPT") == 0)
-				{
-					OutputDebugString("[motion_loader.cpp] Script Start\n");
-					_Read_SCRIPT(pFile, pBuffer);
-				}
+				OutputDebugString("[motion_loader.cpp] Script Start\n");
+				_Read_SCRIPT(pFile, pBuffer);
 			}
-
 
 		}
 
@@ -109,15 +100,15 @@ void LoadMotionScript(const char* pFileName, MOTION_INFO* pBuffer)
 void _Read_SCRIPT(FILE* pFile, MOTION_INFO* pBuffer)
 {
 	char aStrLine[MAX_READABLE_CHAR] = {};
+	char* pStr;
 
 	while (true)
 	{
 		// 一行読み込む
-		if (ReadLine(pFile, &aStrLine[0]))
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
 		{// ファイルの最後まで読み込んだら終了する
 			break;
 		}
-		sscanf(&aStrLine[0], "%s", &aStrLine[0]);
 		
 		if (strcmp(&aStrLine[0], "END_SCRIPT") == 0)
 		{// スクリプトの終了が宣言されたら終了する
@@ -135,31 +126,29 @@ void _Read_SCRIPT(FILE* pFile, MOTION_INFO* pBuffer)
 void _Read_MOTIONSET(FILE* pFile, MOTION_INFO* pBuffer)
 {
 	char aStrLine[MAX_READABLE_CHAR] = {};
-	char aStrWord[MAX_READABLE_CHAR] = {};
 	int nCountKeyInfo = 0;
 	
 	while (true)
 	{
 		// 一行読み込む
-		if (ReadLine(pFile, &aStrLine[0]))
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
 		{// ファイルの最後まで読み込んだら終了する
 			break;
 		}
-		sscanf(&aStrLine[0], "%s", &aStrWord[0]);
 
-		if (strcmp(&aStrWord[0], "END_MOTIONSET") == 0)
+		if (strcmp(&aStrLine[0], "END_MOTIONSET") == 0)
 		{
 			break;
 		}
-		else if (strcmp(&aStrWord[0], "LOOP") == 0)
+		else if (strcmp(&aStrLine[0], "LOOP") == 0)
 		{
-			sscanf(&aStrLine[0], "LOOP = %d", &pBuffer->bLoop);
+			fscanf(pFile, " = %d", &pBuffer->bLoop);
 		}
-		else if (strcmp(&aStrWord[0], "NUM_KEY") == 0)
+		else if (strcmp(&aStrLine[0], "NUM_KEY") == 0)
 		{
-			sscanf(&aStrLine[0], "NUM_KEY = %d", &pBuffer->nNumKey);
+			fscanf(pFile, " = %d", &pBuffer->nNumKey);
 		}
-		else if (strcmp(&aStrWord[0], "KEYSET") == 0)
+		else if (strcmp(&aStrLine[0], "KEYSET") == 0)
 		{
 			_Read_KEYSET(pFile, &pBuffer->aKeyInfo[nCountKeyInfo]);
 			nCountKeyInfo++;
@@ -175,11 +164,10 @@ void _Read_KEYSET(FILE* pFile, KEY_INFO* pBuffer)
 	while (true)
 	{
 		// 一行読み込む
-		if (ReadLine(pFile, &aStrLine[0]))
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
 		{// ファイルの最後まで読み込んだら終了する
 			break;
 		}
-		sscanf(&aStrLine[0], "%s", &aStrLine[0]);
 
 		if (strcmp(&aStrLine[0], "END_KEYSET") == 0)
 		{
@@ -187,7 +175,7 @@ void _Read_KEYSET(FILE* pFile, KEY_INFO* pBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "FRAME") == 0)
 		{
-			sscanf(&aStrLine[0], "FRAME = %d", &pBuffer->nFrame);
+			fscanf(pFile, " = %d", &pBuffer->nFrame);
 		}
 		else if (strcmp(&aStrLine[0], "KEY") == 0)
 		{
@@ -204,11 +192,10 @@ void _Read_KEY(FILE* pFile, KEY* pBuffer)
 	while (true)
 	{
 		// 一行読み込む
-		if (ReadLine(pFile, &aStrLine[0]))
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
 		{// ファイルの最後まで読み込んだら終了する
 			break;
 		}
-		sscanf(&aStrLine[0], "%s", &aStrLine[0]);
 
 		if (strcmp(&aStrLine[0], "END_KEY") == 0)
 		{
@@ -216,12 +203,12 @@ void _Read_KEY(FILE* pFile, KEY* pBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "POS") == 0)
 		{
-			sscanf(&aStrLine[0], "POS = %f %f %f", &pBuffer->fPosX, &pBuffer->fPosY, &pBuffer->fPosZ);
+			fscanf(pFile, " = %f %f %f", &pBuffer->fPosX, &pBuffer->fPosY, &pBuffer->fPosZ);
 		}
 		else if (strcmp(&aStrLine[0], "ROT") == 0)
 		{
 			float fRotX, fRotY, fRotZ;
-			sscanf(&aStrLine[0], "POS = %f %f %f", &fRotX, &fRotY, &fRotZ);
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
 
 			pBuffer->fRotX = D3DXToRadian(fRotX);
 			pBuffer->fRotY = D3DXToRadian(fRotY);

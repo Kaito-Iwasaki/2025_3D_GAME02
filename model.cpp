@@ -166,29 +166,7 @@ void UpdateModel(void)
 			byHit |= MODEL_HIT_BACK;
 		}
 
-		if (
-			pPlayer->posOld.y >= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y < pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
-			)
-		{// ã
-			byHit |= MODEL_HIT_TOP;
-		}
 
-		if (
-			pPlayer->posOld.y <= pModel->obj.pos.y + vtxMin.y
-			&& pPlayer->obj.pos.y > pModel->obj.pos.y + vtxMin.y
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
-			)
-		{// ‰º
-			byHit |= MODEL_HIT_BOTTOM;
-		}
 
 		if (byHit & MODEL_HIT_LEFT)
 		{// ¶‚©‚çÕ“Ë
@@ -206,6 +184,32 @@ void UpdateModel(void)
 		{// Œã‚ë‚©‚çÕ“Ë
 			pPlayer->obj.pos.z = pModel->obj.pos.z + vtxMax.z;
 		}
+
+		if (
+			pPlayer->posOld.y >= pModel->obj.pos.y + vtxMax.y
+			&& pPlayer->obj.pos.y < pModel->obj.pos.y + vtxMax.y
+			&& pPlayer->obj.pos.x > pModel->obj.pos.x + vtxMin.x
+			&& pPlayer->obj.pos.x < pModel->obj.pos.x + vtxMax.x
+			&& pPlayer->obj.pos.z > pModel->obj.pos.z + vtxMin.z
+			&& pPlayer->obj.pos.z < pModel->obj.pos.z + vtxMax.z
+			)
+		{// ã
+			byHit |= MODEL_HIT_TOP;
+		}
+
+		if (
+			pPlayer->posOld.y <= pModel->obj.pos.y + vtxMin.y
+			&& pPlayer->obj.pos.y > pModel->obj.pos.y + vtxMin.y
+			&& pPlayer->obj.pos.x > pModel->obj.pos.x + vtxMin.x
+			&& pPlayer->obj.pos.x < pModel->obj.pos.x + vtxMax.x
+			&& pPlayer->obj.pos.z > pModel->obj.pos.z + vtxMin.z
+			&& pPlayer->obj.pos.z < pModel->obj.pos.z + vtxMax.z
+			)
+		{// ‰º
+			byHit |= MODEL_HIT_BOTTOM;
+		}
+
+
 		if (byHit & MODEL_HIT_TOP)
 		{// ã‚©‚çÕ“Ë
 			pPlayer->obj.pos.y = pModel->obj.pos.y + vtxMax.y;
