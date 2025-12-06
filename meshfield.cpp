@@ -110,7 +110,22 @@ void UninitMeshField(void)
 //=====================================================================
 void UpdateMeshField(void)
 {
+	VERTEX_3D* pVtx;
+	MESHFIELD* pMeshField = &g_aMeshField[0];
 
+	for (int nCntMField = 0; nCntMField < MAX_MESHFIELD; nCntMField++, pMeshField++)
+	{
+		if (pMeshField->bUsed == false) continue; // 使用中でないならパス
+
+		// 頂点バッファをロックして頂点情報へのポインタを取得
+		pMeshField->pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+		pVtx[0].pos.y = 100.0f;
+		pVtx[1].pos.y = 100.0f;
+
+		// 頂点バッファをアンロック
+		pMeshField->pVtxBuff->Unlock();
+	}
 }
 
 //=====================================================================

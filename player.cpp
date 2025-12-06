@@ -65,13 +65,16 @@ void InitPlayer(void)
 	D3DXMATERIAL* pMat;
 	MOTION* pMotion = &g_player.motion;
 
+	// 構造体の初期化
 	memset(&g_player, 0, sizeof(PLAYER));
 	g_player.obj.bVisible = true;
 	g_player.nIdxShadow = SetShadow();
 	g_player.obj.pos = D3DXVECTOR3(0.0f, 350.0f, 0.0f);
 
+	// モーションスクリプトから各情報を読み込む
 	LoadMotionScript("data\\motion.txt", &g_player.motion);
 
+	// パーツ（モデル）の読み込み
 	for (int nCntPart = 0; nCntPart < pMotion->nNumPart; nCntPart++)
 	{
 		int nIdxPart = pMotion->aPart[nCntPart].nIdxPart;
@@ -104,31 +107,7 @@ void InitPlayer(void)
 		}
 	}
 
-	// 各パーツの階層構造設定
-	//pMotion->aPart[0].nIdxModelParent = -1;
-	//pMotion->aPart[0].offset.pos = D3DXVECTOR3(0, 20, 0);
-	//pMotion->aPart[0].offset.rot = D3DXVECTOR3(0, 0, 0);
-
-	//pMotion->aPart[1].nIdxModelParent = 0;
-	//pMotion->aPart[1].offset.pos = D3DXVECTOR3(0, 18, 0);
-	//pMotion->aPart[1].offset.rot = D3DXVECTOR3(0, 0, 0);
-
-	//pMotion->aPart[2].nIdxModelParent = 0;
-	//pMotion->aPart[2].offset.pos = D3DXVECTOR3(15, 15, 0);
-	//pMotion->aPart[2].offset.rot = D3DXVECTOR3(0, 0, 0);
-
-	//pMotion->aPart[3].nIdxModelParent = 2;
-	//pMotion->aPart[3].offset.pos = D3DXVECTOR3(6, -25, 0);
-	//pMotion->aPart[3].offset.rot = D3DXVECTOR3(0, 0, 0);
-
-	//pMotion->aPart[4].nIdxModelParent = 0;
-	//pMotion->aPart[4].offset.pos = D3DXVECTOR3(-15, 15, 0);
-	//pMotion->aPart[4].offset.rot = D3DXVECTOR3(0, 0, 0);
-
-	//pMotion->aPart[5].nIdxModelParent = 4;
-	//pMotion->aPart[5].offset.pos = D3DXVECTOR3(-6, -25, 0);
-	//pMotion->aPart[5].offset.rot = D3DXVECTOR3(0, 0, 0);
-
+	// 最初のモーションを設定
 	SetMotion(MOTIONTYPE_MOVE, false, 30);
 }
 
@@ -139,12 +118,13 @@ void UninitPlayer(void)
 {
 	MOTION* pMotion = &g_player.motion;
 
+	
 	for (int nCntPart = 0; nCntPart < pMotion->nNumPart; nCntPart++)
 	{
 		for (int i = 0; i < (int)pMotion->aPart[nCntPart].dwNumMat; i++)
 		{
 			if (pMotion->aPart[nCntPart].apTexture[i] != NULL)
-			{
+			{// テクスチャの破棄
 				pMotion->aPart[nCntPart].apTexture[i]->Release();
 				pMotion->aPart[nCntPart].apTexture[i] = NULL;
 			}
@@ -172,16 +152,17 @@ void UpdatePlayer(void)
 	CAMERA* pCamera = GetCamera();
 	MOTION* pMotion = &g_player.motion;
 	MOTION_INFO* pMotionInfo = &pMotion->aMotionInfo[0];
+	XINPUT_STATE* joypad = GetJoypad();			// ジョイパッドへのポインタ
 
-	D3DXVECTOR3 dir = D3DXVECTOR3_ZERO;
-	D3DXVECTOR3 dirPad = D3DXVECTOR3_ZERO;
-	XINPUT_STATE* joypad = GetJoypad();
+	D3DXVECTOR3 dir = D3DXVECTOR3_ZERO;			// キーボードの入力方向
+	D3DXVECTOR3 dirPad = D3DXVECTOR3_ZERO;		// パッドの入力方向
 
+	// 前回の位置を記録
 	g_player.posOld = g_player.obj.pos;
 
 	// プレイヤー操作
 	if (GetKeyboardPress(DIK_A))
-	{// 左
+	{// 左移動
 		dir += D3DXVECTOR3(
 			-cosf(pCamera->rot.y),
 			0.0f,
@@ -189,7 +170,7 @@ void UpdatePlayer(void)
 		);
 	}
 	if (GetKeyboardPress(DIK_D))
-	{// 右
+	{// 右移動
 		dir -= D3DXVECTOR3(
 			-cosf(pCamera->rot.y),
 			0.0f,
@@ -198,7 +179,7 @@ void UpdatePlayer(void)
 
 	}
 	if (GetKeyboardPress(DIK_W))
-	{// 前
+	{// 前移動
 		dir -= D3DXVECTOR3(
 			sinf(pCamera->rot.y + D3DX_PI),
 			0.0f,
@@ -206,67 +187,76 @@ void UpdatePlayer(void)
 		);
 	}
 	if (GetKeyboardPress(DIK_S))
-	{// 後方
+	{// 後方移動
 		dir -= D3DXVECTOR3(
 			sinf(pCamera->rot.y),
 			0.0f,
 			cosf(pCamera->rot.y)
 		);
 	}
-
-	if (GetKeyboardTrigger(DIK_RETURN))
-	{
+	if (GetKeyboardTrigger(DIK_SPACE))
+	{// ジャンプ
 		g_player.move.y = 14.0f;
 	}
 
-	if (GetKeyboardTrigger(DIK_R))
-	{
-		SetMotion(MOTIONTYPE_NETURAL, true, 10);
-	}
-	else if (GetKeyboardTrigger(DIK_T))
-	{
-		SetMotion(MOTIONTYPE_MOVE, true, 10);
-	}
-
+	// パッドの入力方向を取得
 	dirPad.x = joypad->Gamepad.sThumbLX;
 	dirPad.z = joypad->Gamepad.sThumbLY;
 
+	// パッドの入力方向ベクトルの大きさを計算
 	float joypadMagnitude = sqrtf(dirPad.x * dirPad.x + dirPad.z * dirPad.z);
 
+	// パッドの入力方向ベクトルの正規化
 	if (joypadMagnitude != 0 && joypadMagnitude > INPUT_DEADZONE)
-	{
+	{// 大きさが０でなくデッドゾーンを超えていたら処理
 		dirPad.x = (float)joypad->Gamepad.sThumbLX / (INPUT_MAX_MAGNITUDE - INPUT_DEADZONE);
 		dirPad.z = (float)joypad->Gamepad.sThumbLY / (INPUT_MAX_MAGNITUDE - INPUT_DEADZONE);
 		dir = dirPad;
 	}
 
+	// キーボード入力方向ベクトルの大きさを計算
 	float fMagnitude = sqrtf(dir.x * dir.x + dir.z * dir.z);
 
+	// キーボードの入力方向ベクトルの正規化
 	if (fMagnitude != 0)
-	{
+	{// 大きさが０でないなら
+		// プレイヤーの向きの移動先を移動方向の向きに設定
 		g_player.rotMove.y = atan2f(dir.x, dir.z) + D3DX_PI;
+
+		// プレイヤーの位置に移動量を反映
 		g_player.obj.pos += dir / fMagnitude * 5.0f;
 	}
+
+	// プレイヤーのY軸の移動量を反映
 	g_player.obj.pos.y += g_player.move.y;
 
+	// プレイヤーの向きを向きの移動先に近づける
 	float fRotDiff = GetFixedRotation(g_player.rotMove.y - g_player.obj.rot.y);
-
 	g_player.obj.rot.y = GetFixedRotation(g_player.obj.rot.y + fRotDiff * 0.1f);
 
+	// プレイヤーのY軸の移動量に重力を加算
 	g_player.move.y -= 0.6f;
 
+	// 影の設定
 	SetShadowPosition(g_player.nIdxShadow, D3DXVECTOR3(g_player.obj.pos.x, 0.01f, g_player.obj.pos.z));
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(40.0f, 0.01f, 40.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.08f, 0.0f, g_player.obj.pos.y * 0.08f));
 	SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f - g_player.obj.pos.y * 0.001f, 0.0f, 0.5f));
 
-	if (fMagnitude != 0 && GetCurrentPlayerMotion() != MOTIONTYPE_NETURAL)
+	if (GetKeyboardTrigger(DIK_RETURN) && GetCurrentPlayerMotion() != MOTIONTYPE_ACTION)
 	{
-		SetMotion(MOTIONTYPE_NETURAL, true, 10);
+		SetMotion(MOTIONTYPE_ACTION, true, 10);
 	}
-	else if (fMagnitude == 0 && GetCurrentPlayerMotion() != MOTIONTYPE_MOVE)
-	{
-		SetMotion(MOTIONTYPE_MOVE, true, 10);
-	}
+
+	//if (fMagnitude != 0 && GetCurrentPlayerMotion() != MOTIONTYPE_MOVE)
+	//{
+	//	SetMotion(MOTIONTYPE_MOVE, true, 10);
+	//}
+	//else if (fMagnitude == 0 && GetCurrentPlayerMotion() != MOTIONTYPE_NETURAL)
+	//{
+	//	SetMotion(MOTIONTYPE_NETURAL, true, 10);
+	//}
+
+
 
 	int nKeyNext = (g_player.nKey + 1) % g_player.nNumKey;
 	KEY_INFO* currentKeyInfo = &pMotionInfo[g_player.motionType].aKeyInfo[g_player.nKey];
@@ -287,6 +277,9 @@ void UpdatePlayer(void)
 		float fDiffRotY = GetFixedRotation(pNextKey->fRotY - pCurrentKey->fRotY);
 		float fDiffRotZ = GetFixedRotation(pNextKey->fRotZ - pCurrentKey->fRotZ);
 
+		float fPosX = pCurrentKey->fPosX + pMotion->aPart[nCntPart].offset.pos.x + fDiffPosX * fRate;
+		float fPosY = pCurrentKey->fPosY + pMotion->aPart[nCntPart].offset.pos.y + fDiffPosY * fRate;
+		float fPosZ = pCurrentKey->fPosZ + pMotion->aPart[nCntPart].offset.pos.z + fDiffPosZ * fRate;
 		float fRotX = GetFixedRotation(pCurrentKey->fRotX + pPart->offset.rot.x + fDiffRotX * fRate);
 		float fRotY = GetFixedRotation(pCurrentKey->fRotY + pPart->offset.rot.y + fDiffRotY * fRate);
 		float fRotZ = GetFixedRotation(pCurrentKey->fRotZ + pPart->offset.rot.z + fDiffRotZ * fRate);
@@ -298,6 +291,18 @@ void UpdatePlayer(void)
 			KEY_INFO* nextKeyInfoBlend = &pMotionInfo[g_player.motionTypeBlend].aKeyInfo[nKeyNextBlend];
 			float fRateKeyBlend = (float)g_player.nCounterMotionBlend / (float)currentKeyInfoBlend->nFrame;
 			float fRateBlend = (float)g_player.nCounterBlend / (float)g_player.nFrameBlend;
+
+			float fPosDiffXBlend = nextKeyInfoBlend->aKey[nCntPart].fPosX - currentKeyInfoBlend->aKey[nCntPart].fPosX;
+			float fPosXBlend = currentKeyInfoBlend->aKey[nCntPart].fPosX + pPart->offset.pos.x + fPosDiffXBlend * fRateKeyBlend;
+			float fDiffBlendPosX = fPosDiffXBlend - fPosXBlend;
+
+			float fPosDiffYBlend = nextKeyInfoBlend->aKey[nCntPart].fPosY - currentKeyInfoBlend->aKey[nCntPart].fPosY;
+			float fPosYBlend = currentKeyInfoBlend->aKey[nCntPart].fPosY + pPart->offset.pos.y + fPosDiffYBlend * fRateKeyBlend;
+			float fDiffBlendPosY = fPosDiffYBlend - fPosYBlend;
+
+			float fPosDiffZBlend = nextKeyInfoBlend->aKey[nCntPart].fPosZ - currentKeyInfoBlend->aKey[nCntPart].fPosZ;
+			float fPosZBlend = currentKeyInfoBlend->aKey[nCntPart].fPosZ + pPart->offset.pos.z + fPosDiffZBlend * fRateKeyBlend;
+			float fDiffBlendPosZ = fPosDiffZBlend - fPosZBlend;
 
 			float fRotDiffXBlend = GetFixedRotation(nextKeyInfoBlend->aKey[nCntPart].fRotX - currentKeyInfoBlend->aKey[nCntPart].fRotX);
 			float fRotXBlend = GetFixedRotation(currentKeyInfoBlend->aKey[nCntPart].fRotX + pPart->offset.rot.x + fRotDiffXBlend * fRateKeyBlend);
@@ -311,15 +316,18 @@ void UpdatePlayer(void)
 			float fRotZBlend = GetFixedRotation(currentKeyInfoBlend->aKey[nCntPart].fRotZ + pPart->offset.rot.z + fRotDiffZBlend * fRateKeyBlend);
 			float fDiffBlendZ = GetFixedRotation(fRotZBlend - fRotZ);
 
+			pPart->obj.pos.x = fPosX + pPart->offset.pos.x + fDiffBlendPosX * fRateBlend;
+			pPart->obj.pos.y = fPosY + pPart->offset.pos.y + fDiffBlendPosY * fRateBlend;
+			pPart->obj.pos.z = fPosZ + pPart->offset.pos.z + fDiffBlendPosZ * fRateBlend;
 			pPart->obj.rot.x = GetFixedRotation(fRotX + pPart->offset.rot.x + fDiffBlendX * fRateBlend);
 			pPart->obj.rot.y = GetFixedRotation(fRotY + pPart->offset.rot.y + fDiffBlendY * fRateBlend);
 			pPart->obj.rot.z = GetFixedRotation(fRotZ + pPart->offset.rot.z + fDiffBlendZ * fRateBlend);
 		}
 		else
 		{
-			pPart->obj.pos.x = pCurrentKey->fPosX + pMotion->aPart[nCntPart].offset.pos.x + fDiffPosX * fRate;
-			pPart->obj.pos.y = pCurrentKey->fPosY + pMotion->aPart[nCntPart].offset.pos.y + fDiffPosY * fRate;
-			pPart->obj.pos.z = pCurrentKey->fPosZ + pMotion->aPart[nCntPart].offset.pos.z + fDiffPosZ * fRate;
+			pPart->obj.pos.x = fPosX;
+			pPart->obj.pos.y = fPosY;
+			pPart->obj.pos.z = fPosZ;
 			pPart->obj.rot.x = fRotX;
 			pPart->obj.rot.y = fRotY;
 			pPart->obj.rot.z = fRotZ;

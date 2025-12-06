@@ -148,7 +148,7 @@ void UpdateGame(void)
 	if (g_bIsPaused == false)
 	{
 		UpdateField();
-		//UpdateMeshField();
+		UpdateMeshField();
 		UpdatePlayer();
 		//UpdateWall();
 		UpdateShadow();
@@ -170,7 +170,7 @@ void UpdateGame(void)
 void DrawGame(void)
 {
 	DrawField();
-	//DrawMeshField();
+	DrawMeshField();
 	//DrawWall();
 	DrawPlayer();
 	//DrawBillboard();

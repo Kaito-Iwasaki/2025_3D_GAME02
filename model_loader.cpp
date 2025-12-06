@@ -11,6 +11,7 @@
 // 
 //*********************************************************************
 #include "model_loader.h"
+#include "script.h"
 
 //*********************************************************************
 // 
@@ -39,6 +40,7 @@
 // 
 //*********************************************************************
 void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer);
+void _Read_MOVELSET(FILE* pFile);
 
 
 //=====================================================================
@@ -54,8 +56,9 @@ void LoadScript(const char* pFileName, SCRIPTDATA* pBuffer)
 
 		while (true)
 		{
-			if (fscanf(pFile, "%s", &aStrLine[0]) == EOF)
-			{
+			// 一行読み込む
+			if (ReadWord(pFile, &aStrLine[0]) == EOF)
+			{// ファイルの最後まで読み込んだら終了する
 				break;
 			}
 
@@ -86,7 +89,7 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 	while (true)
 	{
 		// 一行読み込む
-		if (fscanf(pFile, "%s", &aStrLine[0]) == EOF)
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
 		{// ファイルの最後まで読み込んだら終了する
 			break;
 		}
@@ -126,7 +129,7 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 			while (true)
 			{
 				// 一行読み込む
-				if (fscanf(pFile, "%s", &aStrLine[0]) == EOF)
+				if (ReadWord(pFile, &aStrLine[0]) == EOF)
 				{// ファイルの最後まで読み込んだら終了する
 					break;
 				}
