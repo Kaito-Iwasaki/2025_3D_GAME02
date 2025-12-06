@@ -13,6 +13,7 @@
 #include "model.h"
 #include "player.h"
 #include "model_loader.h"
+#include "DebugProc.h"
 
 //*********************************************************************
 // 

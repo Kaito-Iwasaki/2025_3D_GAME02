@@ -14,11 +14,10 @@
 #include "sound.h"
 #include "input.h"
 #include "fade.h"
-
-#include "Title.h"
-#include "Game.h"
 #include "camera.h"
 #include "light.h"
+#include "Title.h"
+#include "Game.h"
 
 //*********************************************************************
 // 
@@ -32,8 +31,8 @@ SCENE g_previousScene = g_currentScene;		// 直前のシーン
 // 各シーンの処理関数
 //*********************************************************************
 SCENEDATA g_scenes[SCENE_MAX] = {
-	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },
-	{ InitGame, UninitGame, UpdateGame, DrawGame },
+	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },		// タイトル画面
+	{ InitGame, UninitGame, UpdateGame, DrawGame },			// ゲーム画面
 };
 
 //=====================================================================
@@ -77,8 +76,10 @@ void UninitScene(void)
 //=====================================================================
 void UpdateScene(void)
 {
+	// ライトの更新処理
 	UpdateLight();
 
+	// カメラの更新処理
 	UpdateCamera();
 
 	// 現在のシーンの更新処理
@@ -93,6 +94,7 @@ void UpdateScene(void)
 //=====================================================================
 void DrawScene(void)
 {
+	// カメラの設定処理
 	SetCamera();
 
 	// 現在のシーンの描画処理

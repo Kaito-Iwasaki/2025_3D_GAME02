@@ -59,12 +59,19 @@ typedef struct
 	KEY_INFO aKeyInfo[MAX_KEY_INFO];		// キー情報
 }MOTION_INFO;
 
+typedef struct {
+	int nNumPart;
+	int nNumMotion;
+	char aPartFilename[MAX_PART][MAX_PATH];
+	PART aPart[MAX_PART];
+	MOTION_INFO aMotionInfo[MAX_MOTION_INFO];
+}MOTION;
 
 //*********************************************************************
 // 
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void LoadMotionScript(const char* pFileName, MOTION_INFO* pBuffer);
+void LoadMotionScript(const char* pFileName, MOTION* pBuffer);
 
 #endif

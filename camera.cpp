@@ -81,15 +81,6 @@ void UpdateCamera(void)
 {
 	PLAYER* pPlayer = GetPlayer();
 
-	if (GetKeyboardPress(DIK_Z))
-	{
-		g_camera.rot.y += 0.05f;
-	}
-	if (GetKeyboardPress(DIK_C))
-	{
-		g_camera.rot.y -= 0.05f;
-	}
-
 	g_camera.posRDest.x = pPlayer->obj.pos.x;
 	g_camera.posRDest.y = pPlayer->obj.pos.y + g_camera.posOffset.y;
 	g_camera.posRDest.z = pPlayer->obj.pos.z + g_camera.posOffset.z;
@@ -137,7 +128,7 @@ void SetCamera(void)
 		D3DXToRadian(45.0f),
 		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
 		10.0f,
-		100000.0f
+		1000000.0f
 	);
 
 	// プロジェクションマトリックスの設定

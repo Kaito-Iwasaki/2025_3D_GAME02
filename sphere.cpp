@@ -20,7 +20,7 @@
 //*********************************************************************
 #define TEXTURE_FILENAME	"data\\TEXTURE\\skybox00.jpg"
 #define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
-#define INIT_SIZE			D3DXVECTOR3(50000.0f, 50000.0f, 50000.0f)
+#define INIT_SIZE			D3DXVECTOR3(100000.0f, 100000.0f, 100000.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
 #define NUM_BLOCK_X			(8)
 #define NUM_BLOCK_Y			(8)

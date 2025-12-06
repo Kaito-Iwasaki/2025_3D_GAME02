@@ -22,7 +22,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define NUM_PART			(6)
+
 
 //*********************************************************************
 // 
@@ -36,7 +36,6 @@ typedef enum
 	MOTIONTYPE_MAX
 }MOTIONTYPE;
 
-
 //*********************************************************************
 // 
 // ***** 構造体 *****
@@ -44,21 +43,17 @@ typedef enum
 //*********************************************************************
 typedef struct
 {
-	BASEOBJECT obj;
-	D3DXMATRIX mtxWorld;
-	D3DXVECTOR3 posOld;
-	D3DXVECTOR3 move;
-	D3DXVECTOR3 rotMove;
-	int nIdxShadow;
-	char* aFilenamePart[NUM_PART][MAX_PATH];
-	PART aPart[NUM_PART];
-	int nNumPart;
+	BASEOBJECT obj;								// 位置・回転情報
+	D3DXMATRIX mtxWorld;						// ワールドマトリックス
+	D3DXVECTOR3 posOld;							// 過去の位置
+	D3DXVECTOR3 move;							// 移動先の位置
+	D3DXVECTOR3 rotMove;						// 移動先の角度
+	int nIdxShadow;								// シャドウのインデックス
 
-	MOTION_INFO aMotionInfo[MAX_MOTION_INFO];	// モーション情報
-	int nNumMotion;								// モーションの総数
+	MOTION motion;								// モーション
 	MOTIONTYPE motionType;						// モーションの種類
 	bool bLoopMotion;							// ループするかどうか
-	int nNumKey;								// キー総数S
+	int nNumKey;								// キー総数
 	int nKey;									// 現在のキーNo.
 	int nCounterMotion;							// モーションのカウンター
 

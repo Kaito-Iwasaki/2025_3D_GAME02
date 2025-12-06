@@ -76,7 +76,7 @@ void InitGame(void)
 	InitWall();
 	InitShadow();
 	InitPlayer();
-	InitBillboard();
+	//InitBillboard();
 	InitBullet();
 	InitExplosion();
 	InitEffect();
@@ -114,7 +114,7 @@ void UninitGame(void)
 	UninitWall();
 	UninitPlayer();
 	UninitShadow();
-	UninitBillboard();
+	//UninitBillboard();
 	UninitBullet();
 	UninitExplosion();
 	UninitEffect();
@@ -147,12 +147,12 @@ void UpdateGame(void)
 
 	if (g_bIsPaused == false)
 	{
-		//UpdateField();
+		UpdateField();
 		//UpdateMeshField();
 		UpdatePlayer();
 		//UpdateWall();
 		UpdateShadow();
-		UpdateBillboard();
+		//UpdateBillboard();
 		UpdateBullet();
 		UpdateExplosion();
 		UpdateEffect();
@@ -169,11 +169,11 @@ void UpdateGame(void)
 //=====================================================================
 void DrawGame(void)
 {
-	//DrawField();
+	DrawField();
 	//DrawMeshField();
 	//DrawWall();
 	DrawPlayer();
-	DrawBillboard();
+	//DrawBillboard();
 	DrawBullet();
 	DrawExplosion();
 	DrawEffect();

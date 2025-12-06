@@ -1,6 +1,6 @@
 //=====================================================================
 // 
-// 2Dアクションゲーム [main.cpp]
+// 3Dゲーム [main.cpp]
 // Author : Kaito Iwasaki
 //
 //=====================================================================
@@ -54,7 +54,8 @@ HWND g_hWnd;
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR lpCmdLine, int nCmdShow)
 {
 #ifdef _DEBUG
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);			// メモリリーク検知用のフラグ
+	// メモリリーク検知用のフラグ
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 #endif
 
 	// ウィンドウクラスの設定

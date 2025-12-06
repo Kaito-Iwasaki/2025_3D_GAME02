@@ -56,9 +56,7 @@ void InitLight(void)
 	D3DXVECTOR3 vecDir;
 
 	// ライトの情報をクリアする
-	ZeroMemory(&g_aLight[0], sizeof(D3DLIGHT9));
-	ZeroMemory(&g_aLight[1], sizeof(D3DLIGHT9));
-	ZeroMemory(&g_aLight[2], sizeof(D3DLIGHT9));
+	ZeroMemory(&g_aLight[0], sizeof(g_aLight));
 
 	// ライトの種類を設定
 	g_aLight[0].Type = D3DLIGHT_DIRECTIONAL;

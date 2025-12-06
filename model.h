@@ -22,6 +22,7 @@
 //*********************************************************************
 #define MAX_TEXTURE_PER_MODEL		(32)
 #define MAX_MODEL					(1024)
+#define MAX_PART					(32)
 
 //*********************************************************************
 // 
@@ -43,6 +44,7 @@ typedef struct
 	LPD3DXBUFFER pBuffMat;									// マテリアルへのポインタ
 	DWORD dwNumMat;											// マテリアル数
 	int nIdxModelParent;									// 親モデルのインデックス
+	int nIdxPart;
 	BASEOBJECT obj;
 	BASEOBJECT offset;
 	D3DXMATRIX mtxWorld;

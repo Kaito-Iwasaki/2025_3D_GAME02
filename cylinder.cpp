@@ -19,8 +19,8 @@
 // 
 //*********************************************************************
 #define TEXTURE_FILENAME	"data\\TEXTURE\\buildings000.png"
-#define INIT_POS			D3DXVECTOR3(0.0f, -2500.0f, 0.0f)
-#define INIT_SIZE			D3DXVECTOR3(10000.0f, 10000.0f, 10000.0f)
+#define INIT_POS			D3DXVECTOR3(0.0f, -7500.0f, 0.0f)
+#define INIT_SIZE			D3DXVECTOR3(30000.0f, 30000.0f, 30000.0f)
 #define INIT_COLOR			D3DXCOLOR_WHITE
 #define NUM_SEGMENT_X		(16)
 #define NUM_SEGMENT_Y		(4)

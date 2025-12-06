@@ -67,7 +67,7 @@ void InitTitle(void)
 	CAMERA* pCamera = GetCamera();
 	pCamera->rot = D3DXVECTOR3_ZERO;
 	pCamera->posOffset = D3DXVECTOR3_ZERO;
-	SetCameraPosV(D3DXVECTOR3(0, 0, -100));
+	SetCameraPosV(D3DXVECTOR3(0, 0, 0));
 	SetCameraPosR(D3DXVECTOR3(0, 0, 0));
 }
 
