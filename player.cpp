@@ -277,43 +277,43 @@ void UpdatePlayer(void)
 		float fDiffRotY = GetFixedRotation(pNextKey->fRotY - pCurrentKey->fRotY);
 		float fDiffRotZ = GetFixedRotation(pNextKey->fRotZ - pCurrentKey->fRotZ);
 
-		float fPosX = pCurrentKey->fPosX + pMotion->aPart[nCntPart].offset.pos.x + fDiffPosX * fRate;
-		float fPosY = pCurrentKey->fPosY + pMotion->aPart[nCntPart].offset.pos.y + fDiffPosY * fRate;
-		float fPosZ = pCurrentKey->fPosZ + pMotion->aPart[nCntPart].offset.pos.z + fDiffPosZ * fRate;
-		float fRotX = GetFixedRotation(pCurrentKey->fRotX + pPart->offset.rot.x + fDiffRotX * fRate);
-		float fRotY = GetFixedRotation(pCurrentKey->fRotY + pPart->offset.rot.y + fDiffRotY * fRate);
-		float fRotZ = GetFixedRotation(pCurrentKey->fRotZ + pPart->offset.rot.z + fDiffRotZ * fRate);
+		float fPosX = pCurrentKey->fPosX + fDiffPosX * fRate;
+		float fPosY = pCurrentKey->fPosY + fDiffPosY * fRate;
+		float fPosZ = pCurrentKey->fPosZ + fDiffPosZ * fRate;
+		float fRotX = GetFixedRotation(pCurrentKey->fRotX + fDiffRotX * fRate);
+		float fRotY = GetFixedRotation(pCurrentKey->fRotY + fDiffRotY * fRate);
+		float fRotZ = GetFixedRotation(pCurrentKey->fRotZ + fDiffRotZ * fRate);
 
 		if (g_player.bBlendMotion)
 		{
 			int nKeyNextBlend = (g_player.nKeyBlend + 1) % g_player.nNumKeyBlend;
-			KEY_INFO* currentKeyInfoBlend = &pMotionInfo[g_player.motionTypeBlend].aKeyInfo[g_player.nKeyBlend];
+			KEY_INFO* currentKeyInfoBlend = &pMotionInfo[g_player.motionType].aKeyInfo[g_player.nKeyBlend];
 			KEY_INFO* nextKeyInfoBlend = &pMotionInfo[g_player.motionTypeBlend].aKeyInfo[nKeyNextBlend];
 			float fRateKeyBlend = (float)g_player.nCounterMotionBlend / (float)currentKeyInfoBlend->nFrame;
 			float fRateBlend = (float)g_player.nCounterBlend / (float)g_player.nFrameBlend;
 
 			float fPosDiffXBlend = nextKeyInfoBlend->aKey[nCntPart].fPosX - currentKeyInfoBlend->aKey[nCntPart].fPosX;
-			float fPosXBlend = currentKeyInfoBlend->aKey[nCntPart].fPosX + pPart->offset.pos.x + fPosDiffXBlend * fRateKeyBlend;
-			float fDiffBlendPosX = fPosDiffXBlend - fPosXBlend;
+			float fPosXBlend = currentKeyInfoBlend->aKey[nCntPart].fPosX + fPosDiffXBlend * fRateKeyBlend;
+			float fDiffBlendPosX = fPosXBlend - fPosX;
 
 			float fPosDiffYBlend = nextKeyInfoBlend->aKey[nCntPart].fPosY - currentKeyInfoBlend->aKey[nCntPart].fPosY;
-			float fPosYBlend = currentKeyInfoBlend->aKey[nCntPart].fPosY + pPart->offset.pos.y + fPosDiffYBlend * fRateKeyBlend;
-			float fDiffBlendPosY = fPosDiffYBlend - fPosYBlend;
+			float fPosYBlend = currentKeyInfoBlend->aKey[nCntPart].fPosY + fPosDiffYBlend * fRateKeyBlend;
+			float fDiffBlendPosY = fPosYBlend - fRotY;
 
 			float fPosDiffZBlend = nextKeyInfoBlend->aKey[nCntPart].fPosZ - currentKeyInfoBlend->aKey[nCntPart].fPosZ;
-			float fPosZBlend = currentKeyInfoBlend->aKey[nCntPart].fPosZ + pPart->offset.pos.z + fPosDiffZBlend * fRateKeyBlend;
-			float fDiffBlendPosZ = fPosDiffZBlend - fPosZBlend;
+			float fPosZBlend = currentKeyInfoBlend->aKey[nCntPart].fPosZ + fPosDiffZBlend * fRateKeyBlend;
+			float fDiffBlendPosZ = fPosYBlend - fRotZ;
 
 			float fRotDiffXBlend = GetFixedRotation(nextKeyInfoBlend->aKey[nCntPart].fRotX - currentKeyInfoBlend->aKey[nCntPart].fRotX);
-			float fRotXBlend = GetFixedRotation(currentKeyInfoBlend->aKey[nCntPart].fRotX + pPart->offset.rot.x + fRotDiffXBlend * fRateKeyBlend);
+			float fRotXBlend = GetFixedRotation(currentKeyInfoBlend->aKey[nCntPart].fRotX + fRotDiffXBlend * fRateKeyBlend);
 			float fDiffBlendX = GetFixedRotation(fRotXBlend - fRotX);
 			
 			float fRotDiffYBlend = GetFixedRotation(nextKeyInfoBlend->aKey[nCntPart].fRotY - currentKeyInfoBlend->aKey[nCntPart].fRotY);
-			float fRotYBlend = GetFixedRotation(currentKeyInfoBlend->aKey[nCntPart].fRotY + pPart->offset.rot.y + fRotDiffYBlend * fRateKeyBlend);
+			float fRotYBlend = GetFixedRotation(currentKeyInfoBlend->aKey[nCntPart].fRotY + fRotDiffYBlend * fRateKeyBlend);
 			float fDiffBlendY = GetFixedRotation(fRotYBlend - fRotY);
 
 			float fRotDiffZBlend = GetFixedRotation(nextKeyInfoBlend->aKey[nCntPart].fRotZ - currentKeyInfoBlend->aKey[nCntPart].fRotZ);
-			float fRotZBlend = GetFixedRotation(currentKeyInfoBlend->aKey[nCntPart].fRotZ + pPart->offset.rot.z + fRotDiffZBlend * fRateKeyBlend);
+			float fRotZBlend = GetFixedRotation(currentKeyInfoBlend->aKey[nCntPart].fRotZ + fRotDiffZBlend * fRateKeyBlend);
 			float fDiffBlendZ = GetFixedRotation(fRotZBlend - fRotZ);
 
 			pPart->obj.pos.x = fPosX + pPart->offset.pos.x + fDiffBlendPosX * fRateBlend;
@@ -325,12 +325,12 @@ void UpdatePlayer(void)
 		}
 		else
 		{
-			pPart->obj.pos.x = fPosX;
-			pPart->obj.pos.y = fPosY;
-			pPart->obj.pos.z = fPosZ;
-			pPart->obj.rot.x = fRotX;
-			pPart->obj.rot.y = fRotY;
-			pPart->obj.rot.z = fRotZ;
+			pPart->obj.pos.x = fPosX + pPart->offset.pos.x;
+			pPart->obj.pos.y = fPosY + pPart->offset.pos.y;
+			pPart->obj.pos.z = fPosZ + pPart->offset.pos.z;
+			pPart->obj.rot.x = GetFixedRotation(fRotX + pPart->offset.rot.x);
+			pPart->obj.rot.y = GetFixedRotation(fRotY + pPart->offset.rot.y);
+			pPart->obj.rot.z = GetFixedRotation(fRotZ + pPart->offset.rot.z);
 		}
 	}
 
@@ -342,8 +342,13 @@ void UpdatePlayer(void)
 		// プレイヤーのブレンドモーションのフレームが
 		if (g_player.nCounterMotionBlend >= pMotionInfo[g_player.motionTypeBlend].aKeyInfo[g_player.nKeyBlend].nFrame)
 		{
-			g_player.nKeyBlend = (g_player.nKeyBlend + 1) % g_player.nNumKeyBlend;
-			g_player.nCounterMotionBlend = 0;
+			g_player.bFinishMotion = (g_player.nKeyBlend + 1) == g_player.nNumKeyBlend ? true : false;
+			
+			if (g_player.bFinishMotion == false || g_player.bLoopMotion == true)
+			{
+				g_player.nKeyBlend = (g_player.nKeyBlend + 1) % g_player.nNumKeyBlend;
+				g_player.nCounterMotionBlend = 0;
+			}
 		}
 
 		// ブレンド状態のカウンタを進めて、
@@ -367,8 +372,14 @@ void UpdatePlayer(void)
 		// モーションのカウンタが再生フレーム数まで達したら次のキーに移行する
 		if (g_player.nCounterMotion >= currentKeyInfo->nFrame)
 		{
+			g_player.bFinishMotion = (g_player.nKey + 2) == g_player.nNumKey ? true : false;
 			g_player.nKey = nKeyNext;
 			g_player.nCounterMotion = 0;
+		}
+
+		if (g_player.bFinishMotion && g_player.bLoopMotion == false)
+		{
+			SetMotion(MOTIONTYPE_NETURAL, true, nextKeyInfo->nFrame);
 		}
 	}
 
@@ -514,6 +525,7 @@ void SetMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion)
 		g_player.nCounterMotionBlend = 0;
 		g_player.nFrameBlend = nFrameMotion;
 		g_player.nCounterBlend = 0;
+		g_player.bFinishMotion = false;
 	}
 	else
 	{
@@ -522,6 +534,7 @@ void SetMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion)
 		g_player.bLoopMotion = pMotionInfo[type].bLoop;
 		g_player.nKey = 0;
 		g_player.nCounterMotion = 0;
+		g_player.bFinishMotion = false;
 	}
 }
 
@@ -533,4 +546,9 @@ MOTIONTYPE GetCurrentPlayerMotion(void)
 	}
 
 	return g_player.motionType;
+}
+
+void OnPlayerStateChanged()
+{
+
 }

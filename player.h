@@ -37,6 +37,14 @@ typedef enum
 	MOTIONTYPE_MAX
 }MOTIONTYPE;
 
+typedef enum
+{
+	PLAYERSTATE_NETURAL = 0,
+	PLAYERSTATE_MOVE,
+	PLAYERSTATE_ACTION,
+	PLAYERSTATE_MAX
+}PLAYERSTATE;
+
 //*********************************************************************
 // 
 // ***** ç\ë¢ëÃ *****
