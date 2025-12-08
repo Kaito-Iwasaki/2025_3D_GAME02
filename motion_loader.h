@@ -23,6 +23,7 @@
 #define MAX_MOTION_INFO		(32)
 #define MAX_KEY_INFO		(32)
 #define MAX_PART_PER_KEY	(32)
+#define MAX_PART			(32)
 
 //*********************************************************************
 // 
@@ -36,22 +37,43 @@
 // ***** 構造体 *****
 // 
 //*********************************************************************
+//*********************************************************************
+// パーツ構造体
+//*********************************************************************
 typedef struct
 {
-	float fPosX;
-	float fPosY;
-	float fPosZ;
-	float fRotX;
-	float fRotY;
-	float fRotZ;
+	LPDIRECT3DTEXTURE9 apTexture[MAX_TEXTURE_PER_MODEL];	// テクスチャへのポインタ
+	LPD3DXMESH pMesh;										// メッシュ情報へのポインタ
+	LPD3DXBUFFER pBuffMat;									// マテリアルへのポインタ
+	DWORD dwNumMat;											// マテリアル数
+	int nIdxModelParent;									// 親モデルのインデックス
+	int nIdxPart;
+	BASEOBJECT obj;
+	BASEOBJECT offset;
+	D3DXMATRIX mtxWorld;
+}PART;
+
+//*********************************************************************
+// キー構造体
+//*********************************************************************
+typedef struct
+{
+	D3DXVECTOR3 pos;						// 位置
+	D3DXVECTOR3 rot;						// 回転
 }KEY;
 
+//*********************************************************************
+// キー情報構造体
+//*********************************************************************
 typedef struct
 {
-	int nFrame;					// 再生フレーム
-	KEY aKey[MAX_PART_PER_KEY];			// 各パーツのキー要素
+	int nFrame;								// 再生フレーム
+	KEY aKey[MAX_PART_PER_KEY];				// 各パーツのキー要素
 }KEY_INFO;
 
+//*********************************************************************
+// モーション情報構造体
+//*********************************************************************
 typedef struct
 {
 	bool bLoop;								// ループするかどうか
@@ -59,6 +81,9 @@ typedef struct
 	KEY_INFO aKeyInfo[MAX_KEY_INFO];		// キー情報
 }MOTION_INFO;
 
+//*********************************************************************
+// モーション構造体
+//*********************************************************************
 typedef struct {
 	int nNumPart;
 	int nNumMotion;

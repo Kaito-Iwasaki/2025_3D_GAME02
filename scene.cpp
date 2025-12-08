@@ -18,6 +18,7 @@
 #include "light.h"
 #include "Title.h"
 #include "Game.h"
+#include "Test.h"
 
 //*********************************************************************
 // 
@@ -33,6 +34,7 @@ SCENE g_previousScene = g_currentScene;		// 直前のシーン
 SCENEDATA g_scenes[SCENE_MAX] = {
 	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },		// タイトル画面
 	{ InitGame, UninitGame, UpdateGame, DrawGame },			// ゲーム画面
+	{ InitTest, UninitTest, UpdateTest, DrawTest },			// ゲーム画面
 };
 
 //=====================================================================

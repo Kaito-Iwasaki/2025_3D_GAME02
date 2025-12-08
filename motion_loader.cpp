@@ -281,16 +281,11 @@ void _Read_KEY(FILE* pFile, KEY* pBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "POS") == 0)
 		{
-			fscanf(pFile, " = %f %f %f", &pBuffer->fPosX, &pBuffer->fPosY, &pBuffer->fPosZ);
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
 		}
 		else if (strcmp(&aStrLine[0], "ROT") == 0)
 		{
-			float fRotX, fRotY, fRotZ;
-			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
-
-			pBuffer->fRotX = (fRotX);
-			pBuffer->fRotY = (fRotY);
-			pBuffer->fRotZ = (fRotZ);
+			fscanf(pFile, " = %f %f %f", &pBuffer->rot.x, &pBuffer->rot.y, &pBuffer->rot.z);
 		}
 	}
 }

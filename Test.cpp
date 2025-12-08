@@ -1,6 +1,6 @@
 //=====================================================================
 //
-// Game [Game.cpp]
+// Test [Test.cpp]
 // Author : 
 // 
 //=====================================================================
@@ -10,7 +10,7 @@
 // ***** インクルードファイル *****
 // 
 //*********************************************************************
-#include "Game.h"
+#include "Test.h"
 #include "field.h"
 #include "player.h"
 #include "shadow.h"
@@ -62,44 +62,42 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-bool g_bIsPaused = false;
-SCRIPTDATA g_data;
+bool g_bIsPausedTest = false;
+SCRIPTDATA g_dataTest;
 
 //=====================================================================
 // 初期化処理
 //=====================================================================
-void InitGame(void)
+void InitTest(void)
 {
 	InitCamera();
 	InitField();
-	InitMeshField();
-	InitWall();
 	InitShadow();
 	InitPlayer();
-	//InitBillboard();
-	InitBullet();
-	InitExplosion();
-	InitEffect();
 	InitModel();
 	InitCylinder();
 	InitSphere();
 	InitDebugProc();
 
-	g_bIsPaused = false;
+	g_bIsPausedTest = false;
 
-	LoadScript("data\\model.txt", &g_data);
+	LoadScript("data\\model.txt", &g_dataTest);
 
-	for (int nCntMesh = 0; nCntMesh < g_data.nNumModel; nCntMesh++)
+	for (int nCntMesh = 0; nCntMesh < g_dataTest.nNumModel; nCntMesh++)
 	{
-		LoadModel(g_data.aFilenameModel[nCntMesh], nCntMesh);
+		LoadModel(g_dataTest.aFilenameModel[nCntMesh], nCntMesh);
 	}
 
-	for (int nCntModel = 0; nCntModel < g_data.nCountModelSet; nCntModel++)
+	for (int nCntModel = 0; nCntModel < g_dataTest.nCountModelSet; nCntModel++)
 	{
 		SetModel(
-			g_data.aInfoModelSet[nCntModel].nType,
-			g_data.aInfoModelSet[nCntModel].pos,
-			D3DXVECTOR3(D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z))
+			g_dataTest.aInfoModelSet[nCntModel].nType,
+			g_dataTest.aInfoModelSet[nCntModel].pos,
+			D3DXVECTOR3(
+				D3DXToRadian(g_dataTest.aInfoModelSet[nCntModel].rot.x),
+				D3DXToRadian(g_dataTest.aInfoModelSet[nCntModel].rot.y),
+				D3DXToRadian(g_dataTest.aInfoModelSet[nCntModel].rot.z)
+			)
 		);
 	}
 }
@@ -107,17 +105,11 @@ void InitGame(void)
 //=====================================================================
 // 終了処理
 //=====================================================================
-void UninitGame(void)
+void UninitTest(void)
 {
 	UninitField();
-	UninitMeshField();
-	UninitWall();
 	UninitPlayer();
 	UninitShadow();
-	//UninitBillboard();
-	UninitBullet();
-	UninitExplosion();
-	UninitEffect();
 	UninitModel();
 	UninitCylinder();
 	UninitSphere();
@@ -127,7 +119,7 @@ void UninitGame(void)
 //=====================================================================
 // 更新処理
 //=====================================================================
-void UpdateGame(void)
+void UpdateTest(void)
 {
 	PLAYER* pPlayer = GetPlayer();
 
@@ -142,33 +134,22 @@ void UpdateGame(void)
 
 	if (GetKeyboardTrigger(DIK_P))
 	{
-		g_bIsPaused ^= 1;
+		g_bIsPausedTest ^= 1;
 	}
 
-	PrintDebugProc("ポーズ : %d\n", g_bIsPaused);
+	PrintDebugProc("ポーズ : %d\n", g_bIsPausedTest);
 
-	if (g_bIsPaused == false)
+	if (g_bIsPausedTest == false)
 	{
 		UpdateField();
-		UpdateMeshField();
 		UpdatePlayer();
-		//UpdateWall();
 		UpdateShadow();
-		//UpdateBillboard();
-		UpdateBullet();
-		UpdateExplosion();
-		UpdateEffect();
 		UpdateModel();
 		UpdateCylinder();
 		UpdateSphere();
-
-		//float m = pPlayer->obj.pos.x - pPlayer->posOld.z;
-		//PrintDebugProc("%f", m);
-		//if (m < 0.1f)
-		//{
-		//	SetFade(GetCurrentScene());
-		//}
 	}
+
+	SetCameraPosV(pPlayer->obj.pos + D3DXVECTOR3(0, 50.0f, -50.0f));
 
 	UpdateDebugProc();
 }
@@ -176,16 +157,10 @@ void UpdateGame(void)
 //=====================================================================
 // 描画処理
 //=====================================================================
-void DrawGame(void)
+void DrawTest(void)
 {
 	DrawField();
-	//DrawMeshField();
-	//DrawWall();
 	DrawPlayer();
-	//DrawBillboard();
-	DrawBullet();
-	DrawExplosion();
-	DrawEffect();
 	DrawModel();
 	DrawSphere();
 	DrawCylinder();

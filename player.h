@@ -41,7 +41,8 @@ typedef enum
 {
 	PLAYERSTATE_NETURAL = 0,
 	PLAYERSTATE_MOVE,
-	PLAYERSTATE_ACTION,
+	PLAYERSTATE_JUMP,
+	PLAYERSTATE_SLIDING,
 	PLAYERSTATE_MAX
 }PLAYERSTATE;
 
@@ -58,6 +59,7 @@ typedef struct
 	D3DXVECTOR3 move;							// 移動先の位置
 	D3DXVECTOR3 rotMove;						// 移動先の角度
 	int nIdxShadow;								// シャドウのインデックス
+	bool bJump;
 
 	MOTION motion;								// モーション
 	MOTIONTYPE motionType;						// モーションの種類
@@ -88,7 +90,8 @@ void UninitPlayer(void);
 void UpdatePlayer(void);
 void DrawPlayer(void);
 PLAYER* GetPlayer(void);
-void SetMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion);
+void SetPlayerMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion);
 MOTIONTYPE GetCurrentPlayerMotion(void);
+void SetPlayerState(PLAYERSTATE state);
 
 #endif

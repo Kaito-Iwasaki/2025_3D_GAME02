@@ -1,11 +1,11 @@
 //=====================================================================
 //
-// model.cppのヘッダファイル [model.h]
+// Test.cppのヘッダファイル [Test.h]
 // Author : 
 // 
 //=====================================================================
-#ifndef _MODEL_H_
-#define _MODEL_H_
+#ifndef _Test_H_
+#define _Test_H_
 
 //*********************************************************************
 // 
@@ -13,47 +13,20 @@
 // 
 //*********************************************************************
 #include "main.h"
-#include "baseObject.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_TEXTURE_PER_MODEL		(32)
-#define MAX_MODEL					(1024)
 
-#define MODEL_HIT_NONE		(0x00)
-#define MODEL_HIT_FRONT		(0x01)
-#define MODEL_HIT_BACK		(0x02)
-#define MODEL_HIT_LEFT		(0x04)
-#define MODEL_HIT_RIGHT		(0x08)
-#define MODEL_HIT_TOP		(0x10)
-#define MODEL_HIT_BOTTOM	(0x20)
 
 //*********************************************************************
 // 
 // ***** 構造体 *****
 // 
 //*********************************************************************
-typedef struct
-{
-	BASEOBJECT obj;
-	D3DXMATRIX mtxWorld;
-	int nType;
-	bool bUsed;
-}MODEL;
 
-
-
-typedef struct
-{
-	LPDIRECT3DTEXTURE9 apTexture[MAX_TEXTURE_PER_MODEL];	// テクスチャへのポインタ
-	LPD3DXMESH pMesh;										// メッシュ情報へのポインタ
-	LPD3DXBUFFER pBuffMat;									// マテリアルへのポインタ
-	DWORD dwNumMat;											// マテリアル数
-	D3DXVECTOR3 vtxMin, vtxMax;								// 端の頂点位置
-}MESHDATA;
 
 //*********************************************************************
 // 
@@ -67,12 +40,9 @@ typedef struct
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitModel(void);
-void UninitModel(void);
-void UpdateModel(void);
-void DrawModel(void);
-void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot);
-void LoadModel(const char* pFilename, int nIdx);
-BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld);
+void InitTest(void);
+void UninitTest(void);
+void UpdateTest(void);
+void DrawTest(void);
 
 #endif

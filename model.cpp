@@ -20,13 +20,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MODEL_HIT_NONE		(0x00)
-#define MODEL_HIT_FRONT		(0x01)
-#define MODEL_HIT_BACK		(0x02)
-#define MODEL_HIT_LEFT		(0x04)
-#define MODEL_HIT_RIGHT		(0x08)
-#define MODEL_HIT_TOP		(0x10)
-#define MODEL_HIT_BOTTOM	(0x20)
+
 
 //*********************************************************************
 // 
@@ -107,121 +101,7 @@ void UninitModel(void)
 //=====================================================================
 void UpdateModel(void)
 {
-	PLAYER* pPlayer = GetPlayer();
-	MODEL* pModel = &g_aModel[0];
 
-	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
-	{
-		if (pModel->bUsed == false) continue;	// 使用中でないならスキップ
-
-		BYTE byHit = MODEL_HIT_NONE;
-		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
-		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
-
-		// モデルの衝突判定処理
-		if (
-			pPlayer->posOld.x <= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x > pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
-			)
-		{// 左
-			byHit |= MODEL_HIT_LEFT;
-		}
-
-		if (
-			pPlayer->posOld.x >= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.x < pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z <= pModel->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.z >= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
-			)
-		{// 右
-			byHit |= MODEL_HIT_RIGHT;
-		}
-
-		if (
-			pPlayer->posOld.z <= pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.z > pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
-			)
-		{// 前
-			byHit |= MODEL_HIT_FRONT;
-		}
-
-		if (
-			pPlayer->posOld.z >= pModel->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.z < pModel->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.x >= pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.y <= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y >= pModel->obj.pos.y + vtxMin.y
-			)
-		{// 後ろ
-			byHit |= MODEL_HIT_BACK;
-		}
-
-
-
-		if (byHit & MODEL_HIT_LEFT)
-		{// 左から衝突
-			pPlayer->obj.pos.x = pModel->obj.pos.x + vtxMin.x;
-		}
-		if (byHit & MODEL_HIT_RIGHT)
-		{// 右から衝突
-			pPlayer->obj.pos.x = pModel->obj.pos.x + vtxMax.x;
-		}
-		if (byHit & MODEL_HIT_FRONT)
-		{// 前から衝突
-			pPlayer->obj.pos.z = pModel->obj.pos.z + vtxMin.z;
-		}
-		if (byHit & MODEL_HIT_BACK)
-		{// 後ろから衝突
-			pPlayer->obj.pos.z = pModel->obj.pos.z + vtxMax.z;
-		}
-
-		if (
-			pPlayer->posOld.y >= pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y < pModel->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.x > pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x < pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z > pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.z < pModel->obj.pos.z + vtxMax.z
-			)
-		{// 上
-			byHit |= MODEL_HIT_TOP;
-		}
-
-		if (
-			pPlayer->posOld.y <= pModel->obj.pos.y + vtxMin.y
-			&& pPlayer->obj.pos.y > pModel->obj.pos.y + vtxMin.y
-			&& pPlayer->obj.pos.x > pModel->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x < pModel->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z > pModel->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.z < pModel->obj.pos.z + vtxMax.z
-			)
-		{// 下
-			byHit |= MODEL_HIT_BOTTOM;
-		}
-
-
-		if (byHit & MODEL_HIT_TOP)
-		{// 上から衝突
-			pPlayer->obj.pos.y = pModel->obj.pos.y + vtxMax.y;
-			pPlayer->move.y = 0;
-		}
-		if (byHit & MODEL_HIT_BOTTOM)
-		{// 下から衝突
-			pPlayer->obj.pos.y = pModel->obj.pos.y + vtxMin.y;
-			pPlayer->move.y = 0;
-		}
-	}
 }
 
 //=====================================================================
@@ -430,4 +310,122 @@ void LoadModel(const char* pFilename, int nIdx)
 			);
 		}
 	}
+}
+
+BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
+{
+	MODEL* pModel = &g_aModel[0];
+	BYTE byHitAll = MODEL_HIT_NONE;
+
+	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
+	{
+		if (pModel->bUsed == false) continue;	// 使用中でないならスキップ
+
+		BYTE byHit = MODEL_HIT_NONE;
+		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
+		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
+
+		// モデルの衝突判定処理
+		if (
+			posOld.x <= pModel->obj.pos.x + vtxMin.x
+			&& pos->x > pModel->obj.pos.x + vtxMin.x
+			&& pos->z <= pModel->obj.pos.z + vtxMax.z
+			&& pos->z >= pModel->obj.pos.z + vtxMin.z
+			&& pos->y < pModel->obj.pos.y + vtxMax.y
+			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			)
+		{// 左
+			byHit |= MODEL_HIT_LEFT;
+		}
+
+		if (
+			posOld.x >= pModel->obj.pos.x + vtxMax.x
+			&& pos->x < pModel->obj.pos.x + vtxMax.x
+			&& pos->z <= pModel->obj.pos.z + vtxMax.z
+			&& pos->z >= pModel->obj.pos.z + vtxMin.z
+			&& pos->y < pModel->obj.pos.y + vtxMax.y
+			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			)
+		{// 右
+			byHit |= MODEL_HIT_RIGHT;
+		}
+
+		if (
+			posOld.z <= pModel->obj.pos.z + vtxMin.z
+			&& pos->z > pModel->obj.pos.z + vtxMin.z
+			&& pos->x >= pModel->obj.pos.x + vtxMin.x
+			&& pos->x <= pModel->obj.pos.x + vtxMax.x
+			&& pos->y < pModel->obj.pos.y + vtxMax.y
+			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			)
+		{// 前
+			byHit |= MODEL_HIT_FRONT;
+		}
+
+		if (
+			posOld.z >= pModel->obj.pos.z + vtxMax.z
+			&& pos->z < pModel->obj.pos.z + vtxMax.z
+			&& pos->x >= pModel->obj.pos.x + vtxMin.x
+			&& pos->x <= pModel->obj.pos.x + vtxMax.x
+			&& pos->y < pModel->obj.pos.y + vtxMax.y
+			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			)
+		{// 後ろ
+			byHit |= MODEL_HIT_BACK;
+		}
+
+		if (byHit & MODEL_HIT_LEFT)
+		{// 左から衝突
+			pos->x = pModel->obj.pos.x + vtxMin.x;
+		}
+		if (byHit & MODEL_HIT_RIGHT)
+		{// 右から衝突
+			pos->x = pModel->obj.pos.x + vtxMax.x;
+		}
+		if (byHit & MODEL_HIT_FRONT)
+		{// 前から衝突
+			pos->z = pModel->obj.pos.z + vtxMin.z;
+		}
+		if (byHit & MODEL_HIT_BACK)
+		{// 後ろから衝突
+			pos->z = pModel->obj.pos.z + vtxMax.z;
+		}
+
+		if (
+			posOld.y >= pModel->obj.pos.y + vtxMax.y
+			&& pos->y <= pModel->obj.pos.y + vtxMax.y
+			&& pos->x > pModel->obj.pos.x + vtxMin.x
+			&& pos->x < pModel->obj.pos.x + vtxMax.x
+			&& pos->z > pModel->obj.pos.z + vtxMin.z
+			&& pos->z < pModel->obj.pos.z + vtxMax.z
+			)
+		{// 上
+			byHit |= MODEL_HIT_TOP;
+		}
+
+		if (
+			posOld.y <= pModel->obj.pos.y + vtxMin.y
+			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			&& pos->x > pModel->obj.pos.x + vtxMin.x
+			&& pos->x < pModel->obj.pos.x + vtxMax.x
+			&& pos->z > pModel->obj.pos.z + vtxMin.z
+			&& pos->z < pModel->obj.pos.z + vtxMax.z
+			)
+		{// 下
+			byHit |= MODEL_HIT_BOTTOM;
+		}
+
+		if (byHit & MODEL_HIT_TOP)
+		{// 上から衝突
+			pos->y = pModel->obj.pos.y + vtxMax.y;
+		}
+		if (byHit & MODEL_HIT_BOTTOM)
+		{// 下から衝突
+			pos->y = pModel->obj.pos.y + vtxMin.y;
+		}
+
+		byHitAll |= byHit;
+	}
+
+	return byHitAll;
 }

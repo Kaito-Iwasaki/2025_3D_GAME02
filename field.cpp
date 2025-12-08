@@ -20,8 +20,8 @@
 //*********************************************************************
 #define TEXTURE_FILENAME		"data\\TEXTURE\\field000.jpg"
 #define INIT_POS				D3DXVECTOR3(0.0f, -1550.0f, 0.0f)
-#define INIT_SIZE				D3DXVECTOR3(10000.0f, 0.0f, 10000.0f)
-#define INIT_COLOR				D3DXCOLOR_WHITE
+#define INIT_SIZE				D3DXVECTOR3(50000.0f, 0.0f, 50000.0f)
+#define INIT_COLOR				D3DXCOLOR(0.25f, 0.25f, 0.25f, 1.0f)
 #define INIT_TEXTURE_SIZE_X		(50.0f)
 #define INIT_TEXTURE_SIZE_Y		(50.0f)
 
@@ -105,10 +105,10 @@ void InitField(void)
 	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	pVtx[0].col = D3DXCOLOR_WHITE;
-	pVtx[1].col = D3DXCOLOR_WHITE;
-	pVtx[2].col = D3DXCOLOR_WHITE;
-	pVtx[3].col = D3DXCOLOR_WHITE;
+	pVtx[0].col = INIT_COLOR;
+	pVtx[1].col = INIT_COLOR;
+	pVtx[2].col = INIT_COLOR;
+	pVtx[3].col = INIT_COLOR;
 
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
 	pVtx[1].tex = D3DXVECTOR2((g_Field.obj.size.x / INIT_TEXTURE_SIZE_X), 0.0f);
