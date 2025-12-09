@@ -31,7 +31,7 @@
 #define MAX_TEXTURE			(8)
 
 #define PLAYER_JUMPPOWER	(14.0f)
-#define PLAYER_SPEED		(15.0f)
+#define PLAYER_SPEED		(5.0f)
 
 //*********************************************************************
 // 
@@ -79,7 +79,7 @@ void InitPlayer(void)
 	g_player.obj.pos = D3DXVECTOR3(0.0f, 350.0f, 0.0f);
 
 	// モーションスクリプトから各情報を読み込む
-	LoadMotionScript("data\\motion.txt", &g_player.motion);
+	LoadMotionScript("data\\motion_character00.txt", &g_player.motion);
 
 	// パーツ（モデル）の読み込み
 	for (int nCntPart = 0; nCntPart < pMotion->nNumPart; nCntPart++)
@@ -116,6 +116,8 @@ void InitPlayer(void)
 
 	// 最初のモーションを設定
 	SetPlayerMotion(MOTIONTYPE_MOVE, false, 30);
+
+	SetPlayerState(PLAYERSTATE_MOVE);
 
 	g_dir = D3DXVECTOR3(0, 0, 1);
 	nMode = 0;
@@ -235,11 +237,6 @@ void UpdatePlayer(void)
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.08f, 0.0f, g_player.obj.pos.y * 0.08f));
 	SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f - g_player.obj.pos.y * 0.001f, 0.0f, 0.5f));
 
-	if (GetKeyboardTrigger(DIK_RETURN) && GetCurrentPlayerMotion() != MOTIONTYPE_ACTION)
-	{
-		SetPlayerMotion(MOTIONTYPE_ACTION, true, 10);
-	}
-
 	if (g_player.obj.pos.y < -500)
 	{
 		SetFade(GetCurrentScene());
@@ -254,9 +251,46 @@ void UpdatePlayer(void)
 
 	g_player.bJump = (byHit & MODEL_HIT_TOP) ? false : true;
 
+	if (g_player.bJump)
+	{
+		SetPlayerState(PLAYERSTATE_JUMP);
+	}
+	else
+	{
+ 		SetPlayerState(PLAYERSTATE_MOVE);
+	}
+
+	if (g_player.currentState != g_player.previousState)
+	{
+		_OnPlayerStateChanged();
+		g_player.previousState = g_player.currentState;
+	}
+
+
 	int nKeyNext = (g_player.nKey + 1) % g_player.nNumKey;
 	KEY_INFO* currentKeyInfo = &pMotionInfo[g_player.motionType].aKeyInfo[g_player.nKey];
 	KEY_INFO* nextKeyInfo = &pMotionInfo[g_player.motionType].aKeyInfo[nKeyNext];
+	PART* pPart = &pMotion->aPart[0];
+	float fRateKey = (float)g_player.nCounterMotion / (float)currentKeyInfo->nFrame;
+
+	for (int nCntPart = 0; nCntPart < g_player.motion.nNumPart; nCntPart++, pPart++)
+	{
+		KEY* currentKey = &currentKeyInfo->aKey[nCntPart];
+		KEY* nextKey = &nextKeyInfo->aKey[nCntPart];
+
+		D3DXVECTOR3 vecDiffPos = nextKey->pos - currentKey->pos;
+		D3DXVECTOR3 vecDiffRot = GetFixedRotation(nextKey->rot - currentKey->rot);
+
+		pPart->obj.pos = currentKey->pos + pPart->offset.pos + vecDiffPos * fRateKey;
+		pPart->obj.rot = GetFixedRotation(currentKey->rot + pPart->offset.rot + vecDiffRot * fRateKey);
+	}
+
+	g_player.nCounterMotion++;
+	if (g_player.nCounterMotion >= currentKeyInfo->nFrame)
+	{
+		g_player.nKey = nKeyNext;
+		g_player.nCounterMotion = 0;
+	}
 
 	switch (nMode)
 	{
@@ -297,11 +331,12 @@ void UpdatePlayer(void)
 	PrintDebugProc("キーカウント : %d\n", g_player.nCounterMotion);
 	PrintDebugProc("現在のキー : %d\n", g_player.nKey);
 	PrintDebugProc("合計キー数 : %d\n", g_player.nNumKey);
-	PrintDebugProc("\n[ブレンドのモーション]\n");
-	PrintDebugProc("キーカウント : %d\n", g_player.nCounterMotionBlend);
-	PrintDebugProc("現在のキー : %d\n", g_player.nKeyBlend);
-	PrintDebugProc("合計キー数 : %d\n", g_player.nNumKeyBlend);
-	PrintDebugProc("ブレンドカウント : %d", g_player.nCounterBlend);
+	PrintDebugProc("Rate : %f\n", fRateKey);
+	//PrintDebugProc("\n[ブレンドのモーション]\n");
+	//PrintDebugProc("キーカウント : %d\n", g_player.nCounterMotionBlend);
+	//PrintDebugProc("現在のキー : %d\n", g_player.nKeyBlend);
+	//PrintDebugProc("合計キー数 : %d\n", g_player.nNumKeyBlend);
+	//PrintDebugProc("ブレンドカウント : %d", g_player.nCounterBlend);
 }
 
 //=====================================================================
@@ -452,10 +487,19 @@ MOTIONTYPE GetCurrentPlayerMotion(void)
 
 void SetPlayerState(PLAYERSTATE state)
 {
-
+	g_player.currentState = state;
 }
 
 void _OnPlayerStateChanged(void)
 {
+	switch (g_player.currentState)
+	{
+	case PLAYERSTATE_MOVE:
+		SetPlayerMotion(MOTIONTYPE_MOVE, false, 0);
+		break;
 
+	case PLAYERSTATE_JUMP:
+		SetPlayerMotion(MOTIONTYPE_JUMP, false, 0);
+		break;
+	}
 }

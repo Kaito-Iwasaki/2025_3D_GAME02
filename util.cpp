@@ -201,6 +201,39 @@ float GetFixedRotation(float fRot)
 	return fRot;
 }
 
+D3DXVECTOR3 GetFixedRotation(D3DXVECTOR3 rot)
+{
+	// 角度の範囲を-3.14~3.14に収める
+	if (rot.x > D3DX_PI)
+	{
+		rot.x -= D3DX_PI * 2;
+	}
+	else if (rot.x < -D3DX_PI)
+	{
+		rot.x += D3DX_PI * 2;
+	}
+
+	if (rot.y > D3DX_PI)
+	{
+		rot.y -= D3DX_PI * 2;
+	}
+	else if (rot.y < -D3DX_PI)
+	{
+		rot.y += D3DX_PI * 2;
+	}
+
+	if (rot.z > D3DX_PI)
+	{
+		rot.z -= D3DX_PI * 2;
+	}
+	else if (rot.z < -D3DX_PI)
+	{
+		rot.z += D3DX_PI * 2;
+	}
+
+	return rot;
+}
+
 //=====================================================================
 // 3次元ベクトルから2次元ベクトルへの変換処理
 //=====================================================================

@@ -60,6 +60,7 @@ D3DXVECTOR3 Direction(float fAngle);
 D3DXVECTOR3 GetRandomVector(void);
 float Angle(float fromX, float fromY, float toX, float toY);
 float GetFixedRotation(float fRot);
+D3DXVECTOR3 GetFixedRotation(D3DXVECTOR3 rot);
 float Magnitude(D3DXVECTOR3 vector);
 float Magnitude(D3DXVECTOR3 from, D3DXVECTOR3 to);
 D3DXVECTOR2 Vector3To2(D3DXVECTOR3 source);

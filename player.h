@@ -34,12 +34,14 @@ typedef enum
 	MOTIONTYPE_NETURAL = 0,
 	MOTIONTYPE_MOVE,
 	MOTIONTYPE_ACTION,
+	MOTIONTYPE_JUMP,
 	MOTIONTYPE_MAX
 }MOTIONTYPE;
 
 typedef enum
 {
-	PLAYERSTATE_NETURAL = 0,
+	PLAYERSTATE_NONE = 0,
+	PLAYERSTATE_NETURAL,
 	PLAYERSTATE_MOVE,
 	PLAYERSTATE_JUMP,
 	PLAYERSTATE_SLIDING,
@@ -60,6 +62,8 @@ typedef struct
 	D3DXVECTOR3 rotMove;						// 移動先の角度
 	int nIdxShadow;								// シャドウのインデックス
 	bool bJump;
+	PLAYERSTATE currentState;
+	PLAYERSTATE previousState;
 
 	MOTION motion;								// モーション
 	MOTIONTYPE motionType;						// モーションの種類
