@@ -189,7 +189,7 @@ void UpdatePlayer(void)
 		dir.z += -sinf(fAngle);
 	}
 
-	if (GetKeyboardTrigger(DIK_SPACE) && g_player.bJump == false)
+	if (GetKeyboardTrigger(DIK_W) && g_player.bJump == false)
 	{// ƒWƒƒƒ“ƒv
 		g_player.move.y = PLAYER_JUMPPOWER;
 	}
@@ -257,7 +257,16 @@ void UpdatePlayer(void)
 	}
 	else
 	{
- 		SetPlayerState(PLAYERSTATE_MOVE);
+		if (GetKeyboardPress(DIK_S))
+		{
+			SetPlayerState(PLAYERSTATE_SLIDING);
+
+		}
+		else
+		{
+			SetPlayerState(PLAYERSTATE_MOVE);
+
+		}
 	}
 
 	if (g_player.currentState != g_player.previousState)
@@ -500,6 +509,10 @@ void _OnPlayerStateChanged(void)
 
 	case PLAYERSTATE_JUMP:
 		SetPlayerMotion(MOTIONTYPE_JUMP, false, 0);
+		break;
+
+	case PLAYERSTATE_SLIDING:
+		SetPlayerMotion(MOTIONTYPE_SLIDING, false, 0);
 		break;
 	}
 }
