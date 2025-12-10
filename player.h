@@ -46,6 +46,7 @@ typedef enum
 	PLAYERSTATE_NETURAL,
 	PLAYERSTATE_MOVE,
 	PLAYERSTATE_JUMP,
+	PLAYERSTATE_FALL,
 	PLAYERSTATE_SLIDING,
 	PLAYERSTATE_MAX
 }PLAYERSTATE;
@@ -66,6 +67,7 @@ typedef struct
 	bool bJump;
 	PLAYERSTATE currentState;
 	PLAYERSTATE previousState;
+	int nCounterState;
 
 	MOTION motion;								// モーション
 	MOTIONTYPE motionType;						// モーションの種類

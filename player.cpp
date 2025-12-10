@@ -178,15 +178,18 @@ void UpdatePlayer(void)
 	PrintDebugProc("%f", fAngle);
 
 	// プレイヤー操作
-	if (GetKeyboardPress(DIK_A))
-	{// 左移動
-		dir.x -= cosf(fAngle);
-		dir.z -= -sinf(fAngle);
-	}
-	if (GetKeyboardPress(DIK_D))
-	{// 右移動
-		dir.x += cosf(fAngle);
-		dir.z += -sinf(fAngle);
+	if (g_player.currentState != PLAYERSTATE_SLIDING)
+	{
+		if (GetKeyboardPress(DIK_A))
+		{// 左移動
+			dir.x -= cosf(fAngle);
+			dir.z -= -sinf(fAngle);
+		}
+		if (GetKeyboardPress(DIK_D))
+		{// 右移動
+			dir.x += cosf(fAngle);
+			dir.z += -sinf(fAngle);
+		}
 	}
 
 	if (GetKeyboardTrigger(DIK_W) && g_player.bJump == false)
@@ -237,7 +240,7 @@ void UpdatePlayer(void)
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.08f, 0.0f, g_player.obj.pos.y * 0.08f));
 	SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f - g_player.obj.pos.y * 0.001f, 0.0f, 0.5f));
 
-	if (g_player.obj.pos.y < -500)
+	if (g_player.currentState == PLAYERSTATE_JUMP & g_player.nCounterState > 120)
 	{
 		SetFade(GetCurrentScene());
 	}
@@ -253,7 +256,14 @@ void UpdatePlayer(void)
 
 	if (g_player.bJump)
 	{
-		SetPlayerState(PLAYERSTATE_JUMP);
+		if (g_player.obj.pos.y < g_player.posOld.y)
+		{
+			SetPlayerState(PLAYERSTATE_FALL);
+		}
+		else
+		{
+			SetPlayerState(PLAYERSTATE_JUMP);
+		}
 	}
 	else
 	{
@@ -269,11 +279,17 @@ void UpdatePlayer(void)
 		}
 	}
 
+	if (g_player.currentState == PLAYERSTATE_FALL && g_player.nCounterState > 60)
+	{
+		SetFade(GetCurrentScene());
+	}
+
 	if (g_player.currentState != g_player.previousState)
 	{
 		_OnPlayerStateChanged();
 		g_player.previousState = g_player.currentState;
 	}
+	g_player.nCounterState++;
 
 
 	int nKeyNext = (g_player.nKey + 1) % g_player.nNumKey;
@@ -511,8 +527,12 @@ void _OnPlayerStateChanged(void)
 		SetPlayerMotion(MOTIONTYPE_JUMP, false, 0);
 		break;
 
+	case PLAYERSTATE_FALL:
+		break;
+
 	case PLAYERSTATE_SLIDING:
 		SetPlayerMotion(MOTIONTYPE_SLIDING, false, 0);
 		break;
 	}
+	g_player.nCounterState = 0;
 }
