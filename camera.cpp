@@ -49,21 +49,24 @@
 // 
 //*********************************************************************
 CAMERA g_camera;
+int g_nCamMode;
 
 //=====================================================================
 // ‰Šú‰»ˆ—
 //=====================================================================
 void InitCamera(void)
 {
+	PLAYER* pPlayer = GetPlayer();
+
 	g_camera.posV = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_camera.posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	g_camera.fDistance = 900.0f;
+	g_camera.fDistance = 950.0f;
 	g_camera.rot = D3DXVECTOR3(0.0f, D3DXToRadian(-90), 0.0f);
-	g_camera.posOffset = D3DXVECTOR3(0, 100, 350);
 
 	g_camera.nCounterState = 0;
 
+	g_nCamMode = 0;
 }
 
 //=====================================================================
@@ -80,36 +83,81 @@ void UninitCamera(void)
 void UpdateCamera(void)
 {
 	PLAYER* pPlayer = GetPlayer();
+	int nCamSpeed = GetKeyboardPress(DIK_LSHIFT) ? CAMERA_SPEED * 2 : CAMERA_SPEED;
 
-	g_camera.posRDest.x = pPlayer->obj.pos.x + g_camera.posOffset.x;
-	g_camera.posRDest.y = pPlayer->obj.pos.y + g_camera.posOffset.y;
-	g_camera.posRDest.z = pPlayer->obj.pos.z + g_camera.posOffset.z;
-	g_camera.posVDest.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fDistance;
-	g_camera.posVDest.y = g_camera.posRDest.y + 50.0f;
-	g_camera.posVDest.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
+	if (GetKeyboardTrigger(DIK_F3))
+	{
+		g_nCamMode ^= 1;
+	}
 
-	g_camera.posR.x += (g_camera.posRDest.x - g_camera.posR.x) * 0.1f;
-	g_camera.posR.y += (g_camera.posRDest.y - g_camera.posR.y) * 0.1f;
-	g_camera.posR.z += (g_camera.posRDest.z - g_camera.posR.z) * 0.1f;
-	g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * 0.1f;
-	g_camera.posV.y += (g_camera.posVDest.y - g_camera.posV.y) * 0.1f;
-	g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * 0.1f;
+	switch (g_nCamMode)
+	{
+	case 0:
+		g_camera.posRDest.x = pPlayer->obj.pos.x + g_camera.posOffset.x;
+		g_camera.posRDest.y = pPlayer->obj.pos.y + g_camera.posOffset.y;
+		g_camera.posRDest.z = pPlayer->obj.pos.z + g_camera.posOffset.z;
+		g_camera.posVDest.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fDistance;
+		g_camera.posVDest.y = g_camera.posRDest.y + 100.0f;
+		g_camera.posVDest.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
 
-	//D3DXVECTOR3 vecPlayerMoved = pPlayer->obj.pos - pPlayer->posOld;
+		g_camera.posR.x += (g_camera.posRDest.x - g_camera.posR.x) * 0.1f;
+		g_camera.posR.y += (g_camera.posRDest.y - g_camera.posR.y) * 0.1f;
+		g_camera.posR.z += (g_camera.posRDest.z - g_camera.posR.z) * 0.1f;
+		g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * 0.1f;
+		g_camera.posV.y += (g_camera.posVDest.y - g_camera.posV.y) * 0.1f;
+		g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * 0.1f;
 
-	//if (sqrtf(vecPlayerMoved.x * vecPlayerMoved.x + vecPlayerMoved.y * vecPlayerMoved.y) < 0.1f)
-	//{
-	//	g_camera.nCounterState++;
-	//}
-	//else
-	//{
-	//	g_camera.nCounterState = 0;
-	//}
+		break;
 
-	//if (g_camera.nCounterState > 90)
-	//{
-	//	g_camera.rot.y += GetFixedRotation(pPlayer->obj.rot.y - g_camera.rot.y + D3DX_PI) * 0.05f;
-	//}
+	case 1:
+
+		if (GetKeyboardPress(DIK_Z))
+		{
+			g_camera.rot.y -= 0.05f;
+		}
+		if (GetKeyboardPress(DIK_C))
+		{
+			g_camera.rot.y += 0.05f;
+		}
+
+		if (GetKeyboardPress(DIK_Q))
+		{
+			g_camera.posR.y -= nCamSpeed;
+			g_camera.posV.y -= nCamSpeed;
+		}
+		if (GetKeyboardPress(DIK_E))
+		{
+			g_camera.posR.y += nCamSpeed;
+			g_camera.posV.y += nCamSpeed;
+		}
+
+		if (GetKeyboardPress(DIK_W))
+		{
+			g_camera.posR.x += sinf(g_camera.rot.y) * nCamSpeed;
+			g_camera.posR.z += cosf(g_camera.rot.y) * nCamSpeed;
+		}
+		if (GetKeyboardPress(DIK_S))
+		{
+			g_camera.posR.x -= sinf(g_camera.rot.y) * nCamSpeed;
+			g_camera.posR.z -= cosf(g_camera.rot.y) * nCamSpeed;
+		}
+		if (GetKeyboardPress(DIK_A))
+		{
+			g_camera.posR.x -= cosf(g_camera.rot.y) * nCamSpeed;
+			g_camera.posR.z += sinf(g_camera.rot.y) * nCamSpeed;
+		}
+		if (GetKeyboardPress(DIK_D))
+		{
+			g_camera.posR.x += cosf(g_camera.rot.y) * nCamSpeed;
+			g_camera.posR.z -= sinf(g_camera.rot.y) * nCamSpeed;
+		}
+
+		g_camera.posV.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fDistance;
+		g_camera.posV.y = g_camera.posR.y + 50.0f;
+		g_camera.posV.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
+
+		break;
+	}
 }
 
 //=====================================================================

@@ -28,7 +28,7 @@ TEXTURE_FILENAME = data/TEXTURE/mountain000.png		# [9]山テクスチャ
 #------------------------------------------------------------------------------
 # 読み込むモデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 8
+NUM_MODEL = 10
 
 #------------------------------------------------------------------------------
 # 読み込むモデルファイル名
@@ -41,6 +41,8 @@ MODEL_FILENAME = data/MODEL/building03.x				# [0]柱
 MODEL_FILENAME = data/MODEL/building04.x				# [0]柱
 MODEL_FILENAME = data/MODEL/building05.x
 MODEL_FILENAME = data/MODEL/building06.x
+MODEL_FILENAME = data/MODEL/tower00.x
+MODEL_FILENAME = data/MODEL/box00.x
 
 #------------------------------------------------------------------------------
 # 空情報
@@ -92,9 +94,9 @@ END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 # ビル３
 #-----------------------------------------------------------------------------------------------------------
-#---------------------------
+#------------------------------------------------------
 # 背景
-#---------------------------
+#------------------------------------------------------
 MODELSET
 	TYPE = 4			# 種類
 	POS = -1200 0 2400		# 位置
@@ -125,9 +127,9 @@ END_MODELSET
 	ROT = 0 180 0			# 向き
 END_MODELSET
 
-#---------------------------
+#------------------------------------------------------
 # 地面
-#---------------------------
+#------------------------------------------------------
 MODELSET
 	TYPE = 4			# 種類
 	POS = 0 -900 300		# 位置
@@ -138,6 +140,12 @@ MODELSET
 	TYPE = 4			# 種類
 	POS = 0 -900 1300		# 位置
 	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 9			# 種類
+	POS = 0 65 1300		# 位置
+	ROT = 0 0 0			# 向き
 END_MODELSET
 
 MODELSET
@@ -266,7 +274,232 @@ MODELSET
 	ROT = 0 -90 0			# 向き
 END_MODELSET
 
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7000 -700 1700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
 
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7800 -700 1700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -8800 -700 1400		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -9800 -700 2000		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -10800 -700 2000		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -11800 -700 1700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -12800 -700 1700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -13800 -700 1700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14800 -700 1700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14800 -700 2500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14800 -700 3300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14800 -700 4100		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14400 -700 4900		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -15200 -700 4900		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14400 -500 5700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -15200 -700 5700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14400 -300 6500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -15200 -700 6500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14400 -700 7300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -15200 -700 7300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14400 -700 8300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -15200 -700 8300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14400 -700 9300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -15200 -700 9300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14400 -700 10100		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -15200 -700 10100		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -13800 -700 9300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -13800 -700 10100		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -12800 -700 9300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -12800 -700 10100		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -11800 -600 9300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -11800 -600 10100		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -10800 -500 9300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -10800 -500 10100		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -9800 -400 9900		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -8800 -300 9500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7800 -200 9500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7800 -100 8500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7800 0 7500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7800 100 6500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
 # ビル４
@@ -297,6 +530,15 @@ MODELSET
 	TYPE = 7			# 種類
 	POS = -2400 -900 6900		# 位置
 	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+#-----------------------------------------------------------------------------------------------------------
+# ビル５
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 8			# 種類
+	POS = -11000 0 6900		# 位置
+	ROT = 0 0 0			# 向き
 END_MODELSET
 
 

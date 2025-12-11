@@ -30,8 +30,8 @@
 //*********************************************************************
 #define MAX_TEXTURE			(8)
 
-#define PLAYER_JUMPPOWER	(14.0f)
-#define PLAYER_SPEED		(5.0f)
+#define PLAYER_JUMPPOWER	(16.0f)
+#define PLAYER_SPEED		(10.0f)
 
 //*********************************************************************
 // 
@@ -121,6 +121,8 @@ void InitPlayer(void)
 
 	g_dir = D3DXVECTOR3(0, 0, 1);
 	nMode = 0;
+
+	GetCamera()->posOffset = D3DXVECTOR3(sinf(g_player.obj.rot.y) * 350.0f, 200, cosf(g_player.obj.rot.y) * 350.0f);
 }
 
 //=====================================================================
@@ -174,8 +176,6 @@ void UpdatePlayer(void)
 	dir = g_dir;
 
 	float fAngle = atan2f(g_dir.x, g_dir.z);
-
-	PrintDebugProc("%f", fAngle);
 
 	// プレイヤー操作
 	if (g_player.currentState != PLAYERSTATE_SLIDING)
@@ -324,7 +324,6 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(180);
-			pCamera->posOffset = D3DXVECTOR3(-350, 100, 0);
 			nMode++;
 		}
 		break;
@@ -334,7 +333,6 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-90);
-			pCamera->posOffset = D3DXVECTOR3(0, 100, -350);
 			pCamera->fDistance += 200;
 			nMode++;
 		}
@@ -345,18 +343,37 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(0);
-			pCamera->posOffset = D3DXVECTOR3(-350, 100, 0);
+			nMode++;
+		}
+		break;
+
+	case 3:
+		if (g_player.obj.pos.x < -14800)
+		{
+			g_dir = D3DXVECTOR3(0, 0, 1);
+			pCamera->rot.y = D3DXToRadian(90);
+			nMode++;
+		}
+		break;
+
+	case 4:
+		if (g_player.obj.pos.z > 9700)
+		{
+			g_dir = D3DXVECTOR3(1, 0, 0);
+			pCamera->rot.y = D3DXToRadian(180);
 			nMode++;
 		}
 		break;
 	}
+
+	float fAngleDir = atan2f(g_dir.x, g_dir.z);
+	pCamera->posOffset = D3DXVECTOR3(sinf(fAngleDir) * 350.0f, 200, cosf(fAngleDir) * 350.0f);
 
 
 	PrintDebugProc("\n[現在のモーション]\n");
 	PrintDebugProc("キーカウント : %d\n", g_player.nCounterMotion);
 	PrintDebugProc("現在のキー : %d\n", g_player.nKey);
 	PrintDebugProc("合計キー数 : %d\n", g_player.nNumKey);
-	PrintDebugProc("Rate : %f\n", fRateKey);
 	//PrintDebugProc("\n[ブレンドのモーション]\n");
 	//PrintDebugProc("キーカウント : %d\n", g_player.nCounterMotionBlend);
 	//PrintDebugProc("現在のキー : %d\n", g_player.nKeyBlend);
