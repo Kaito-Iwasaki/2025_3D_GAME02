@@ -18,23 +18,23 @@
 #include "light.h"
 #include "Title.h"
 #include "Game.h"
-#include "Test.h"
+#include "Result.h"
 
 //*********************************************************************
 // 
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-SCENE g_currentScene = SCENE_GAME;			// 現在のシーン
+SCENE g_currentScene = SCENE_TITLE;			// 現在のシーン
 SCENE g_previousScene = g_currentScene;		// 直前のシーン
 
 //*********************************************************************
 // 各シーンの処理関数
 //*********************************************************************
 SCENEDATA g_scenes[SCENE_MAX] = {
-	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },		// タイトル画面
-	{ InitGame, UninitGame, UpdateGame, DrawGame },			// ゲーム画面
-	{ InitTest, UninitTest, UpdateTest, DrawTest },			// ゲーム画面
+	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },			// タイトル画面
+	{ InitGame, UninitGame, UpdateGame, DrawGame },				// ゲーム画面
+	{ InitResult, UninitResult, UpdateResult, DrawResult },		// リザルト画面
 };
 
 //=====================================================================

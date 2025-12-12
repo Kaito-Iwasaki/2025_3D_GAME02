@@ -64,15 +64,15 @@ void InitLight(void)
 	g_aLight[2].Type = D3DLIGHT_DIRECTIONAL;
 
 	// ライトの拡散光を設定
-	g_aLight[0].Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	g_aLight[1].Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	g_aLight[0].Diffuse = D3DXCOLOR(0.6f, 0.6f, 0.6f, 1.0f);
+	g_aLight[1].Diffuse = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
 	g_aLight[2].Diffuse = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
 
 	// ライトの方向を設定
 	vecDir = D3DXVECTOR3(0.2f, -0.8f, -0.4f);
 	D3DXVec3Normalize(&vecDir, &vecDir);
 	g_aLight[0].Direction = vecDir;
-	vecDir = D3DXVECTOR3(-0.2f, -0.8f, 0.4f);
+	vecDir = D3DXVECTOR3(-0.0f, -1.0f, 0.0f);
 	D3DXVec3Normalize(&vecDir, &vecDir);
 	g_aLight[1].Direction = vecDir;
 	vecDir = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
@@ -87,7 +87,7 @@ void InitLight(void)
 	// ライトを有効にする
 	pDevice->LightEnable(0, TRUE);
 	pDevice->LightEnable(1, TRUE);
-	pDevice->LightEnable(2, TRUE);
+	//pDevice->LightEnable(2, TRUE);
 }
 
 //=====================================================================

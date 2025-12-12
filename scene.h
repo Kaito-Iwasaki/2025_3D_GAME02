@@ -33,7 +33,7 @@ typedef enum
 {
 	SCENE_TITLE = 0,
 	SCENE_GAME,
-	SCENE_TEST,
+	SCENE_RESULT,
 	SCENE_MAX
 }SCENE;	
 

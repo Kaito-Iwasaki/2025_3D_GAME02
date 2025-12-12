@@ -173,6 +173,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="Result.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="model_loader.cpp" />
     <ClCompile Include="script.cpp">
@@ -182,10 +186,6 @@
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sphere.cpp" />
-    <ClCompile Include="Test.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Title.cpp">
       <SubType>
       </SubType>
@@ -226,6 +226,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="player.h" />
+    <ClInclude Include="Result.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="scene.h" />
     <ClInclude Include="model_loader.h" />
     <ClInclude Include="script.h">
@@ -235,10 +239,6 @@
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sphere.h" />
-    <ClInclude Include="Test.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Title.h">
       <SubType>
       </SubType>

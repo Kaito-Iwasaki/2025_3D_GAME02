@@ -49,7 +49,6 @@
 // 
 //*********************************************************************
 CAMERA g_camera;
-int g_nCamMode;
 
 //=====================================================================
 // ‰Šú‰»ˆ—
@@ -66,7 +65,7 @@ void InitCamera(void)
 
 	g_camera.nCounterState = 0;
 
-	g_nCamMode = 0;
+	g_camera.nMode = 0;
 }
 
 //=====================================================================
@@ -85,12 +84,12 @@ void UpdateCamera(void)
 	PLAYER* pPlayer = GetPlayer();
 	int nCamSpeed = GetKeyboardPress(DIK_LSHIFT) ? CAMERA_SPEED * 2 : CAMERA_SPEED;
 
-	if (GetKeyboardTrigger(DIK_F3))
+	if (GetKeyboardTrigger(DIK_F1))
 	{
-		g_nCamMode ^= 1;
+		g_camera.nMode = g_camera.nMode == 0 ? 2: 0;
 	}
 
-	switch (g_nCamMode)
+	switch (g_camera.nMode)
 	{
 	case 0:
 		g_camera.posRDest.x = pPlayer->obj.pos.x + g_camera.posOffset.x;
@@ -110,6 +109,19 @@ void UpdateCamera(void)
 		break;
 
 	case 1:
+		// ‚»‚ê‚¼‚ê‚ÌƒvƒƒOƒ‰ƒ€‚Éˆ—‚ğˆê”C‚·‚é
+		break;
+
+	case 2:
+
+		if (GetKeyboardPress(DIK_R))
+		{
+			g_camera.posR.y += nCamSpeed;
+		}
+		if (GetKeyboardPress(DIK_F))
+		{
+			g_camera.posR.y -= nCamSpeed;
+		}
 
 		if (GetKeyboardPress(DIK_Z))
 		{
@@ -153,7 +165,6 @@ void UpdateCamera(void)
 		}
 
 		g_camera.posV.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fDistance;
-		g_camera.posV.y = g_camera.posR.y + 50.0f;
 		g_camera.posV.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
 
 		break;

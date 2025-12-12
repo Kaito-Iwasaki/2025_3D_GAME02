@@ -39,6 +39,7 @@ typedef struct
 	D3DXMATRIX mtxView;			// ビューマトリックス
 	float fDistance;			// 視点と注視点までの距離
 	int nCounterState;
+	int nMode;
 }CAMERA;
 
 //*********************************************************************

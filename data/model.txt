@@ -132,6 +132,30 @@ END_MODELSET
 #------------------------------------------------------
 MODELSET
 	TYPE = 4			# 種類
+	POS = 0 -900 -2900		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = 0 -900 -2100		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = 0 -900 -1300		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = 0 -900 -500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
 	POS = 0 -900 300		# 位置
 	ROT = 0 -90 0			# 向き
 END_MODELSET
@@ -498,6 +522,24 @@ END_MODELSET
 MODELSET
 	TYPE = 4			# 種類
 	POS = -7800 100 6500		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7800 200 5700		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7800 300 4900		# 位置
+	ROT = 0 -90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 4			# 種類
+	POS = -7800 400 4100		# 位置
 	ROT = 0 -90 0			# 向き
 END_MODELSET
 

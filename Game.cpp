@@ -28,6 +28,7 @@
 #include "DebugProc.h"
 #include "fade.h"
 #include "camera.h"
+#include "sound.h"
 
 //*********************************************************************
 // 
@@ -76,10 +77,6 @@ void InitGame(void)
 	InitWall();
 	InitShadow();
 	InitPlayer();
-	//InitBillboard();
-	InitBullet();
-	InitExplosion();
-	InitEffect();
 	InitModel();
 	InitCylinder();
 	InitSphere();
@@ -102,6 +99,9 @@ void InitGame(void)
 			D3DXVECTOR3(D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z))
 		);
 	}
+
+	PlaySound(SOUND_LABEL_BGM_GAME);
+
 }
 
 //=====================================================================
@@ -113,10 +113,6 @@ void UninitGame(void)
 	UninitMeshField();
 	UninitWall();
 	UninitPlayer();
-	UninitShadow();
-	//UninitBillboard();
-	UninitBullet();
-	UninitExplosion();
 	UninitEffect();
 	UninitModel();
 	UninitCylinder();
@@ -176,10 +172,6 @@ void UpdateGame(void)
 		UpdatePlayer();
 		//UpdateWall();
 		UpdateShadow();
-		//UpdateBillboard();
-		UpdateBullet();
-		UpdateExplosion();
-		UpdateEffect();
 		UpdateModel();
 		UpdateCylinder();
 		UpdateSphere();
@@ -204,10 +196,6 @@ void DrawGame(void)
 	//DrawMeshField();
 	//DrawWall();
 	DrawPlayer();
-	//DrawBillboard();
-	DrawBullet();
-	DrawExplosion();
-	DrawEffect();
 	DrawModel();
 	DrawSphere();
 	DrawCylinder();
