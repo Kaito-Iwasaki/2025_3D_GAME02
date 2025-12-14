@@ -88,7 +88,7 @@ void InitGame(void)
 
 	for (int nCntMesh = 0; nCntMesh < g_data.nNumModel; nCntMesh++)
 	{
-		LoadModel(g_data.aFilenameModel[nCntMesh], nCntMesh);
+		LoadModel(&g_data.aFilenameModel[nCntMesh][0], nCntMesh);
 	}
 
 	for (int nCntModel = 0; nCntModel < g_data.nCountModelSet; nCntModel++)
@@ -96,7 +96,12 @@ void InitGame(void)
 		SetModel(
 			g_data.aInfoModelSet[nCntModel].nType,
 			g_data.aInfoModelSet[nCntModel].pos,
-			D3DXVECTOR3(D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z))
+			D3DXVECTOR3(
+				D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x),
+				D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y),
+				D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z)
+			),
+			g_data.aInfoModelSet[nCntModel].collisionType
 		);
 	}
 
@@ -127,6 +132,7 @@ void UpdateGame(void)
 {
 	PLAYER* pPlayer = GetPlayer();
 
+#if _DEBUG
 	if (GetKeyboardTrigger(DIK_F7))
 	{
 		UninitModel();
@@ -144,10 +150,16 @@ void UpdateGame(void)
 			SetModel(
 				g_data.aInfoModelSet[nCntModel].nType,
 				g_data.aInfoModelSet[nCntModel].pos,
-				D3DXVECTOR3(D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y), D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z))
+				D3DXVECTOR3(
+					D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x),
+					D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y),
+					D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z)
+				),
+				g_data.aInfoModelSet[nCntModel].collisionType
 			);
 		}
 	}
+#endif
 
 	if (GetKeyboardTrigger(DIK_DELETE))
 	{

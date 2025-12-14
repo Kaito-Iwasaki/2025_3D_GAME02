@@ -33,6 +33,7 @@ typedef struct
 	int nType;
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 rot;
+	COLLISIONTYPE collisionType;
 }MODELSETDATA;
 
 typedef struct

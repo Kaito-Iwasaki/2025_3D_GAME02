@@ -64,18 +64,18 @@ void LoadScript(const char* pFileName, SCRIPTDATA* pBuffer)
 
 			if (strcmp(&aStrLine[0], "SCRIPT") == 0)
 			{
-				OutputDebugString("[script_loader.cpp] Script Start\n");
+				OutputDebugString("[model_loader.cpp] Script Start\n");
 				_Read_SCRIPT(pFile, &pBuffer);
 			}
 			
 		}
 
-		OutputDebugString("[script_loader.cpp] Script End\n");
+		OutputDebugString("[model_loader.cpp] Script End\n");
 		
 	}
 	else
 	{
-		OutputDebugString("[script_loader.cpp] Script Failed\n");
+		OutputDebugString("[model_loader.cpp] Script Failed\n");
 	}
 }
 
@@ -116,7 +116,7 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "MODEL_FILENAME") == 0)
 		{// テクスチャファイル名読み込み
-			if (nModelCount < MAX_LOADABLE_MODEL)
+			if (nModelCount < (*ppBuffer)->nNumModel)
 			{// 最大読み込み数まで読み込む
 				fscanf(pFile, " = %s", &(*ppBuffer)->aFilenameModel[nModelCount][0]);
 				nModelCount++;
@@ -149,6 +149,10 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 				else if (strcmp(&aStrLine[0], "ROT") == 0)
 				{
 					fscanf(pFile, " = %f %f %f", &pData->rot.x, &pData->rot.y, &pData->rot.z);
+				}
+				else if (strcmp(&aStrLine[0], "COLLISION") == 0)
+				{
+					fscanf(pFile, " = %d", &pData->collisionType);
 				}
 			}
 

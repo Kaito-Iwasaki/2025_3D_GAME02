@@ -56,7 +56,7 @@ typedef struct
 	int nType;
 	bool bUsed;
 	bool bCollision;
-	int nCollisionType;
+	COLLISIONTYPE collisionType;
 }MODEL;
 
 typedef struct
@@ -77,7 +77,7 @@ void InitModel(void);
 void UninitModel(void);
 void UpdateModel(void);
 void DrawModel(void);
-void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot, COLLISIONTYPE collitionType);
 void LoadModel(const char* pFilename, int nIdx);
 BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld);
 

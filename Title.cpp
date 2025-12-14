@@ -68,7 +68,7 @@ void InitTitle(void)
 
 	for (int nCntMesh = 0; nCntMesh < g_dataTitle.nNumModel; nCntMesh++)
 	{
-		LoadModel(g_dataTitle.aFilenameModel[nCntMesh], nCntMesh);
+		LoadModel(&g_dataTitle.aFilenameModel[nCntMesh][0], nCntMesh);
 	}
 
 	for (int nCntModel = 0; nCntModel < g_dataTitle.nCountModelSet; nCntModel++)
@@ -80,7 +80,8 @@ void InitTitle(void)
 				D3DXToRadian(g_dataTitle.aInfoModelSet[nCntModel].rot.x),
 				D3DXToRadian(g_dataTitle.aInfoModelSet[nCntModel].rot.y),
 				D3DXToRadian(g_dataTitle.aInfoModelSet[nCntModel].rot.z)
-			)
+			),
+			g_dataTitle.aInfoModelSet[nCntModel].collisionType
 		);
 	}
 

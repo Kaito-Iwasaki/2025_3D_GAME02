@@ -170,13 +170,12 @@ void DrawModel(void)
 		// 保存していたマテリアルを戻す
 		pDevice->SetMaterial(&matDef);
 	}
-
 }
 
 //=====================================================================
 // モデル設定処理
 //=====================================================================
-void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot, COLLISIONTYPE collisionType)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	MODEL* pModel = &g_aModel[0];
@@ -191,6 +190,7 @@ void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		pModel->obj.pos = pos;
 		pModel->obj.rot = rot;
 		pModel->nType = nType;
+		pModel->collisionType = collisionType;
 
 		break;
 	}
@@ -243,6 +243,7 @@ void LoadModel(const char* pFilename, int nIdx)
 		&pMeshData->dwNumMat,
 		&pMeshData->pMesh
 	);
+
 	if FAILED(hr)
 	{
 		MessageBox(GetMainWindow(), "ヤバい（モデルが）", "え？", MB_ICONERROR);
@@ -320,6 +321,8 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
 	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
 	{
 		if (pModel->bUsed == false) continue;	// 使用中でないならスキップ
+		if (pModel->collisionType == COLLISIONTYPE_DISABLED) continue;
+		if (pModel->collisionType == COLLISIONTYPE_OBSTACLE && GetPlayer()->currentState == PLAYERSTATE_SLIDING) continue;
 
 		BYTE byHit = MODEL_HIT_NONE;
 		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
