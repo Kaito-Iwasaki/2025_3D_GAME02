@@ -60,8 +60,9 @@ void InitCamera(void)
 	g_camera.posV = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_camera.posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	g_camera.fDistance = 950.0f;
+	g_camera.fDistance = 1100.0f;
 	g_camera.rot = D3DXVECTOR3(0.0f, D3DXToRadian(-90), 0.0f);
+	g_camera.bEnabled = true;
 
 	g_camera.nCounterState = 0;
 
@@ -83,6 +84,8 @@ void UpdateCamera(void)
 {
 	PLAYER* pPlayer = GetPlayer();
 	int nCamSpeed = GetKeyboardPress(DIK_LSHIFT) ? CAMERA_SPEED * 2 : CAMERA_SPEED;
+
+	if (g_camera.bEnabled == false) return;
 
 	if (GetKeyboardTrigger(DIK_F1))
 	{

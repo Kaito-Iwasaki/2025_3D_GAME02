@@ -63,7 +63,7 @@ int ReadLine(FILE* pFile, char* pBuffer)
 	sscanf(&aStrLine[0], "%[^\n]", &aStrLine[0]);
 
 	if (strchr(&aStrLine[0], '#') != NULL)
-	{
+	{// '#'はコメントキーワードとしてそれ以降の文字を切り捨てる
 		sscanf(&aStrLine[0], "%[^#]", &aStrLine[0]);
 	}
 
@@ -81,20 +81,21 @@ int ReadWord(FILE* pFile, char* pBuffer)
 	
 	while (true)
 	{
+		// 文字列を読み込む
 		if (fscanf(pFile, "%s", &aStrLine[0]) == EOF)
-		{
+		{// ファイルの終端に達したらEOFを返す
 			return EOF;
 		}
 
 		if (aStrLine[0] == '#')
-		{
+		{// 読み込んだ文字列の最初の文字がコメントキーワードならその行は読み飛ばして最初に戻る
 			if (fgets(&aStrLine[0], sizeof(aStrLine), pFile) == NULL)
-			{
+			{// ファイルの終端に達していたらEOFを返す
 				return EOF;
 			}
 		}
 		else
-		{
+		{// 何もなければループを抜けて文字列を返す
 			break;
 		}
 	}

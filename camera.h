@@ -40,6 +40,7 @@ typedef struct
 	float fDistance;			// ‹“_‚Æ’‹“_‚Ü‚Å‚Ì‹——£
 	int nCounterState;
 	int nMode;
+	bool bEnabled;
 }CAMERA;
 
 //*********************************************************************

@@ -52,6 +52,8 @@
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
+void _UpdatePlayerControl(void);
+void _UpdatePlayerMotion(void);
 void _OnPlayerStateChanged(void);
 
 //*********************************************************************
@@ -135,7 +137,7 @@ void InitPlayer(void)
 void UninitPlayer(void)
 {
 	MOTION* pMotion = &g_player.motion;
-	
+
 	for (int nCntPart = 0; nCntPart < pMotion->nNumPart; nCntPart++)
 	{
 		for (int i = 0; i < (int)pMotion->aPart[nCntPart].dwNumMat; i++)
@@ -167,8 +169,6 @@ void UninitPlayer(void)
 void UpdatePlayer(void)
 {
 	CAMERA* pCamera = GetCamera();
-	MOTION* pMotion = &g_player.motion;
-	MOTION_INFO* pMotionInfo = &pMotion->aMotionInfo[0];
 	XINPUT_STATE* joypad = GetJoypad();			// ジョイパッドへのポインタ
 
 	D3DXVECTOR3 dir = D3DXVECTOR3_ZERO;			// キーボードの入力方向
@@ -297,12 +297,9 @@ void UpdatePlayer(void)
 		}
 	}
 
-	
-
 	if (g_player.currentState != g_player.previousState)
 	{
 		_OnPlayerStateChanged();
-		g_player.previousState = g_player.currentState;
 	}
 	g_player.nCounterState++;
 
@@ -383,52 +380,7 @@ void UpdatePlayer(void)
 		break;
 	}
 
-
-	int nKeyNext = (g_player.nKey + 1) % g_player.nNumKey;
-	KEY_INFO* currentKeyInfo = &pMotionInfo[g_player.motionType].aKeyInfo[g_player.nKey];
-	KEY_INFO* nextKeyInfo = &pMotionInfo[g_player.motionType].aKeyInfo[nKeyNext];
-	PART* pPart = &pMotion->aPart[0];
-	float fRateKey = (float)g_player.nCounterMotion / (float)currentKeyInfo->nFrame;
-
-	for (int nCntPart = 0; nCntPart < g_player.motion.nNumPart; nCntPart++, pPart++)
-	{
-		KEY* currentKey = &currentKeyInfo->aKey[nCntPart];
-		KEY* nextKey = &nextKeyInfo->aKey[nCntPart];
-
-		D3DXVECTOR3 vecDiffPos = nextKey->pos - currentKey->pos;
-		D3DXVECTOR3 vecDiffRot = GetFixedRotation(nextKey->rot - currentKey->rot);
-
-		pPart->obj.pos = currentKey->pos + pPart->offset.pos + vecDiffPos * fRateKey;
-		pPart->obj.rot = GetFixedRotation(currentKey->rot + pPart->offset.rot + vecDiffRot * fRateKey);
-	}
-
-	if (g_player.bFinishMotion == false)
-	{
-		if (g_player.bBlendMotion)
-		{
-			g_player.nCounterMotionBlend++;
-			if (g_player.nCounterMotionBlend >= currentKeyInfo->nFrame)
-			{
-				g_player.nKeyBlend;
-				g_player.nCounterMotionBlend = 0;
-			}
-		}
-		else
-		{
-			g_player.nCounterMotion++;
-			if (g_player.nCounterMotion >= currentKeyInfo->nFrame)
-			{
-				if (nKeyNext == g_player.nNumKey - 1 && g_player.bLoopMotion == false)
-				{
-					g_player.bFinishMotion = true;
-				}
-
-				g_player.nKey = nKeyNext;
-				g_player.nCounterMotion = 0;
-			}
-		}
-	}
-
+	_UpdatePlayerMotion();
 
 	//PrintDebugProc("%f %f %f", g_player.obj.pos.x, g_player.obj.pos.y, g_player.obj.pos.z);
 	//PrintDebugProc("\n[現在のモーション]\n");
@@ -568,12 +520,27 @@ void SetPlayerMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion)
 	MOTION* pMotion = &g_player.motion;
 	MOTION_INFO* pMotionInfo = &pMotion->aMotionInfo[0];
 
-	g_player.motionType = type;
-	g_player.nNumKey = pMotionInfo[type].nNumKey;
-	g_player.bLoopMotion = pMotionInfo[type].bLoop;
-	g_player.nKey = 0;
-	g_player.nCounterMotion = 0;
-	g_player.bFinishMotion = false;
+	if (bBlendMotion)
+	{
+		g_player.bBlendMotion = true;
+		g_player.motionTypeBlend = type;
+		g_player.nNumKeyBlend = pMotionInfo[type].nNumKey;
+		g_player.bLoopMotionBlend = pMotionInfo[type].bLoop;
+		g_player.nKeyBlend = 0;
+		g_player.nCounterMotionBlend = 0;
+		g_player.nCounterBlend = 0;
+		g_player.nFrameBlend = nFrameMotion;
+		g_player.bFinishMotion = false;
+	}
+	else
+	{
+		g_player.motionType = type;
+		g_player.nNumKey = pMotionInfo[type].nNumKey;
+		g_player.bLoopMotion = pMotionInfo[type].bLoop;
+		g_player.nKey = 0;
+		g_player.nCounterMotion = 0;
+		g_player.bFinishMotion = false;
+	}
 }
 
 MOTIONTYPE GetCurrentPlayerMotion(void)
@@ -593,30 +560,150 @@ void SetPlayerState(PLAYERSTATE state)
 	g_player.currentState = state;
 }
 
+void _UpdatePlayerControl(void)
+{
+
+}
+
+void _UpdatePlayerMotion(void)
+{
+	MOTION* pMotion = &g_player.motion;
+	MOTION_INFO* pMotionInfo = &pMotion->aMotionInfo[0];
+	PART* pPart = &pMotion->aPart[0];
+
+	int nKeyNext = (g_player.nKey + 1) % g_player.nNumKey;
+	KEY_INFO* currentKeyInfo = &pMotionInfo[g_player.motionType].aKeyInfo[g_player.nKey];
+	KEY_INFO* nextKeyInfo = &pMotionInfo[g_player.motionType].aKeyInfo[nKeyNext];
+	float fRateKey = (float)g_player.nCounterMotion / (float)currentKeyInfo->nFrame;
+
+	for (int nCntPart = 0; nCntPart < g_player.motion.nNumPart; nCntPart++, pPart++)
+	{
+		KEY* currentKey = &currentKeyInfo->aKey[nCntPart];
+		KEY* nextKey = &nextKeyInfo->aKey[nCntPart];
+		D3DXVECTOR3 vecDiffKeyPos = nextKey->pos - currentKey->pos;
+		D3DXVECTOR3 vecDiffKeyRot = GetFixedRotation(nextKey->rot - currentKey->rot);
+
+		if (g_player.bBlendMotion)
+		{
+			int nBlendKeyNext = (g_player.nKeyBlend + 1) % g_player.nNumKeyBlend;
+			KEY_INFO* currentBlendKeyInfo = &pMotionInfo[g_player.motionTypeBlend].aKeyInfo[g_player.nKeyBlend];
+			KEY_INFO* nextBlendKeyInfo = &pMotionInfo[g_player.motionTypeBlend].aKeyInfo[nKeyNext];
+			float fRateBlendKey = (float)g_player.nCounterMotionBlend / (float)currentBlendKeyInfo->nFrame;
+			float fRateBlend = (float)g_player.nCounterBlend / (float)g_player.nFrameBlend;
+
+			KEY* currentBlendKey = &currentBlendKeyInfo->aKey[nCntPart];
+			KEY* nextBlendKey = &nextBlendKeyInfo->aKey[nCntPart];
+
+			// ブレンドキーの差分を求める
+			D3DXVECTOR3 vecDiffBlendKeyPos = nextBlendKey->pos - currentBlendKey->pos;
+			D3DXVECTOR3 vecDiffBlendKeyRot = GetFixedRotation(nextBlendKey->rot - currentBlendKey->rot);
+
+			// ブレンドキーの位置を求める
+			D3DXVECTOR3 vecBlendKeyPos = currentBlendKey->pos + vecDiffBlendKeyPos * fRateBlendKey;
+			D3DXVECTOR3 vecBlendKeyRot = GetFixedRotation(currentBlendKey->rot + vecDiffBlendKeyRot * fRateBlendKey);
+
+			// 今のキーからブレンドキーまでの差分を求める
+			D3DXVECTOR3 vecDiffBlendPos = vecBlendKeyPos - currentKey->pos;
+			D3DXVECTOR3 vecDiffBlendRot = GetFixedRotation(vecBlendKeyRot - currentKey->rot);
+
+			// ブレンドの位置を求める
+			pPart->obj.pos = currentKey->pos + pPart->offset.pos + vecDiffBlendPos * fRateBlend;
+			pPart->obj.rot = GetFixedRotation(currentKey->rot + pPart->offset.rot + vecDiffBlendRot * fRateBlend);
+		}
+		else
+		{
+			pPart->obj.pos = currentKey->pos + pPart->offset.pos + vecDiffKeyPos * fRateKey;
+			pPart->obj.rot = GetFixedRotation(currentKey->rot + pPart->offset.rot + vecDiffKeyRot * fRateKey);
+		}
+	}
+
+	if (g_player.bFinishMotion == false)
+	{// モーション情報の設定
+		if (g_player.bBlendMotion)
+		{
+			g_player.nCounterMotionBlend++;
+			if (g_player.nCounterMotionBlend >= currentKeyInfo->nFrame)
+			{
+				int nBlendKeyNext = (g_player.nKeyBlend + 1) % g_player.nNumKeyBlend;
+
+				if (nBlendKeyNext == g_player.nNumKeyBlend - 1 && g_player.bLoopMotionBlend == false)
+				{
+					g_player.bFinishMotion = true;
+				}
+
+				g_player.nKeyBlend;
+				g_player.nCounterMotionBlend = 0;
+			}
+
+			if (g_player.nCounterBlend >= g_player.nFrameBlend)
+			{
+				g_player.bBlendMotion = false;
+				g_player.nKey = g_player.nKeyBlend;
+				g_player.nNumKey = g_player.nNumKeyBlend;
+				g_player.motionType = g_player.motionTypeBlend;
+				g_player.bLoopMotion = g_player.bLoopMotionBlend;
+			}
+			g_player.nCounterBlend++;
+		}
+		else
+		{
+			g_player.nCounterMotion++;
+			if (g_player.nCounterMotion >= currentKeyInfo->nFrame)
+			{
+				if (nKeyNext == g_player.nNumKey - 1 && g_player.bLoopMotion == false)
+				{
+					g_player.bFinishMotion = true;
+				}
+
+				g_player.nKey = nKeyNext;
+				g_player.nCounterMotion = 0;
+			}
+		}
+	}
+}
+
 void _OnPlayerStateChanged(void)
 {
+	CAMERA* pCamera = GetCamera();
+
 	switch (g_player.currentState)
 	{
 	case PLAYERSTATE_MOVE:
-		SetPlayerMotion(MOTIONTYPE_MOVE, false, 0);
+		if (g_player.previousState == PLAYERSTATE_FALL)
+		{
+			SetPlayerMotion(MOTIONTYPE_MOVE, false, 0);
+		}
+		else
+		{
+			SetPlayerMotion(MOTIONTYPE_MOVE, true, 5);
+		}
 		break;
 
 	case PLAYERSTATE_JUMP:
-		SetPlayerMotion(MOTIONTYPE_JUMP, false, 0);
+		SetPlayerMotion(MOTIONTYPE_JUMP, true, 0);
 		break;
 
 	case PLAYERSTATE_FALL:
 		break;
 
 	case PLAYERSTATE_SLIDING:
-		SetPlayerMotion(MOTIONTYPE_SLIDING, false, 0);
+		if (g_player.previousState == PLAYERSTATE_FALL)
+		{
+			SetPlayerMotion(MOTIONTYPE_SLIDING, false, 0);
+		}
+		else
+		{
+			SetPlayerMotion(MOTIONTYPE_SLIDING, true, 5);
+		}
 		break;
 
 	case PLAYERSTATE_DIED:
 		SetPlayerMotion(MOTIONTYPE_DIED, false, 0);
 		SetFade(GetCurrentScene());
+		pCamera->bEnabled = false;
 		break;
 	}
 
 	g_player.nCounterState = 0;
+	g_player.previousState = g_player.currentState;
 }
