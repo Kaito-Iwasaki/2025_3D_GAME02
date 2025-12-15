@@ -13,6 +13,8 @@
 #include "coin.h"
 #include "model.h"
 #include "player.h"
+#include "effect.h"
+#include "sound.h"
 
 //*********************************************************************
 // 
@@ -96,6 +98,11 @@ void UpdateCoin(void)
 		{
 			pCoin->obj.bVisible = false;
 			pPlayer->nScore += 100;
+			PlaySound(SOUND_LABEL_SE_COIN);
+			for (int i = 0; i < 10; i++)
+			{
+				SetEffect(pCoin->obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 0, 1), GetRandomVector() * 10);
+			}
 		}
 
 		if (pCoin->obj.bVisible == false)

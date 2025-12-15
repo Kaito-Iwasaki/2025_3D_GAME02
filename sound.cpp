@@ -36,6 +36,7 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = {
 	{"data\\BGM\\bgm_game.wav"},
 	{"data\\BGM\\bgm_result.wav"},
 	{"data\\SE\\se_jump.wav"},
+	{"data\\SE\\se_coin.wav"},
 };
 
 //=============================================================================

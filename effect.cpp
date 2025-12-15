@@ -169,6 +169,11 @@ void UpdateEffect(void)
 		pVtx[2].pos = D3DXVECTOR3(-pEffect->obj.size.x / 2.0f, -pEffect->obj.size.y / 2.0f, 0.0f);
 		pVtx[3].pos = D3DXVECTOR3(pEffect->obj.size.x / 2.0f, -pEffect->obj.size.y / 2.0f, 0.0f);
 
+		pVtx[0].col = pEffect->obj.color;
+		pVtx[1].col = pEffect->obj.color;
+		pVtx[2].col = pEffect->obj.color;
+		pVtx[3].col = pEffect->obj.color;
+
 		pEffect->obj.pos += pEffect->move;
 
 		pEffect->nCounterState++;
@@ -259,7 +264,7 @@ void DrawEffect(void)
 	}
 }
 
-void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 move)
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXCOLOR col, D3DXVECTOR3 move)
 {
 	EFFECT* pEffect = &g_aEffect[0];
 	for (int nCntEffect = 0; nCntEffect < MAX_EFFECT; nCntEffect++, pEffect++)
@@ -271,6 +276,7 @@ void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 move)
 		pEffect->obj.pos = pos;
 		pEffect->originalSize = size;
 		pEffect->obj.size = size;
+		pEffect->obj.color = col;
 		pEffect->move = move;
 		pEffect->obj.bVisible = true;
 		pEffect->nCounterState = 0;

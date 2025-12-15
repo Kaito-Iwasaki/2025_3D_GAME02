@@ -224,8 +224,6 @@ void UpdatePlayer(void)
 		}
 	}
 
-	SetEffect(g_player.obj.pos, D3DXVECTOR3(50, 50, 0), GetRandomVector() * 10);
-
 	float fAngleDir = atan2f(g_dir.x, g_dir.z);
 	pCamera->posOffset = D3DXVECTOR3(sinf(fAngleDir) * 350.0f, 200, cosf(fAngleDir) * 350.0f);
 	D3DXVECTOR3 vecMoved = g_player.obj.pos - g_player.posOld;
@@ -712,7 +710,7 @@ void _OnPlayerStateChanged(void)
 		break;
 
 	case PLAYERSTATE_JUMP:
-		SetPlayerMotion(MOTIONTYPE_JUMP, true, 0);
+		SetPlayerMotion(MOTIONTYPE_JUMP, true, 5);
 		break;
 
 	case PLAYERSTATE_FALL:
