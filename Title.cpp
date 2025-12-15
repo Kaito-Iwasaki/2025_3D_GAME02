@@ -19,6 +19,9 @@
 #include "util.h"
 #include "model_loader.h"
 #include "sound.h"
+#include "sphere.h"
+#include "cylinder.h"
+#include "field.h"
 
 //*********************************************************************
 // 
@@ -63,6 +66,9 @@ void InitTitle(void)
 	StopSound();
 
 	InitModel();
+	InitSphere();
+	InitCylinder();
+	InitField();
 
 	LoadScript("data\\model.txt", &g_dataTitle);
 
@@ -99,6 +105,9 @@ void InitTitle(void)
 void UninitTitle(void)
 {
 	UninitModel();
+	UninitSphere();
+	UninitCylinder();
+	UninitField();
 }
 
 //=====================================================================
@@ -112,6 +121,9 @@ void UpdateTitle(void)
 	}
 
 	UpdateModel();
+	UpdateSphere();
+	UpdateCylinder();
+	UpdateField();
 }
 
 //=====================================================================
@@ -120,4 +132,7 @@ void UpdateTitle(void)
 void DrawTitle(void)
 {
 	DrawModel();
+	DrawSphere();
+	DrawCylinder();
+	DrawField();
 }

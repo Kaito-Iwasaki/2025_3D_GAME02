@@ -88,6 +88,8 @@ typedef struct
 
 	int nFrameBlend;							// ブレンドのフレーム数
 	int nCounterBlend;							// ブレンドのカウンター
+
+	int nScore;									// スコア
 }PLAYER;
 
 //*********************************************************************

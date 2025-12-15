@@ -347,7 +347,8 @@ void UpdatePlayer(void)
 
 	}
 
-	PrintDebugProc("%d", nMode);
+	PrintDebugProc("モード:%d\n", nMode);
+	PrintDebugProc("スコア:%d\n", g_player.nScore);
 
 	_UpdatePlayerMotion();
 }

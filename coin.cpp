@@ -85,7 +85,8 @@ void UpdateCoin(void)
 
 		// ƒ‚ƒfƒ‹‚ÌÕ“Ë”»’èˆ—
 		if (
-			pPlayer->obj.pos.x > pCoin->obj.pos.x + vtxMin.x
+			pCoin->obj.bVisible
+			&& pPlayer->obj.pos.x > pCoin->obj.pos.x + vtxMin.x
 			&& pPlayer->obj.pos.x < pCoin->obj.pos.x + vtxMax.x
 			&& pPlayer->obj.pos.z < pCoin->obj.pos.z + vtxMax.z
 			&& pPlayer->obj.pos.z > pCoin->obj.pos.z + vtxMin.z
@@ -94,6 +95,17 @@ void UpdateCoin(void)
 			)
 		{
 			pCoin->obj.bVisible = false;
+			pPlayer->nScore += 100;
+		}
+
+		if (pCoin->obj.bVisible == false)
+		{
+			pCoin->nCounterState++;
+		}
+
+		if (pCoin->nCounterState > 60 * 10)
+		{
+			pCoin->obj.bVisible = true;
 		}
 	}
 }
