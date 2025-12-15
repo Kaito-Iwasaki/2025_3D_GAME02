@@ -22,6 +22,7 @@
 #include "wall.h"
 #include "Game.h"
 #include "fade.h"
+#include "effect.h"
 
 //*********************************************************************
 // 
@@ -31,7 +32,7 @@
 #define MAX_TEXTURE			(8)
 
 #define PLAYER_JUMPPOWER	(16.0f)
-#define PLAYER_SPEED		(10.0f)
+#define PLAYER_SPEED		(14.0f)
 
 //*********************************************************************
 // 
@@ -83,6 +84,7 @@ void InitPlayer(void)
 	g_player.obj.bVisible = true;
 	g_player.nIdxShadow = SetShadow();
 	g_player.obj.pos = D3DXVECTOR3(0.0f, 150.0f, -2900.0f);
+	g_player.obj.size = D3DXVECTOR3(0, 110, 0);
 
 	// モーションスクリプトから各情報を読み込む
 	LoadMotionScript("data\\motion_character00.txt", &g_player.motion);
@@ -189,7 +191,7 @@ void UpdatePlayer(void)
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.08f, 0.0f, g_player.obj.pos.y * 0.08f));
 	SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f - g_player.obj.pos.y * 0.001f, 0.0f, 0.5f));
 
-	BYTE byHit = CollisionModel(&g_player.obj.pos, g_player.posOld);
+	BYTE byHit = CollisionModel(&g_player.obj.pos, g_player.posOld, g_player.obj.size);
 
 	if (byHit & (MODEL_HIT_TOP | MODEL_HIT_BOTTOM))
 	{
@@ -214,7 +216,6 @@ void UpdatePlayer(void)
 		if (GetKeyboardPress(DIK_S))
 		{
 			SetPlayerState(PLAYERSTATE_SLIDING);
-
 		}
 		else
 		{
@@ -222,6 +223,8 @@ void UpdatePlayer(void)
 
 		}
 	}
+
+	SetEffect(g_player.obj.pos, D3DXVECTOR3(50, 50, 0), GetRandomVector() * 10);
 
 	float fAngleDir = atan2f(g_dir.x, g_dir.z);
 	pCamera->posOffset = D3DXVECTOR3(sinf(fAngleDir) * 350.0f, 200, cosf(fAngleDir) * 350.0f);
@@ -234,6 +237,11 @@ void UpdatePlayer(void)
 	}
 
 	if (g_player.currentState == PLAYERSTATE_FALL && g_player.nCounterState > 60)
+	{
+		SetPlayerState(PLAYERSTATE_DIED);
+	}
+
+	if (byHit & MODEL_HIT_IN)
 	{
 		SetPlayerState(PLAYERSTATE_DIED);
 	}
@@ -311,28 +319,37 @@ void UpdatePlayer(void)
 		break;
 
 	case 7:
-		//if (g_player.obj.pos.z > 9700)
-		//{
-		//	g_dir = D3DXVECTOR3(-1, 0, 0);
-		//	pCamera->rot.y = D3DXToRadian(180);
-		//	nMode++;
-		//}
-		SetFade(SCENE_RESULT);
+		if (g_player.obj.pos.z > 9500)
+		{
+			g_dir = D3DXVECTOR3(-1, 0, 0);
+			pCamera->rot.y = D3DXToRadian(180);
+			nMode++;
+		}
 		break;
+
+	case 8:
+		if (g_player.obj.pos.x < -14800)
+		{
+			g_dir = D3DXVECTOR3(0, 0, -1);
+			pCamera->rot.y = D3DXToRadian(90);
+			nMode++;
+		}
+		break;
+
+	case 9:
+		if (g_player.obj.pos.z < 1700)
+		{
+			g_dir = D3DXVECTOR3(1, 0, 0);
+			pCamera->rot.y = D3DXToRadian(0);
+			nMode++;
+		}
+		break;
+
 	}
 
-	_UpdatePlayerMotion();
+	PrintDebugProc("%d", nMode);
 
-	//PrintDebugProc("%f %f %f", g_player.obj.pos.x, g_player.obj.pos.y, g_player.obj.pos.z);
-	//PrintDebugProc("\n[現在のモーション]\n");
-	//PrintDebugProc("キーカウント : %d\n", g_player.nCounterMotion);
-	//PrintDebugProc("現在のキー : %d\n", g_player.nKey);
-	//PrintDebugProc("合計キー数 : %d\n", g_player.nNumKey);
-	//PrintDebugProc("\n[ブレンドのモーション]\n");
-	//PrintDebugProc("キーカウント : %d\n", g_player.nCounterMotionBlend);
-	//PrintDebugProc("現在のキー : %d\n", g_player.nKeyBlend);
-	//PrintDebugProc("合計キー数 : %d\n", g_player.nNumKeyBlend);
-	//PrintDebugProc("ブレンドカウント : %d", g_player.nCounterBlend);
+	_UpdatePlayerMotion();
 }
 
 //=====================================================================
@@ -463,6 +480,14 @@ void SetPlayerMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion)
 
 	if (bBlendMotion)
 	{
+		if (g_player.bBlendMotion == true)
+		{
+			g_player.nKey = g_player.nKeyBlend;
+			g_player.nNumKey = g_player.nNumKeyBlend;
+			g_player.motionType = g_player.motionTypeBlend;
+			g_player.bLoopMotion = g_player.bLoopMotionBlend;
+		}
+
 		g_player.bBlendMotion = true;
 		g_player.motionTypeBlend = type;
 		g_player.nNumKeyBlend = pMotionInfo[type].nNumKey;
@@ -563,6 +588,10 @@ void _UpdatePlayerControl(void)
 
 			// プレイヤーの位置に移動量を反映
 			g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
+			if (GetKeyboardPress(DIK_LSHIFT))
+			{
+				g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
+			}
 		}
 	}
 }

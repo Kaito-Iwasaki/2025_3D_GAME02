@@ -149,6 +149,10 @@
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="coin.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="cylinder.cpp" />
     <ClCompile Include="DebugProc.cpp">
       <SubType>
@@ -245,6 +249,7 @@
     </ClInclude>
     <ClInclude Include="util.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="coin.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

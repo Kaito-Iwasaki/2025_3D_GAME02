@@ -29,6 +29,7 @@
 #include "fade.h"
 #include "camera.h"
 #include "sound.h"
+#include "coin.h"
 
 //*********************************************************************
 // 
@@ -73,17 +74,22 @@ void InitGame(void)
 {
 	InitCamera();
 	InitField();
-	InitMeshField();
 	InitWall();
-	InitShadow();
 	InitPlayer();
 	InitModel();
+	InitEffect();
+	InitShadow();
 	InitCylinder();
 	InitSphere();
+	InitCoin();
+
+#ifdef _DEBUG
 	InitDebugProc();
+#endif
 
 	g_bIsPaused = false;
 
+	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 	LoadScript("data\\model.txt", &g_data);
 
 	for (int nCntMesh = 0; nCntMesh < g_data.nNumModel; nCntMesh++)
@@ -107,6 +113,9 @@ void InitGame(void)
 
 	PlaySound(SOUND_LABEL_BGM_GAME);
 
+	SetCoin(D3DXVECTOR3(0, 50, -700));
+	SetCoin(D3DXVECTOR3(0, 50, -600));
+	SetCoin(D3DXVECTOR3(0, 50, -500));
 }
 
 //=====================================================================
@@ -115,14 +124,18 @@ void InitGame(void)
 void UninitGame(void)
 {
 	UninitField();
-	UninitMeshField();
 	UninitWall();
 	UninitPlayer();
-	UninitEffect();
 	UninitModel();
+	UninitEffect();
+	UninitShadow();
 	UninitCylinder();
 	UninitSphere();
+	UninitCoin();
+
+#ifdef _DEBUG
 	UninitDebugProc();
+#endif
 }
 
 //=====================================================================
@@ -180,23 +193,19 @@ void UpdateGame(void)
 	if (g_bIsPaused == false)
 	{
 		UpdateField();
-		UpdateMeshField();
 		UpdatePlayer();
-		//UpdateWall();
-		UpdateShadow();
 		UpdateModel();
+		UpdateEffect();
+		UpdateWall();
+		UpdateShadow();
 		UpdateCylinder();
 		UpdateSphere();
-
-		//float m = pPlayer->obj.pos.x - pPlayer->posOld.z;
-		//PrintDebugProc("%f", m);
-		//if (m < 0.1f)
-		//{
-		//	SetFade(GetCurrentScene());
-		//}
+		UpdateCoin();
 	}
 
+#ifdef _DEBUG
 	UpdateDebugProc();
+#endif
 }
 
 //=====================================================================
@@ -205,12 +214,16 @@ void UpdateGame(void)
 void DrawGame(void)
 {
 	DrawField();
-	//DrawMeshField();
 	//DrawWall();
 	DrawPlayer();
 	DrawModel();
 	DrawSphere();
 	DrawCylinder();
 	DrawShadow();
+	DrawEffect();
+	DrawCoin();
+
+#ifdef _DEBUG
 	DrawDebugProc();
+#endif
 }

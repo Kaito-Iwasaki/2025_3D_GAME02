@@ -72,26 +72,7 @@ void UninitModel(void)
 
 	for (int nCntMesh = 0; nCntMesh < MAX_LOADABLE_MODEL; nCntMesh++, pMeshData++)
 	{
-		for (int i = 0; i < MAX_TEXTURE_PER_MODEL; i++)
-		{
-			if (pMeshData->apTexture[i] != NULL)
-			{// テクスチャの破棄
-				pMeshData->apTexture[i]->Release();
-				pMeshData->apTexture[i] = NULL;
-			}
-		}
-
-		if (pMeshData->pMesh != NULL)
-		{// メッシュの破棄
-			pMeshData->pMesh->Release();
-			pMeshData->pMesh = NULL;
-		}
-
-		if (pMeshData->pBuffMat != NULL)
-		{// マテリアルの破棄
-			pMeshData->pBuffMat->Release();
-			pMeshData->pBuffMat = NULL;
-		}
+		ReleaseMesh(pMeshData);
 	}
 
 }
@@ -157,6 +138,13 @@ void DrawModel(void)
 
 		for (int nCntMat = 0; nCntMat < (int)pMeshData->dwNumMat; nCntMat++)
 		{
+			pMat[nCntMat].MatD3D.Diffuse = D3DXCOLOR(
+				pMat[nCntMat].MatD3D.Diffuse.r,
+				pMat[nCntMat].MatD3D.Diffuse.g,
+				pMat[nCntMat].MatD3D.Diffuse.b,
+				pModel->obj.color.a
+			);
+
 			// マテリアルの設定
 			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
@@ -189,6 +177,7 @@ void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot, COLLISIONTYPE collisi
 		pModel->bUsed = true;
 		pModel->obj.pos = pos;
 		pModel->obj.rot = rot;
+		pModel->obj.color = D3DXCOLOR_WHITE;
 		pModel->nType = nType;
 		pModel->collisionType = collisionType;
 
@@ -207,26 +196,7 @@ void LoadModel(const char* pFilename, int nIdx)
 	DWORD dwSizeFVF;
 	BYTE* pVtxBuff;
 
-	for (int i = 0; i < (int)pMeshData->dwNumMat; i++)
-	{
-		if (pMeshData->apTexture[i] != NULL)
-		{// テクスチャの破棄
-			pMeshData->apTexture[i]->Release();
-			pMeshData->apTexture[i] = NULL;
-		}
-	}
-
-	if (pMeshData->pMesh != NULL)
-	{// メッシュの破棄
-		pMeshData->pMesh->Release();
-		pMeshData->pMesh = NULL;
-	}
-
-	if (pMeshData->pBuffMat != NULL)
-	{// マテリアルの破棄
-		pMeshData->pBuffMat->Release();
-		pMeshData->pBuffMat = NULL;
-	}
+	ReleaseMesh(pMeshData);
 
 	// 頂点の最大・最小位置の初期化
 	pMeshData->vtxMax = D3DXVECTOR3(-100000, -100000, -100000);
@@ -246,7 +216,9 @@ void LoadModel(const char* pFilename, int nIdx)
 
 	if FAILED(hr)
 	{
-		MessageBox(GetMainWindow(), "ヤバい（モデルが）", "え？", MB_ICONERROR);
+		char aStrErr[512] = {};
+		sprintf(&aStrErr[0], "やばい（モデルが）\n%s", pFilename);
+		MessageBox(GetMainWindow(), &aStrErr[0], "え？", MB_ICONERROR);
 		DestroyWindow(GetMainWindow());
 		return;
 	}
@@ -313,8 +285,135 @@ void LoadModel(const char* pFilename, int nIdx)
 	}
 }
 
-BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
+//=====================================================================
+// モデル読み込み処理
+//=====================================================================
+void LoadModel(const char* pFilename, MESHDATA* pMeshData)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	int nNumVtx = 0;
+	DWORD dwSizeFVF;
+	BYTE* pVtxBuff;
+
+	ReleaseMesh(pMeshData);
+
+	// 頂点の最大・最小位置の初期化
+	pMeshData->vtxMax = D3DXVECTOR3(-100000, -100000, -100000);
+	pMeshData->vtxMin = D3DXVECTOR3(100000, 100000, 100000);
+
+	// Xファイルの読み込み
+	HRESULT hr = D3DXLoadMeshFromX(
+		pFilename,
+		D3DXMESH_SYSTEMMEM,
+		pDevice,
+		NULL,
+		&pMeshData->pBuffMat,
+		NULL,
+		&pMeshData->dwNumMat,
+		&pMeshData->pMesh
+	);
+
+	if FAILED(hr)
+	{
+		char aStrErr[512] = {};
+		sprintf(&aStrErr[0], "やばい（モデルが）\n%s", pFilename);
+		MessageBox(GetMainWindow(), &aStrErr[0], "え？", MB_ICONERROR);
+		DestroyWindow(GetMainWindow());
+		return;
+	}
+
+	// 頂点数を取得
+	nNumVtx = pMeshData->pMesh->GetNumVertices();
+
+	// 頂点フォーマットのサイズを取得
+	dwSizeFVF = D3DXGetFVFVertexSize(pMeshData->pMesh->GetFVF());
+
+	// 頂点バッファをロックし、頂点情報へのポインタを取得
+	pMeshData->pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+
+	for (int nCntVtx = 0; nCntVtx < nNumVtx; nCntVtx++)
+	{
+		D3DXVECTOR3 vtx = *(D3DXVECTOR3*)pVtxBuff;	// 頂点座標を代入
+
+		if (vtx.x < pMeshData->vtxMin.x)
+		{// 頂点のX軸最小位置
+			pMeshData->vtxMin.x = vtx.x;
+		}
+		else if (vtx.x > pMeshData->vtxMax.x)
+		{// 頂点のX軸最大位置
+			pMeshData->vtxMax.x = vtx.x;
+		}
+
+		if (vtx.z < pMeshData->vtxMin.z)
+		{// 頂点のZ軸最小位置
+			pMeshData->vtxMin.z = vtx.z;
+		}
+		else if (vtx.z > pMeshData->vtxMax.z)
+		{// 頂点のZ軸最大位置
+			pMeshData->vtxMax.z = vtx.z;
+		}
+
+		if (vtx.y < pMeshData->vtxMin.y)
+		{// 頂点のY軸最小位置
+			pMeshData->vtxMin.y = vtx.y;
+		}
+		else if (vtx.y > pMeshData->vtxMax.y)
+		{// 頂点のY軸最大位置
+			pMeshData->vtxMax.y = vtx.y;
+		}
+
+		pVtxBuff += dwSizeFVF;
+	}
+
+	D3DXMATERIAL* pMat;
+
+	// マテリアルデータへのポインタを取得
+	pMat = (D3DXMATERIAL*)pMeshData->pBuffMat->GetBufferPointer();
+
+	// テクスチャの読み込み
+	for (int i = 0; i < (int)pMeshData->dwNumMat; i++)
+	{
+		if (pMat[i].pTextureFilename != NULL)
+		{// テクスチャファイルが存在する
+			D3DXCreateTextureFromFile(
+				pDevice,
+				pMat[i].pTextureFilename,
+				&pMeshData->apTexture[i]
+			);
+		}
+	}
+}
+
+void ReleaseMesh(MESHDATA* pMeshData)
+{
+	for (int i = 0; i < MAX_TEXTURE_PER_MODEL; i++)
+	{
+		if (pMeshData->apTexture[i] != NULL)
+		{// テクスチャの破棄
+			pMeshData->apTexture[i]->Release();
+			pMeshData->apTexture[i] = NULL;
+		}
+	}
+
+	if (pMeshData->pMesh != NULL)
+	{// メッシュの破棄
+		pMeshData->pMesh->Release();
+		pMeshData->pMesh = NULL;
+	}
+
+	if (pMeshData->pBuffMat != NULL)
+	{// マテリアルの破棄
+		pMeshData->pBuffMat->Release();
+		pMeshData->pBuffMat = NULL;
+	}
+}
+
+BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
+{
+	// memo
+	// 例えばOnHit()みたいな関数のポインタを渡せばこの関数に
+	// 値やポインタを渡さなくてもそれぞれの衝突判定と処理を実現できる？
+
 	MODEL* pModel = &g_aModel[0];
 	BYTE byHitAll = MODEL_HIT_NONE;
 
@@ -330,12 +429,24 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
 
 		// モデルの衝突判定処理
 		if (
+			posOld.x > pModel->obj.pos.x + vtxMin.x
+			&& posOld.x < pModel->obj.pos.x + vtxMax.x
+			&& posOld.z < pModel->obj.pos.z + vtxMax.z
+			&& posOld.z > pModel->obj.pos.z + vtxMin.z
+			&& posOld.y < pModel->obj.pos.y + vtxMax.y
+			&& posOld.y + size.y > pModel->obj.pos.y + vtxMin.y
+			)
+		{
+			byHit |= MODEL_HIT_IN;
+		}
+
+		if (
 			posOld.x <= pModel->obj.pos.x + vtxMin.x
 			&& pos->x > pModel->obj.pos.x + vtxMin.x
 			&& pos->z <= pModel->obj.pos.z + vtxMax.z
 			&& pos->z >= pModel->obj.pos.z + vtxMin.z
 			&& pos->y < pModel->obj.pos.y + vtxMax.y
-			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			&& pos->y + size.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{// 左
 			byHit |= MODEL_HIT_LEFT;
@@ -347,7 +458,7 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
 			&& pos->z <= pModel->obj.pos.z + vtxMax.z
 			&& pos->z >= pModel->obj.pos.z + vtxMin.z
 			&& pos->y < pModel->obj.pos.y + vtxMax.y
-			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			&& pos->y + size.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{// 右
 			byHit |= MODEL_HIT_RIGHT;
@@ -359,7 +470,7 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
 			&& pos->x >= pModel->obj.pos.x + vtxMin.x
 			&& pos->x <= pModel->obj.pos.x + vtxMax.x
 			&& pos->y < pModel->obj.pos.y + vtxMax.y
-			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			&& pos->y + size.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{// 前
 			byHit |= MODEL_HIT_FRONT;
@@ -371,7 +482,7 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
 			&& pos->x >= pModel->obj.pos.x + vtxMin.x
 			&& pos->x <= pModel->obj.pos.x + vtxMax.x
 			&& pos->y < pModel->obj.pos.y + vtxMax.y
-			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			&& pos->y + size.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{// 後ろ
 			byHit |= MODEL_HIT_BACK;
@@ -407,8 +518,8 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
 		}
 
 		if (
-			posOld.y <= pModel->obj.pos.y + vtxMin.y
-			&& pos->y >= pModel->obj.pos.y + vtxMin.y
+			posOld.y + size.y <= pModel->obj.pos.y + vtxMin.y
+			&& pos->y + size.y > pModel->obj.pos.y + vtxMin.y
 			&& pos->x > pModel->obj.pos.x + vtxMin.x
 			&& pos->x < pModel->obj.pos.x + vtxMax.x
 			&& pos->z > pModel->obj.pos.z + vtxMin.z
@@ -424,7 +535,7 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld)
 		}
 		if (byHit & MODEL_HIT_BOTTOM)
 		{// 下から衝突
-			pos->y = pModel->obj.pos.y + vtxMin.y;
+			pos->y = pModel->obj.pos.y + vtxMin.y - size.y;
 		}
 
 		byHitAll |= byHit;

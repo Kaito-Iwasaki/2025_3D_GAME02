@@ -120,9 +120,6 @@ void UpdateMeshField(void)
 		// 頂点バッファをロックして頂点情報へのポインタを取得
 		pMeshField->pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-		pVtx[0].pos.y = 100.0f;
-		pVtx[1].pos.y = 100.0f;
-
 		// 頂点バッファをアンロック
 		pMeshField->pVtxBuff->Unlock();
 	}

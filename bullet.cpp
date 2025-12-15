@@ -165,7 +165,7 @@ void UpdateBullet(void)
 
 		pBullet->obj.pos += pBullet->move;
 		SetShadowPosition(pBullet->nIdxShadow, D3DXVECTOR3(pBullet->obj.pos.x, 0.1f, pBullet->obj.pos.z));
-		SetEffect(D3DXVECTOR3(pBullet->obj.pos.x, 0.1f, pBullet->obj.pos.z), D3DXVECTOR3_ZERO);
+		//SetEffect(D3DXVECTOR3(pBullet->obj.pos.x, 0.1f, pBullet->obj.pos.z), D3DXVECTOR3_ZERO);
 
 		pBullet->nCounterState++;
 	}

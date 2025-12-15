@@ -1,11 +1,11 @@
 //=====================================================================
 //
-// effect.cppのヘッダファイル [effect.h]
+// coin.cppのヘッダファイル [coin.h]
 // Author : 
 // 
 //=====================================================================
-#ifndef _EFFECT_H_
-#define _EFFECT_H_
+#ifndef _COIN_H_
+#define _COIN_H_
 
 //*********************************************************************
 // 
@@ -21,22 +21,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_EFFECT	(256)
-
-//*********************************************************************
-// 
-// ***** 構造体 *****
-// 
-//*********************************************************************
-typedef struct
-{
-	BASEOBJECT obj;
-	D3DXMATRIX mtxWorld;
-	D3DXVECTOR3 move;
-	int nCounterState;
-	D3DXVECTOR3 originalSize;
-	bool bUsed;
-}EFFECT;
+#define MAX_COIN	(256)
 
 //*********************************************************************
 // 
@@ -47,13 +32,27 @@ typedef struct
 
 //*********************************************************************
 // 
+// ***** 構造体 *****
+// 
+//*********************************************************************
+typedef struct
+{
+	BASEOBJECT obj;
+	D3DXMATRIX mtxWorld;
+	bool bUsed;
+	int nCounterState;
+}COIN;
+
+//*********************************************************************
+// 
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitEffect(void);
-void UninitEffect(void);
-void UpdateEffect(void);
-void DrawEffect(void);
-void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 move);
+void InitCoin(void);
+void UninitCoin(void);
+void UpdateCoin(void);
+void DrawCoin(void);
+void SetCoin(D3DXVECTOR3 pos);
+BYTE CollisionCoin(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size = D3DXVECTOR3_ZERO);
 
 #endif

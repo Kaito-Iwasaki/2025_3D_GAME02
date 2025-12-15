@@ -20,9 +20,9 @@
 // 
 //*********************************************************************
 #define TEXTURE_FILENAME	"data\\TEXTURE\\effect000.jpg"
-#define INIT_POS			D3DXVECTOR3(0.0f, 20.0f, 0.0f)
+#define INIT_POS			D3DXVECTOR3(0.0f, 0.0f, 0.0f)
 #define INIT_SIZE			D3DXVECTOR3(15.0f, 15.0f, 0.0f)
-#define INIT_COLOR			D3DXCOLOR(1.0f, 0.8f, 0.0f, 1.0f)
+#define INIT_COLOR			D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)
 
 //*********************************************************************
 // 
@@ -162,7 +162,7 @@ void UpdateEffect(void)
 			continue;
 		}
 
-		pEffect->obj.size =  (INIT_SIZE / (float)pEffect->nCounterState);
+		pEffect->obj.size =  (pEffect->originalSize / (float)pEffect->nCounterState);
 
 		pVtx[0].pos = D3DXVECTOR3(-pEffect->obj.size.x / 2.0f, pEffect->obj.size.y / 2.0f, 0.0f);
 		pVtx[1].pos = D3DXVECTOR3(pEffect->obj.size.x / 2.0f, pEffect->obj.size.y / 2.0f, 0.0f);
@@ -193,11 +193,10 @@ void DrawEffect(void)
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_3D);
 
-	pEffect = &g_aEffect[0];
 	for (int nCntEffect = 0; nCntEffect < MAX_EFFECT; nCntEffect++, pEffect++)
 	{
-		if (pEffect->obj.bVisible == false) continue;
 		if (pEffect->bUsed == false) continue;
+		if (pEffect->obj.bVisible == false) continue;
 
 		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&pEffect->mtxWorld);
@@ -225,14 +224,19 @@ void DrawEffect(void)
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &pEffect->mtxWorld);
 
-		// Zテストを無効にする
-		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+		// アルファテストを有効にする
+		// →　ピクセルのアルファ値が０より大きければ書き込みをする
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
 		// 加算合成を適用
 		pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 		pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
+		// ライトを無効にする
+		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 		// テクスチャの設定
 		pDevice->SetTexture(0, g_pTexBuffEffect);
@@ -240,18 +244,22 @@ void DrawEffect(void)
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntEffect * 4, 2);
 
-		// Zテストを有効にする
-		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
 		// 加算合成を解除
 		pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 		pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		// アルファテストを無効にする
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 255);
+
+		// ライトを有効にする
+		pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	}
 }
 
-void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move)
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 move)
 {
 	EFFECT* pEffect = &g_aEffect[0];
 	for (int nCntEffect = 0; nCntEffect < MAX_EFFECT; nCntEffect++, pEffect++)
@@ -261,6 +269,8 @@ void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move)
 		ZeroMemory(pEffect, sizeof(EFFECT));
 		pEffect->bUsed = true;
 		pEffect->obj.pos = pos;
+		pEffect->originalSize = size;
+		pEffect->obj.size = size;
 		pEffect->move = move;
 		pEffect->obj.bVisible = true;
 		pEffect->nCounterState = 0;

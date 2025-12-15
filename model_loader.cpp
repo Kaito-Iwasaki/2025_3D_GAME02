@@ -116,7 +116,7 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "MODEL_FILENAME") == 0)
 		{// テクスチャファイル名読み込み
-			if (nModelCount < (*ppBuffer)->nNumModel)
+			if (nModelCount < MAX_LOADABLE_MODEL)
 			{// 最大読み込み数まで読み込む
 				fscanf(pFile, " = %s", &(*ppBuffer)->aFilenameModel[nModelCount][0]);
 				nModelCount++;
