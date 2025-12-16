@@ -14,6 +14,7 @@
 #include "player.h"
 #include "model_loader.h"
 #include "DebugProc.h"
+#include "camera.h"
 
 //*********************************************************************
 // 
@@ -88,6 +89,7 @@ void DrawModel(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	MODEL* pModel = &g_aModel[0];
+	CAMERA* pCamera = GetCamera();
 	D3DXMATRIX mtxRot, mtxTrans;	// 計算用マトリックス
 	D3DMATERIAL9 matDef;			// 現在のマテリアル保存用
 	D3DXMATERIAL* pMat;				// マテリアルデータへのポインタ
@@ -95,6 +97,17 @@ void DrawModel(void)
 	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
 	{
 		if (pModel->bUsed == false) continue;	// 使用中でないならスキップ
+
+		D3DXVECTOR3 vecCamLook = pCamera->posR - pCamera->posV;
+		vecCamLook.y = 0;
+		D3DXVECTOR3 vecCamToModel = pModel->obj.pos - pCamera->posV;
+		vecCamToModel.y = 0;
+		float ToLookDotToModel = DotProduct(Normalize(vecCamLook), Normalize(vecCamToModel));
+
+		if (ToLookDotToModel < 0)
+		{
+			continue;
+		}
 
 		MESHDATA* pMeshData = &g_aMeshData[pModel->nType];
 
@@ -134,12 +147,24 @@ void DrawModel(void)
 
 		for (int nCntMat = 0; nCntMat < (int)pMeshData->dwNumMat; nCntMat++)
 		{
-			pMat[nCntMat].MatD3D.Diffuse = D3DXCOLOR(
-				pMat[nCntMat].MatD3D.Diffuse.r,
-				pMat[nCntMat].MatD3D.Diffuse.g,
-				pMat[nCntMat].MatD3D.Diffuse.b,
-				pModel->obj.color.a
-			);
+			if (Magnitude(vecCamToModel) < 300)
+			{
+				pMat[nCntMat].MatD3D.Diffuse = D3DXCOLOR(
+					pMat[nCntMat].MatD3D.Diffuse.r,
+					pMat[nCntMat].MatD3D.Diffuse.g,
+					pMat[nCntMat].MatD3D.Diffuse.b,
+					pModel->obj.color.a * 0.25f
+				);
+			}
+			else
+			{
+				pMat[nCntMat].MatD3D.Diffuse = D3DXCOLOR(
+					pMat[nCntMat].MatD3D.Diffuse.r,
+					pMat[nCntMat].MatD3D.Diffuse.g,
+					pMat[nCntMat].MatD3D.Diffuse.b,
+					pModel->obj.color.a
+				);
+			}
 
 			// マテリアルの設定
 			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);

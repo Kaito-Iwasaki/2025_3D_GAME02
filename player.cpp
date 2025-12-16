@@ -352,6 +352,19 @@ void UpdatePlayer(void)
 			nMode++;
 		}
 		break;
+
+	case 10:
+		if (g_player.obj.pos.x > -5000)
+		{
+			g_dir = D3DXVECTOR3(0, 0, 1);
+			pCamera->rot.y = D3DXToRadian(-90);
+			nMode++;
+		}
+		break;
+
+	case 11:
+		SetFade(SCENE_RESULT);
+		break;
 	}
 
 	PrintDebugProc("ÉÇÅ[Éh:%d\n", nMode);
