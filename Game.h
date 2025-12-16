@@ -26,7 +26,13 @@
 // ***** —ñ‹“Œ^ *****
 // 
 //*********************************************************************
-
+typedef enum
+{
+	GAMESTATE_NORMAL = 0,
+	GAMESTATE_OVER,
+	GAMESTATE_END,
+	GAMESTATE_MAX
+}GAMESTATE;
 
 //*********************************************************************
 // 
@@ -44,5 +50,7 @@ void InitGame(void);
 void UninitGame(void);
 void UpdateGame(void);
 void DrawGame(void);
+void SetGameState(GAMESTATE state);
+void ReloadGameModel(void);
 
 #endif

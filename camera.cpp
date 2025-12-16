@@ -20,7 +20,7 @@
 // ***** É}ÉNÉçíËã` *****
 // 
 //*********************************************************************
-#define CAMERA_SPEED	(5.0f)
+#define CAMERA_SPEED	(10.0f)
 
 //*********************************************************************
 // 
@@ -83,7 +83,7 @@ void UninitCamera(void)
 void UpdateCamera(void)
 {
 	PLAYER* pPlayer = GetPlayer();
-	int nCamSpeed = GetKeyboardPress(DIK_LSHIFT) ? CAMERA_SPEED * 2 : CAMERA_SPEED;
+	int nCamSpeed = GetKeyboardPress(DIK_LSHIFT) ? CAMERA_SPEED * 5 : CAMERA_SPEED;
 
 	if (g_camera.bEnabled == false) return;
 

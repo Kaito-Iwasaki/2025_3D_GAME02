@@ -39,8 +39,10 @@ typedef struct
 {
 	BASEOBJECT obj;
 	D3DXMATRIX mtxWorld;
+	D3DXVECTOR3 origin;
 	bool bUsed;
 	int nCounterState;
+	int nIdxShadow;
 }COIN;
 
 //*********************************************************************
@@ -52,7 +54,6 @@ void InitCoin(void);
 void UninitCoin(void);
 void UpdateCoin(void);
 void DrawCoin(void);
-void SetCoin(D3DXVECTOR3 pos);
-BYTE CollisionCoin(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size = D3DXVECTOR3_ZERO);
+void SetCoin(D3DXVECTOR3 pos, bool bShadow);
 
 #endif

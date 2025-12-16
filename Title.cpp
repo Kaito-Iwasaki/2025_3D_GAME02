@@ -22,6 +22,7 @@
 #include "sphere.h"
 #include "cylinder.h"
 #include "field.h"
+#include "decal.h"
 
 //*********************************************************************
 // 
@@ -69,14 +70,17 @@ void InitTitle(void)
 	InitSphere();
 	InitCylinder();
 	InitField();
+	InitDecal();
 
 	LoadScript("data\\model.txt", &g_dataTitle);
 
+	// メッシュの読み込み
 	for (int nCntMesh = 0; nCntMesh < g_dataTitle.nNumModel; nCntMesh++)
 	{
 		LoadModel(&g_dataTitle.aFilenameModel[nCntMesh][0], nCntMesh);
 	}
 
+	// メッシュの配置
 	for (int nCntModel = 0; nCntModel < g_dataTitle.nCountModelSet; nCntModel++)
 	{
 		SetModel(
@@ -91,6 +95,15 @@ void InitTitle(void)
 		);
 	}
 
+	SetDecal(
+		DECAL_LABEL_LOGO,
+		D3DXVECTOR3(SCREEN_CENTER, SCREEN_VCENTER, 0),
+		D3DXVECTOR3(900, 400, 0),
+		D3DXVECTOR3(0, 0, 0),
+		D3DXCOLOR_WHITE
+	);
+
+	// カメラの設定
 	CAMERA* pCamera = GetCamera();
 	pCamera->nMode = 1;
 	pCamera->rot = D3DXVECTOR3_ZERO;
@@ -108,6 +121,7 @@ void UninitTitle(void)
 	UninitSphere();
 	UninitCylinder();
 	UninitField();
+	UninitDecal();
 }
 
 //=====================================================================
@@ -135,4 +149,5 @@ void DrawTitle(void)
 	DrawSphere();
 	DrawCylinder();
 	DrawField();
+	DrawDecal();
 }

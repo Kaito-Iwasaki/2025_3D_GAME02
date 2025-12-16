@@ -15,6 +15,7 @@
 #include "input.h"
 #include "sound.h"
 #include "scene.h"
+#include "Game.h"
 
 //*********************************************************************
 // 
@@ -209,6 +210,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		else
 		{
 			return 0;	// 0Çï‘Ç≥Ç»Ç¢Ç∆èIóπÇµÇƒÇµÇ‹Ç§
+		}
+		break;
+
+	case WM_SETFOCUS:
+		if (GetCurrentScene() == SCENE_GAME)
+		{
+			ReloadGameModel();
 		}
 		break;
 	}

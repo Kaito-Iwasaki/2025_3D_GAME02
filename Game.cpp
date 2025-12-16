@@ -74,18 +74,15 @@ void InitGame(void)
 {
 	InitCamera();
 	InitField();
-	InitWall();
+	InitShadow();
 	InitPlayer();
 	InitModel();
 	InitEffect();
-	InitShadow();
 	InitCylinder();
 	InitSphere();
 	InitCoin();
 
-#ifdef _DEBUG
 	InitDebugProc();
-#endif
 
 	g_bIsPaused = false;
 
@@ -112,10 +109,6 @@ void InitGame(void)
 	}
 
 	PlaySound(SOUND_LABEL_BGM_GAME);
-
-	SetCoin(D3DXVECTOR3(0, 50, -700));
-	SetCoin(D3DXVECTOR3(0, 50, -600));
-	SetCoin(D3DXVECTOR3(0, 50, -500));
 }
 
 //=====================================================================
@@ -124,7 +117,6 @@ void InitGame(void)
 void UninitGame(void)
 {
 	UninitField();
-	UninitWall();
 	UninitPlayer();
 	UninitModel();
 	UninitEffect();
@@ -133,9 +125,7 @@ void UninitGame(void)
 	UninitSphere();
 	UninitCoin();
 
-#ifdef _DEBUG
 	UninitDebugProc();
-#endif
 }
 
 //=====================================================================
@@ -148,29 +138,7 @@ void UpdateGame(void)
 #if _DEBUG
 	if (GetKeyboardTrigger(DIK_F7))
 	{
-		UninitModel();
-		InitModel();
-
-		LoadScript("data\\model.txt", &g_data);
-
-		for (int nCntMesh = 0; nCntMesh < g_data.nNumModel; nCntMesh++)
-		{
-			LoadModel(g_data.aFilenameModel[nCntMesh], nCntMesh);
-		}
-
-		for (int nCntModel = 0; nCntModel < g_data.nCountModelSet; nCntModel++)
-		{
-			SetModel(
-				g_data.aInfoModelSet[nCntModel].nType,
-				g_data.aInfoModelSet[nCntModel].pos,
-				D3DXVECTOR3(
-					D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x),
-					D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y),
-					D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z)
-				),
-				g_data.aInfoModelSet[nCntModel].collisionType
-			);
-		}
+		ReloadGameModel();
 	}
 #endif
 
@@ -194,18 +162,15 @@ void UpdateGame(void)
 	{
 		UpdateField();
 		UpdatePlayer();
+		UpdateShadow();
 		UpdateModel();
 		UpdateEffect();
-		UpdateWall();
-		UpdateShadow();
 		UpdateCylinder();
 		UpdateSphere();
 		UpdateCoin();
 	}
 
-#ifdef _DEBUG
 	UpdateDebugProc();
-#endif
 }
 
 //=====================================================================
@@ -214,16 +179,47 @@ void UpdateGame(void)
 void DrawGame(void)
 {
 	DrawField();
-	//DrawWall();
 	DrawPlayer();
 	DrawModel();
 	DrawSphere();
 	DrawCylinder();
-	DrawShadow();
 	DrawEffect();
 	DrawCoin();
+	DrawShadow();
 
-#ifdef _DEBUG
 	DrawDebugProc();
-#endif
+}
+
+void ReloadGameModel(void)
+{
+	UninitModel();
+	InitModel();
+
+	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
+
+	LoadScript("data\\model.txt", &g_data);
+
+	for (int nCntMesh = 0; nCntMesh < g_data.nNumModel; nCntMesh++)
+	{
+		LoadModel(g_data.aFilenameModel[nCntMesh], nCntMesh);
+	}
+
+	for (int nCntModel = 0; nCntModel < g_data.nCountModelSet; nCntModel++)
+	{
+		SetModel(
+			g_data.aInfoModelSet[nCntModel].nType,
+			g_data.aInfoModelSet[nCntModel].pos,
+			D3DXVECTOR3(
+				D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.x),
+				D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.y),
+				D3DXToRadian(g_data.aInfoModelSet[nCntModel].rot.z)
+			),
+			g_data.aInfoModelSet[nCntModel].collisionType
+		);
+	}
+}
+
+void SetGameState(GAMESTATE state)
+{
+	
 }

@@ -14,6 +14,8 @@
 #include "sound.h"
 #include "fade.h"
 #include "input.h"
+#include "decal.h"
+#include "util.h"
 
 //*********************************************************************
 // 
@@ -57,6 +59,16 @@ void InitResult(void)
 {
 	StopSound();
 	PlaySound(SOUND_LABEL_BGM_RESULT);
+
+	InitDecal();
+
+	SetDecal(
+		DECAL_LABEL_RESULT,
+		D3DXVECTOR3(SCREEN_CENTER, SCREEN_VCENTER, 0),
+		D3DXVECTOR3(100, 100, 0),
+		D3DXVECTOR3(0, 0, 0),
+		D3DXCOLOR_WHITE
+	);
 }
 
 //=====================================================================
@@ -64,7 +76,7 @@ void InitResult(void)
 //=====================================================================
 void UninitResult(void)
 {
-
+	UninitDecal();
 }
 
 //=====================================================================
@@ -83,5 +95,5 @@ void UpdateResult(void)
 //=====================================================================
 void DrawResult(void)
 {
-
+	DrawDecal();
 }

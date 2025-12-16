@@ -85,6 +85,7 @@ void InitPlayer(void)
 	g_player.nIdxShadow = SetShadow();
 	g_player.obj.pos = D3DXVECTOR3(0.0f, 150.0f, -2900.0f);
 	g_player.obj.size = D3DXVECTOR3(0, 110, 0);
+	g_player.bJump = true;
 
 	// モーションスクリプトから各情報を読み込む
 	LoadMotionScript("data\\motion_character00.txt", &g_player.motion);
@@ -186,11 +187,6 @@ void UpdatePlayer(void)
 	// プレイヤーのY軸の移動量に重力を加算
 	g_player.move.y -= GAME_GRAVITY;
 
-	// 影の設定
-	SetShadowPosition(g_player.nIdxShadow, D3DXVECTOR3(g_player.obj.pos.x, 0.01f, g_player.obj.pos.z));
-	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f) + D3DXVECTOR3(g_player.obj.pos.y * 0.08f, 0.0f, g_player.obj.pos.y * 0.08f));
-	SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f - g_player.obj.pos.y * 0.001f, 0.0f, 0.5f));
-
 	BYTE byHit = CollisionModel(&g_player.obj.pos, g_player.posOld, g_player.obj.size);
 
 	if (byHit & (MODEL_HIT_TOP | MODEL_HIT_BOTTOM))
@@ -223,6 +219,20 @@ void UpdatePlayer(void)
 
 		}
 	}
+
+	// 影の設定
+	SetShadowPosition(g_player.nIdxShadow, D3DXVECTOR3(g_player.obj.pos.x, g_player.obj.pos.y + 0.001f, g_player.obj.pos.z));
+	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f));
+	if (g_player.bJump)
+	{
+		SetShadowAlpha(g_player.nIdxShadow, 0.0f);
+	}
+	else
+	{
+		//SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f * g_player.nCounterState * 0.05f, 0.0f, 0.3f));
+		SetShadowAlpha(g_player.nIdxShadow, 0.3f);
+	}
+
 
 	float fAngleDir = atan2f(g_dir.x, g_dir.z);
 	pCamera->posOffset = D3DXVECTOR3(sinf(fAngleDir) * 350.0f, 200, cosf(fAngleDir) * 350.0f);
@@ -342,11 +352,11 @@ void UpdatePlayer(void)
 			nMode++;
 		}
 		break;
-
 	}
 
 	PrintDebugProc("モード:%d\n", nMode);
 	PrintDebugProc("スコア:%d\n", g_player.nScore);
+	PrintDebugProc("位置:%d %d %d\n", (int)g_player.obj.pos.x, (int)g_player.obj.pos.y, (int)g_player.obj.pos.z);
 
 	_UpdatePlayerMotion();
 }
@@ -484,6 +494,7 @@ void SetPlayerMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion)
 			g_player.nKey = g_player.nKeyBlend;
 			g_player.nNumKey = g_player.nNumKeyBlend;
 			g_player.motionType = g_player.motionTypeBlend;
+			g_player.nCounterMotion = g_player.nCounterMotionBlend;
 			g_player.bLoopMotion = g_player.bLoopMotionBlend;
 		}
 
@@ -508,6 +519,9 @@ void SetPlayerMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion)
 	}
 }
 
+//=====================================================================
+// プレイヤーのモーション取得処理
+//=====================================================================
 MOTIONTYPE GetCurrentPlayerMotion(void)
 {
 	if (g_player.bBlendMotion)
@@ -520,11 +534,17 @@ MOTIONTYPE GetCurrentPlayerMotion(void)
 	}
 }
 
+//=====================================================================
+// プレイヤーの状態設定処理
+//=====================================================================
 void SetPlayerState(PLAYERSTATE state)
 {
 	g_player.currentState = state;
 }
 
+//=====================================================================
+// プレイヤーの操作処理
+//=====================================================================
 void _UpdatePlayerControl(void)
 {
 	XINPUT_STATE* joypad = GetJoypad();			// ジョイパッドへのポインタ
@@ -587,14 +607,19 @@ void _UpdatePlayerControl(void)
 
 			// プレイヤーの位置に移動量を反映
 			g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
+#ifdef _DEBUG
 			if (GetKeyboardPress(DIK_LSHIFT))
 			{
 				g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
 			}
+#endif
 		}
 	}
 }
 
+//=====================================================================
+// プレイヤーのモーション処理
+//=====================================================================
 void _UpdatePlayerMotion(void)
 {
 	MOTION* pMotion = &g_player.motion;
@@ -651,8 +676,10 @@ void _UpdatePlayerMotion(void)
 	{// モーション情報の設定
 		if (g_player.bBlendMotion)
 		{
+			KEY_INFO* currentBlendKeyInfo = &pMotionInfo[g_player.motionTypeBlend].aKeyInfo[g_player.nKeyBlend];
+
 			g_player.nCounterMotionBlend++;
-			if (g_player.nCounterMotionBlend >= currentKeyInfo->nFrame)
+			if (g_player.nCounterMotionBlend >= currentBlendKeyInfo->nFrame)
 			{
 				int nBlendKeyNext = (g_player.nKeyBlend + 1) % g_player.nNumKeyBlend;
 
@@ -661,7 +688,7 @@ void _UpdatePlayerMotion(void)
 					g_player.bFinishMotion = true;
 				}
 
-				g_player.nKeyBlend;
+				g_player.nKeyBlend = nBlendKeyNext;
 				g_player.nCounterMotionBlend = 0;
 			}
 
@@ -671,6 +698,7 @@ void _UpdatePlayerMotion(void)
 				g_player.nKey = g_player.nKeyBlend;
 				g_player.nNumKey = g_player.nNumKeyBlend;
 				g_player.motionType = g_player.motionTypeBlend;
+				g_player.nCounterMotion = g_player.nCounterMotionBlend;
 				g_player.bLoopMotion = g_player.bLoopMotionBlend;
 			}
 			g_player.nCounterBlend++;
@@ -692,6 +720,9 @@ void _UpdatePlayerMotion(void)
 	}
 }
 
+//=====================================================================
+// プレイヤーの状態変更時の処理
+//=====================================================================
 void _OnPlayerStateChanged(void)
 {
 	CAMERA* pCamera = GetCamera();
@@ -729,7 +760,7 @@ void _OnPlayerStateChanged(void)
 
 	case PLAYERSTATE_DIED:
 		SetPlayerMotion(MOTIONTYPE_DIED, true, 10);
-		SetFade(GetCurrentScene());
+		SetFade(SCENE_RESULT);
 		g_player.move.y = 0;
 		pCamera->bEnabled = false;
 		break;

@@ -15,6 +15,7 @@
 #include "player.h"
 #include "effect.h"
 #include "sound.h"
+#include "shadow.h"
 
 //*********************************************************************
 // 
@@ -84,19 +85,13 @@ void UpdateCoin(void)
 	for (int nCntCoin = 0; nCntCoin < MAX_COIN; nCntCoin++, pCoin++)
 	{
 		pCoin->obj.rot += D3DXVECTOR3(0.025f, 0.025f, 0.025f);
+		pCoin->obj.pos.y = pCoin->origin.y + sinf((float)pCoin->nCounterState * 0.1f) * 7;
 
 		// ƒ‚ƒfƒ‹‚ÌÕ“Ë”»’èˆ—
-		if (
-			pCoin->obj.bVisible
-			&& pPlayer->obj.pos.x > pCoin->obj.pos.x + vtxMin.x
-			&& pPlayer->obj.pos.x < pCoin->obj.pos.x + vtxMax.x
-			&& pPlayer->obj.pos.z < pCoin->obj.pos.z + vtxMax.z
-			&& pPlayer->obj.pos.z > pCoin->obj.pos.z + vtxMin.z
-			&& pPlayer->obj.pos.y < pCoin->obj.pos.y + vtxMax.y
-			&& pPlayer->obj.pos.y + pPlayer->obj.size.y > pCoin->obj.pos.y + vtxMin.y
-			)
+		if (Magnitude(pPlayer->obj.pos + D3DXVECTOR3(0, 30, 0) - pCoin->obj.pos) < 120 && pCoin->obj.bVisible)
 		{
 			pCoin->obj.bVisible = false;
+			pCoin->nCounterState = 0;
 			pPlayer->nScore += 100;
 			PlaySound(SOUND_LABEL_SE_COIN);
 			for (int i = 0; i < 10; i++)
@@ -105,15 +100,20 @@ void UpdateCoin(void)
 			}
 		}
 
+		SetShadowAlpha(pCoin->nIdxShadow, Clampf(0.5f - pCoin->origin.y * 0.001f, 0.0f, 0.3f));
+
 		if (pCoin->obj.bVisible == false)
 		{
-			pCoin->nCounterState++;
+			SetShadowAlpha(pCoin->nIdxShadow, 0.0f);
 		}
 
 		if (pCoin->nCounterState > 60 * 10)
 		{
 			pCoin->obj.bVisible = true;
+			pCoin->nCounterState = RandRange(0, 99);
 		}
+
+		pCoin->nCounterState++;
 	}
 }
 
@@ -177,7 +177,7 @@ void DrawCoin(void)
 	}
 }
 
-void SetCoin(D3DXVECTOR3 pos)
+void SetCoin(D3DXVECTOR3 pos, bool bShadow)
 {
 	COIN* pCoin = &g_aCoin[0];
 
@@ -190,10 +190,20 @@ void SetCoin(D3DXVECTOR3 pos)
 		ZeroMemory(pCoin, sizeof(COIN));
 		pCoin->bUsed = true;
 		pCoin->obj.pos = pos;
+		pCoin->origin = pos;
 		pCoin->obj.rot = D3DXVECTOR3(fRandomAngle, fRandomAngle, fRandomAngle);
 		pCoin->obj.bVisible = true;
 		pCoin->obj.color = D3DXCOLOR_WHITE;
-		pCoin->nCounterState = 0;
+		pCoin->nCounterState = RandRange(0, 99);
+		pCoin->nIdxShadow = -1;
+
+		if (bShadow)
+		{
+			pCoin->nIdxShadow = SetShadow();
+
+			SetShadowPosition(pCoin->nIdxShadow, pCoin->obj.pos + D3DXVECTOR3(0, -40 + 0.01f, 0));
+			SetShadowSize(pCoin->nIdxShadow, D3DXVECTOR3(40, 0, 40));
+		}
 
 		break;
 	}

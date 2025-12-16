@@ -54,6 +54,7 @@ char g_aStrDebug[2048];
 //=====================================================================
 void InitDebugProc(void)
 {
+#ifdef _DEBUG
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	D3DXFONT_DESC fontDesc = {
@@ -72,6 +73,7 @@ void InitDebugProc(void)
 	D3DXCreateFontIndirect(pDevice, &fontDesc, &g_pFontDebug);
 
 	ZeroMemory(&g_aStrDebug[0], sizeof(g_aStrDebug));
+#endif
 }
 
 //=====================================================================
@@ -79,11 +81,13 @@ void InitDebugProc(void)
 //=====================================================================
 void UninitDebugProc(void)
 {
+#ifdef _DEBUG
 	if (g_pFontDebug != NULL)
 	{
 		g_pFontDebug->Release();
 		g_pFontDebug = NULL;
 	}
+#endif
 }
 
 //=====================================================================
@@ -91,7 +95,9 @@ void UninitDebugProc(void)
 //=====================================================================
 void UpdateDebugProc(void)
 {
+#ifdef _DEBUG
 
+#endif
 }
 
 //=====================================================================
@@ -99,15 +105,18 @@ void UpdateDebugProc(void)
 //=====================================================================
 void DrawDebugProc(void)
 {
+#ifdef _DEBUG
 	RECT rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	g_pFontDebug->DrawText(NULL, &g_aStrDebug[0], -1, &rect, DT_TOP | DT_LEFT, D3DXCOLOR_WHITE);
 
 	ZeroMemory(&g_aStrDebug[0], sizeof(g_aStrDebug));
+#endif
 }
 
 void PrintDebugProc(const char* fmt, ...)
 {
+#ifdef _DEBUG
 	va_list ap;
 	char aBuffer[2048] = {};
 	char aValue[64] = {};
@@ -148,4 +157,5 @@ void PrintDebugProc(const char* fmt, ...)
 	va_end(ap);
 
 	strcat(&g_aStrDebug[0], &aBuffer[0]);
+#endif
 }

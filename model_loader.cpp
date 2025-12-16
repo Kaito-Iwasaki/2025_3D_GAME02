@@ -12,6 +12,7 @@
 //*********************************************************************
 #include "model_loader.h"
 #include "script.h"
+#include <cassert>
 
 //*********************************************************************
 // 
@@ -40,8 +41,6 @@
 // 
 //*********************************************************************
 void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer);
-void _Read_MOVELSET(FILE* pFile);
-
 
 //=====================================================================
 // スクリプト読み込み処理
@@ -141,6 +140,7 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 				else if (strcmp(&aStrLine[0], "TYPE") == 0)
 				{
 					fscanf(pFile, " = %d", &pData->nType);
+					assert(pData->nType < (*ppBuffer)->nNumModel);
 				}
 				else if (strcmp(&aStrLine[0], "POS") == 0)
 				{
@@ -157,6 +157,36 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 			}
 
 			(*ppBuffer)->nCountModelSet++;
+		}
+		else if (strcmp(&aStrLine[0], "COINSET") == 0)
+		{
+			COINSETDATA* pData = &(*ppBuffer)->aInfoCoinSet[(*ppBuffer)->nCountCoinSet];
+
+			while (true)
+			{
+				// 一行読み込む
+				if (ReadWord(pFile, &aStrLine[0]) == EOF)
+				{// ファイルの最後まで読み込んだら終了する
+					break;
+				}
+
+				if (strcmp(&aStrLine[0], "END_COINSET") == 0)
+				{
+					break;
+				}
+				else if (strcmp(&aStrLine[0], "POS") == 0)
+				{
+					fscanf(pFile, " = %f %f %f", &pData->pos.x, &pData->pos.y, &pData->pos.z);
+				}
+				else if (strcmp(&aStrLine[0], "SHADOW") == 0)
+				{
+					fscanf(pFile, " = %d", &pData->bShadow);
+				}
+
+				(*ppBuffer)->nCountCoinSet++;
+			}
+
+			SetCoin(pData->pos + D3DXVECTOR3(0, 50, 0), pData->bShadow);
 		}
 	}
 }

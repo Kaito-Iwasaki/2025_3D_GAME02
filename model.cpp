@@ -56,9 +56,6 @@ MESHDATA g_aMeshData[MAX_LOADABLE_MODEL];
 //=====================================================================
 void InitModel(void)
 {
-	MODEL* pModel = &g_aModel[0];
-	MODELSETDATA* pData;
-
 	ZeroMemory(&g_aModel[0], sizeof(MODEL) * MAX_MODEL);
 	ZeroMemory(&g_aMeshData[0], sizeof(MESHDATA) * MAX_LOADABLE_MODEL);
 }
@@ -74,7 +71,6 @@ void UninitModel(void)
 	{
 		ReleaseMesh(pMeshData);
 	}
-
 }
 
 //=====================================================================

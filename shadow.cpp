@@ -68,7 +68,8 @@ void InitShadow(void)
 		pShadow->obj.pos = INIT_POS;
 		pShadow->obj.size = INIT_SIZE;
 		pShadow->obj.color = INIT_COLOR;
-		pShadow->obj.bVisible = true;
+		pShadow->obj.bVisible = false;
+		pShadow->bUsed = false;
 	}
 
 
@@ -183,6 +184,9 @@ void DrawShadow(void)
 	D3DXMATRIX mtxRot, mtxTrans;	// 計算用マトリックス
 	SHADOW* pShadow = &g_aShadow[0];
 
+	// ライトを無効にする
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	// 減算合成を適用
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT);
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -238,21 +242,25 @@ void DrawShadow(void)
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	// ライトを有効にする
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
 
 int SetShadow(void)
 {
-	for (int nCntShadow = 0; nCntShadow < MAX_SHADOW; nCntShadow++)
+	SHADOW* pShadow = &g_aShadow[0];
+
+	for (int nCntShadow = 0; nCntShadow < MAX_SHADOW; nCntShadow++, pShadow++)
 	{
-		if (g_aShadow[nCntShadow].bUsed == false)
-		{
-			memset(&g_aShadow[nCntShadow], 0, sizeof(SHADOW));
-			g_aShadow[nCntShadow].bUsed = true;
-			g_aShadow[nCntShadow].obj.size = INIT_SIZE;
-			g_aShadow[nCntShadow].obj.color = INIT_COLOR;
-			g_aShadow[nCntShadow].obj.bVisible = true;
-			return nCntShadow;
-		}
+		if (pShadow->bUsed == true) continue;
+
+		memset(pShadow, 0, sizeof(SHADOW));
+		pShadow->bUsed = true;
+		pShadow->obj.size = INIT_SIZE;
+		pShadow->obj.color = INIT_COLOR;
+		pShadow->obj.bVisible = true;
+		return nCntShadow;
 	}
 
 	return -1;

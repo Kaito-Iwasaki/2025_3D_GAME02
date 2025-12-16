@@ -1,28 +1,39 @@
 //=====================================================================
 //
-// model_loader.cppのヘッダファイル [model_loader.h]
+// decal.cppのヘッダファイル [decal.h]
 // Author : Kaito Iwasaki
 // 
 //=====================================================================
-#ifndef _MODEL_LOADER_H_
-#define _MODEL_LOADER_H_
+#ifndef _DECAL_H_
+#define _DECAL_H_
 
 //*********************************************************************
 // 
 // ***** インクルードファイル *****
 // 
 //*********************************************************************
+#include "baseObject.h"
 #include "main.h"
-#include "model.h"
-#include "coin.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_LOADABLE_TEXTURE	(256)
-#define MAX_LOADABLE_MODEL		(256)
+#define MAX_DECAL		(8)
+
+//*********************************************************************
+// 
+// ***** 列挙型 *****
+// 
+//*********************************************************************
+typedef enum
+{
+	DECAL_LABEL_NULL = 0,
+	DECAL_LABEL_LOGO,
+	DECAL_LABEL_RESULT,
+	DECAL_LABEL_MAX
+}DECAL_LABEL;
 
 //*********************************************************************
 // 
@@ -31,45 +42,23 @@
 //*********************************************************************
 typedef struct
 {
-	int nType;
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 rot;
-	COLLISIONTYPE collisionType;
-}MODELSETDATA;
-
-typedef struct
-{
-	D3DXVECTOR3 pos;
-	bool bShadow;
-}COINSETDATA;
-
-typedef struct
-{
-	int nNumTexture;
-	char aFilenameTexture[MAX_LOADABLE_TEXTURE][MAX_PATH];
-
-	int nNumModel;
-	char aFilenameModel[MAX_LOADABLE_MODEL][MAX_PATH];
-
-	int nCountModelSet;
-	MODELSETDATA aInfoModelSet[MAX_MODEL];
-
-	int nCountCoinSet;
-	COINSETDATA aInfoCoinSet[MAX_COIN];
-}SCRIPTDATA;
-
-//*********************************************************************
-// 
-// ***** 列挙型 *****
-// 
-//*********************************************************************
-
+	BASEOBJECT obj;
+	bool bUsed;
+	DECAL_LABEL label;
+	int nID;
+}DECAL;
 
 //*********************************************************************
 // 
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void LoadScript(const char* pFileName, SCRIPTDATA* pBuffer);
+void InitDecal(bool bPreload = false);
+void UninitDecal(void);
+void DrawDecal(void);
+DECAL* GetDecal(void);
+DECAL* SetDecal(DECAL_LABEL label, D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, D3DXCOLOR col);
+void DeleteDecal(int nID);
+void DeleteDecal(void);
 
 #endif
