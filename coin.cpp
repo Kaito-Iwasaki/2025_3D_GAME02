@@ -16,6 +16,7 @@
 #include "effect.h"
 #include "sound.h"
 #include "shadow.h"
+#include "input.h"
 
 //*********************************************************************
 // 
@@ -84,6 +85,8 @@ void UpdateCoin(void)
 
 	for (int nCntCoin = 0; nCntCoin < MAX_COIN; nCntCoin++, pCoin++)
 	{
+		if (pCoin->bUsed == false) continue;
+
 		pCoin->obj.rot += D3DXVECTOR3(0.025f, 0.025f, 0.025f);
 		pCoin->obj.pos.y = pCoin->origin.y + sinf((float)pCoin->nCounterState * 0.1f) * 7;
 
@@ -94,6 +97,7 @@ void UpdateCoin(void)
 			pCoin->nCounterState = 0;
 			pPlayer->nScore += 100;
 			PlaySound(SOUND_LABEL_SE_COIN);
+			SetVibration(20000, 20000, 10);
 			for (int i = 0; i < 10; i++)
 			{
 				SetEffect(pCoin->obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 0, 1), GetRandomVector() * 10);
@@ -115,6 +119,7 @@ void UpdateCoin(void)
 
 		pCoin->nCounterState++;
 	}
+
 }
 
 //=====================================================================
@@ -155,13 +160,6 @@ void DrawCoin(void)
 
 		for (int nCntMat = 0; nCntMat < (int)g_meshdataCoin.dwNumMat; nCntMat++)
 		{
-			pMat[nCntMat].MatD3D.Diffuse = D3DXCOLOR(
-				pMat[nCntMat].MatD3D.Diffuse.r,
-				pMat[nCntMat].MatD3D.Diffuse.g,
-				pMat[nCntMat].MatD3D.Diffuse.b,
-				pCoin->obj.color.a
-			);
-
 			// ƒ}ƒeƒŠƒAƒ‹‚ÌÝ’è
 			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 

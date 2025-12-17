@@ -83,7 +83,7 @@ void InitPlayer(void)
 	memset(&g_player, 0, sizeof(PLAYER));
 	g_player.obj.bVisible = true;
 	g_player.nIdxShadow = SetShadow();
-	g_player.obj.pos = D3DXVECTOR3(0.0f, 150.0f, -2900.0f);
+	g_player.obj.pos = D3DXVECTOR3(10400, 0, -2900);
 	g_player.obj.size = D3DXVECTOR3(0, 110, 0);
 	g_player.bJump = true;
 
@@ -128,8 +128,9 @@ void InitPlayer(void)
 
 	SetPlayerState(PLAYERSTATE_MOVE);
 
-	g_dir = D3DXVECTOR3(0, 0, 1);
+	g_dir = D3DXVECTOR3(-1, 0, 0);
 	nMode = 0;
+	GetCamera()->rot.y = D3DXToRadian(180);
 
 	GetCamera()->posOffset = D3DXVECTOR3(sinf(g_player.obj.rot.y) * 350.0f, 200, cosf(g_player.obj.rot.y) * 350.0f);
 }
@@ -194,29 +195,31 @@ void UpdatePlayer(void)
 		g_player.move.y = 0;
 	}
 
-	g_player.bJump = (byHit & MODEL_HIT_TOP) ? false : true;
-
-	if (g_player.bJump)
+	if (g_player.currentState != PLAYERSTATE_CLEAR)
 	{
-		if (g_player.obj.pos.y < g_player.posOld.y)
+		g_player.bJump = (byHit & MODEL_HIT_TOP) ? false : true;
+
+		if (g_player.bJump)
 		{
-			SetPlayerState(PLAYERSTATE_FALL);
+			if (g_player.obj.pos.y < g_player.posOld.y)
+			{
+				SetPlayerState(PLAYERSTATE_FALL);
+			}
+			else
+			{
+				SetPlayerState(PLAYERSTATE_JUMP);
+			}
 		}
 		else
 		{
-			SetPlayerState(PLAYERSTATE_JUMP);
-		}
-	}
-	else
-	{
-		if (GetKeyboardPress(DIK_S))
-		{
-			SetPlayerState(PLAYERSTATE_SLIDING);
-		}
-		else
-		{
-			SetPlayerState(PLAYERSTATE_MOVE);
-
+			if (INPUT_PRESS_GAME_DOWN)
+			{
+				SetPlayerState(PLAYERSTATE_SLIDING);
+			}
+			else
+			{
+				SetPlayerState(PLAYERSTATE_MOVE);
+			}
 		}
 	}
 
@@ -229,7 +232,6 @@ void UpdatePlayer(void)
 	}
 	else
 	{
-		//SetShadowAlpha(g_player.nIdxShadow, Clampf(0.5f * g_player.nCounterState * 0.05f, 0.0f, 0.3f));
 		SetShadowAlpha(g_player.nIdxShadow, 0.3f);
 	}
 
@@ -263,6 +265,15 @@ void UpdatePlayer(void)
 	switch (nMode)
 	{
 	case 0:
+		if (g_player.obj.pos.x < 0)
+		{
+			g_dir = D3DXVECTOR3(0, 0, 1);
+			pCamera->rot.y = D3DXToRadian(-90);
+			nMode++;
+		}
+		break;
+
+	case 1:
 		if (g_player.obj.pos.z > 8700)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
@@ -271,7 +282,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 1:
+	case 2:
 		if (g_player.obj.pos.x < -5000)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
@@ -281,7 +292,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 2:
+	case 3:
 		if (g_player.obj.pos.z < 1700)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
@@ -290,7 +301,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 3:
+	case 4:
 		if (g_player.obj.pos.x < -14800)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
@@ -299,7 +310,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 4:
+	case 5:
 		if (g_player.obj.pos.z > 9700)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
@@ -308,7 +319,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 5:
+	case 6:
 		if (g_player.obj.pos.x > -7800)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
@@ -317,7 +328,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 6:
+	case 7:
 		if (g_player.obj.pos.z < 4100)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
@@ -326,7 +337,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 7:
+	case 8:
 		if (g_player.obj.pos.z > 9500)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
@@ -335,7 +346,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 8:
+	case 9:
 		if (g_player.obj.pos.x < -14800)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
@@ -344,7 +355,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 9:
+	case 10:
 		if (g_player.obj.pos.z < 1700)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
@@ -353,7 +364,7 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 10:
+	case 11:
 		if (g_player.obj.pos.x > -5000)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
@@ -362,8 +373,9 @@ void UpdatePlayer(void)
 		}
 		break;
 
-	case 11:
-		SetFade(SCENE_RESULT);
+	case 12:
+		SetPlayerState(PLAYERSTATE_CLEAR);
+		//SetFade(SCENE_RESULT);
 		break;
 	}
 
@@ -560,73 +572,56 @@ void SetPlayerState(PLAYERSTATE state)
 //=====================================================================
 void _UpdatePlayerControl(void)
 {
-	XINPUT_STATE* joypad = GetJoypad();			// ジョイパッドへのポインタ
+	if (g_player.currentState == PLAYERSTATE_DIED)	return;
+	if (g_player.currentState == PLAYERSTATE_CLEAR)	return;
+	if (g_player.currentState == PLAYERSTATE_END)	return;
 
-	D3DXVECTOR3 dir = D3DXVECTOR3_ZERO;			// キーボードの入力方向
-	D3DXVECTOR3 dirPad = D3DXVECTOR3_ZERO;		// パッドの入力方向
+	D3DXVECTOR3 dir = D3DXVECTOR3_ZERO;			// 入力方向
 
-	if (g_player.currentState != PLAYERSTATE_DIED)
+	// 前回の位置を記録
+	g_player.posOld = g_player.obj.pos;
+
+	dir = g_dir;
+	float fAngle = atan2f(g_dir.x, g_dir.z);
+
+	// プレイヤー操作
+	if (g_player.currentState != PLAYERSTATE_SLIDING)
 	{
-		// 前回の位置を記録
-		g_player.posOld = g_player.obj.pos;
-
-		dir = g_dir;
-		float fAngle = atan2f(g_dir.x, g_dir.z);
-
-		// プレイヤー操作
-		if (g_player.currentState != PLAYERSTATE_SLIDING)
-		{
-			if (GetKeyboardPress(DIK_A))
-			{// 左移動
-				dir.x -= cosf(fAngle);
-				dir.z -= -sinf(fAngle);
-			}
-			if (GetKeyboardPress(DIK_D))
-			{// 右移動
-				dir.x += cosf(fAngle);
-				dir.z += -sinf(fAngle);
-			}
+		if (INPUT_PRESS_GAME_LEFT)
+		{// 左移動
+			dir.x -= cosf(fAngle);
+			dir.z -= -sinf(fAngle);
 		}
-
-		if (GetKeyboardTrigger(DIK_W) && g_player.bJump == false)
-		{// ジャンプ
-			PlaySound(SOUND_LABEL_SE_JUMP);
-			g_player.move.y = PLAYER_JUMPPOWER;
+		if (INPUT_PRESS_GAME_RIGHT)
+		{// 右移動
+			dir.x += cosf(fAngle);
+			dir.z += -sinf(fAngle);
 		}
+	}
 
-		// パッドの入力方向を取得
-		dirPad.x = joypad->Gamepad.sThumbLX;
-		dirPad.z = joypad->Gamepad.sThumbLY;
+	if (INPUT_TRIGGER_GAME_UP && g_player.bJump == false)
+	{// ジャンプ
+		PlaySound(SOUND_LABEL_SE_JUMP);
+		g_player.move.y = PLAYER_JUMPPOWER;
+	}
 
-		// パッドの入力方向ベクトルの大きさを計算
-		float joypadMagnitude = sqrtf(dirPad.x * dirPad.x + dirPad.z * dirPad.z);
+	// キーボード入力方向ベクトルの大きさを計算
+	float fMagnitude = sqrtf(dir.x * dir.x + dir.z * dir.z);
 
-		// パッドの入力方向ベクトルの正規化
-		if (joypadMagnitude != 0 && joypadMagnitude > INPUT_DEADZONE)
-		{// 大きさが０でなくデッドゾーンを超えていたら処理
-			dirPad.x = (float)joypad->Gamepad.sThumbLX / (INPUT_MAX_MAGNITUDE - INPUT_DEADZONE);
-			dirPad.z = (float)joypad->Gamepad.sThumbLY / (INPUT_MAX_MAGNITUDE - INPUT_DEADZONE);
-			dir = dirPad;
-		}
+	// キーボードの入力方向ベクトルの正規化
+	if (fMagnitude != 0)
+	{// 大きさが０でないなら
+		// プレイヤーの向きの移動先を移動方向の向きに設定
+		g_player.rotMove.y = atan2f(dir.x, dir.z) + D3DX_PI;
 
-		// キーボード入力方向ベクトルの大きさを計算
-		float fMagnitude = sqrtf(dir.x * dir.x + dir.z * dir.z);
-
-		// キーボードの入力方向ベクトルの正規化
-		if (fMagnitude != 0)
-		{// 大きさが０でないなら
-			// プレイヤーの向きの移動先を移動方向の向きに設定
-			g_player.rotMove.y = atan2f(dir.x, dir.z) + D3DX_PI;
-
-			// プレイヤーの位置に移動量を反映
-			g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
+		// プレイヤーの位置に移動量を反映
+		g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
 #ifdef _DEBUG
-			if (GetKeyboardPress(DIK_LSHIFT))
-			{
-				g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
-			}
-#endif
+		if (GetKeyboardPress(DIK_LSHIFT))
+		{
+			g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
 		}
+#endif
 	}
 }
 
@@ -773,9 +768,17 @@ void _OnPlayerStateChanged(void)
 
 	case PLAYERSTATE_DIED:
 		SetPlayerMotion(MOTIONTYPE_DIED, true, 10);
+		SetVibration(20000, 20000, 40);
 		SetFade(SCENE_RESULT);
 		g_player.move.y = 0;
 		pCamera->bEnabled = false;
+		break;
+
+	case PLAYERSTATE_CLEAR:
+		SetPlayerMotion(MOTIONTYPE_CLEAR, false, 0);
+		break;
+
+	default: 
 		break;
 	}
 

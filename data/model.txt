@@ -9,19 +9,25 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # 読み込むモデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 8
+NUM_MODEL = 14
 
 #------------------------------------------------------------------------------
 # 読み込むモデルファイル名
 #------------------------------------------------------------------------------
-MODEL_FILENAME = data/MODEL/building00.x				# [0]柱
-MODEL_FILENAME = data/MODEL/building01.x				# [0]柱
-MODEL_FILENAME = data/MODEL/building03.x				# [0]柱
-MODEL_FILENAME = data/MODEL/building04.x				# [0]柱
+MODEL_FILENAME = data/MODEL/building00.x
+MODEL_FILENAME = data/MODEL/building01.x
+MODEL_FILENAME = data/MODEL/building03.x
+MODEL_FILENAME = data/MODEL/building04.x
 MODEL_FILENAME = data/MODEL/building05.x
 MODEL_FILENAME = data/MODEL/building06.x
 MODEL_FILENAME = data/MODEL/tower00.x
-MODEL_FILENAME = data/MODEL/box00.x
+MODEL_FILENAME = data/MODEL/obstacle00.x
+MODEL_FILENAME = data/MODEL/obstacle01.x
+MODEL_FILENAME = data/MODEL/obstacle02.x
+MODEL_FILENAME = data/MODEL/obstacle03.x
+MODEL_FILENAME = data/MODEL/tutorial00.x
+MODEL_FILENAME = data/MODEL/tutorial01.x
+MODEL_FILENAME = data/MODEL/tutorial02.x
 
 #-----------------------------------------------------------------------------------------------------------
 #
@@ -142,9 +148,128 @@ MODELSET
 	ROT = 0 270 0			# 向き
 END_MODELSET
 
+MODELSET
+	TYPE = 2			# 種類
+	POS = -3500 1400 -3500		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -4500 1400 -3500		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -5500 1600 -3500		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -6500 1400 -3500		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -7500 1400 -3500		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -8500 1600 -3500		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -9500 1400 -3500		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -10500 1400 -3500		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
 #------------------------------------------------------
 # 地面
 #------------------------------------------------------
+MODELSET
+	TYPE = 2			# 種類
+	POS = 10400 0 -2900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 9600 0 -2900		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 8800 0 -2900		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 8000 0 -2900		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 7200 0 -2900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 6400 0 -2900		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 5600 0 -2900		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 4800 0 -2900		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 4000 0 -2900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 3200 0 -2900		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 2400 0 -2900		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 1600 0 -2900		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = 800 0 -2900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
 MODELSET
 	TYPE = 2			# 種類
 	POS = 0 0 -2900		# 位置
@@ -681,12 +806,57 @@ MODELSET
 END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
-# 箱
+# 障害物（箱）
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 7			# 種類
+	POS = 0 0 -1000		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+#-----------------------------------------------------------------------------------------------------------
+# 障害物（スライディング）
 #-----------------------------------------------------------------------------------------------------------
 #MODELSET
-	TYPE = 7			# 種類
-	POS = 0 0 1300		# 位置
+	TYPE = 8			# 種類
+	POS = 0 75 -1000		# 位置
 	ROT = 0 0 0			# 向き
+	COLLISION = 2
+END_MODELSET
+
+
+#-----------------------------------------------------------------------------------------------------------
+# 障害物（スライディング2）
+#-----------------------------------------------------------------------------------------------------------
+
+
+#-----------------------------------------------------------------------------------------------------------
+# 障害物（スライディング3）
+#-----------------------------------------------------------------------------------------------------------
+
+
+
+
+MODELSET
+	TYPE = 11			# 種類
+	POS = -400 400 500		# 位置
+	ROT = 0 -90 0			# 向き
+	COLLISION = 1
+END_MODELSET
+
+
+MODELSET
+	TYPE = 12			# 種類
+	POS = -400 400 4500		# 位置
+	ROT = 0 -90 0			# 向き
+	COLLISION = 1
+END_MODELSET
+
+MODELSET
+	TYPE = 13			# 種類
+	POS = -2200 700 8000		# 位置
+	ROT = 0 -180 0			# 向き
+	COLLISION = 1
 END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------

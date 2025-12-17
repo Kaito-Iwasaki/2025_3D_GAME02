@@ -87,7 +87,7 @@ void InitLight(void)
 	// ƒ‰ƒCƒg‚ð—LŒø‚É‚·‚é
 	pDevice->LightEnable(0, TRUE);
 	pDevice->LightEnable(1, TRUE);
-	//pDevice->LightEnable(2, TRUE);
+	pDevice->LightEnable(2, TRUE);
 }
 
 //=====================================================================

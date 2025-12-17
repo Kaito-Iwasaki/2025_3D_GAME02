@@ -72,6 +72,7 @@ void InitTitle(void)
 	InitField();
 	InitDecal();
 
+	ZeroMemory(&g_dataTitle, sizeof(g_dataTitle));
 	LoadScript("data\\model.txt", &g_dataTitle);
 
 	// ÉÅÉbÉVÉÖÇÃì«Ç›çûÇ›
@@ -129,7 +130,7 @@ void UninitTitle(void)
 //=====================================================================
 void UpdateTitle(void)
 {
-	if (GetKeyboardTrigger(DIK_RETURN))
+	if (INPUT_TRIGGER_UI_ACCEPT)
 	{
 		SetFade(SCENE_GAME);
 	}

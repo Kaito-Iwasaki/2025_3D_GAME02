@@ -66,6 +66,7 @@
 //*********************************************************************
 bool g_bIsPaused = false;
 SCRIPTDATA g_data;
+GAMESTATE g_gameState;
 
 //=====================================================================
 // èâä˙âªèàóù
@@ -85,6 +86,7 @@ void InitGame(void)
 	InitDebugProc();
 
 	g_bIsPaused = false;
+	SetGameState(GAMESTATE_NORMAL);
 
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 	LoadScript("data\\model.txt", &g_data);
@@ -151,7 +153,7 @@ void UpdateGame(void)
 		SetFade(SCENE_TITLE);
 	}
 
-	if (GetKeyboardTrigger(DIK_P))
+	if (INPUT_TRIGGER_GAME_PAUSE)
 	{
 		g_bIsPaused ^= 1;
 	}
@@ -193,7 +195,10 @@ void DrawGame(void)
 void ReloadGameModel(void)
 {
 	UninitModel();
+	UninitCoin();
+
 	InitModel();
+	InitCoin();
 
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 
@@ -221,5 +226,5 @@ void ReloadGameModel(void)
 
 void SetGameState(GAMESTATE state)
 {
-	
+	g_gameState = state;
 }

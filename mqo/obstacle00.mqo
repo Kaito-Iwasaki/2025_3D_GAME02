@@ -2,10 +2,10 @@ Metasequoia Document
 Format Text Ver 1.0
 
 Scene {
-	pos -33.6737 -298.1391 15728.6406
+	pos -221.5688 -673.9291 15728.6406
 	lookat 0.0000 0.0000 0.0000
-	head 1.4364
-	pich 0.1736
+	head 1.8164
+	pich 0.4436
 	bank 0.0000
 	ortho 0
 	zoom2 0.4768
@@ -18,7 +18,7 @@ Scene {
 	}
 }
 Material 1 {
-	"mat1" col(1.000 0.737 0.298 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00)
+	"mat1" col(1.000 0.443 0.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00)
 }
 Object "obj1" {
 	visible 15
