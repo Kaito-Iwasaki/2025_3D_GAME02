@@ -309,71 +309,26 @@ void UpdatePlayer(void)
 		break;
 
 	case 5:
-		if (g_player.obj.pos.z > 9700)
+		if (g_player.obj.pos.z > 14000)
 		{
-			g_dir = D3DXVECTOR3(1, 0, 0);
+			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(180);
 			nMode++;
 		}
 		break;
 
 	case 6:
-		if (g_player.obj.pos.x > -7800)
+		if (g_player.obj.pos.z < 1700)
 		{
-			g_dir = D3DXVECTOR3(0, 0, -1);
-			pCamera->rot.y = D3DXToRadian(-90);
-			nMode++;
-		}
-		break;
-
-	case 7:
-		if (g_player.obj.pos.z < 4100)
-		{
-			g_dir = D3DXVECTOR3(0, 0, 1);
-			pCamera->rot.y = D3DXToRadian(-90);
-			nMode++;
-		}
-		break;
-
-	case 8:
-		if (g_player.obj.pos.z > 9500)
-		{
-			g_dir = D3DXVECTOR3(-1, 0, 0);
+			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(180);
 			nMode++;
 		}
 		break;
 
-	case 9:
-		if (g_player.obj.pos.x < -14800)
-		{
-			g_dir = D3DXVECTOR3(0, 0, -1);
-			pCamera->rot.y = D3DXToRadian(90);
-			nMode++;
-		}
-		break;
-
-	case 10:
-		if (g_player.obj.pos.z < 1700)
-		{
-			g_dir = D3DXVECTOR3(1, 0, 0);
-			pCamera->rot.y = D3DXToRadian(0);
-			nMode++;
-		}
-		break;
-
-	case 11:
-		if (g_player.obj.pos.x > -5000)
-		{
-			g_dir = D3DXVECTOR3(0, 0, 1);
-			pCamera->rot.y = D3DXToRadian(-90);
-			nMode++;
-		}
-		break;
-
-	case 12:
+	case 7:
 		SetPlayerState(PLAYERSTATE_CLEAR);
-		//SetFade(SCENE_RESULT);
+		SetFade(SCENE_RESULT);
 		break;
 	}
 
