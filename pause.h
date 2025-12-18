@@ -1,11 +1,11 @@
 //=====================================================================
 // 
-// fade.cppのヘッダファイル [fade.h]
+// pause.cppのヘッダファイル [pause.h]
 // Author : Kaito Iwasaki
 //
 //=====================================================================
-#ifndef _FADE_H_
-#define _FADE_H_
+#ifndef _PAUSE_H_
+#define _PAUSE_H_		// 二重インクルード防止のマクロ
 
 //*********************************************************************
 // 
@@ -13,7 +13,6 @@
 // 
 //*********************************************************************
 #include "main.h"
-#include "scene.h"
 #include "baseObject.h"
 
 //*********************************************************************
@@ -23,11 +22,11 @@
 //*********************************************************************
 typedef enum
 {
-	FADESTATE_NONE = 0,
-	FADESTATE_IN,
-	FADESTATE_OUT,
-	FADESTATE_MAX
-}FADESTATE;
+	PAUSE_MENU_CONTINUE = 0,
+	PAUSE_MENU_RETRY,
+	PAUSE_MENU_QUIT,
+	PAUSE_MENU_MAX
+}PAUSE_MENU;
 
 //*********************************************************************
 // 
@@ -37,22 +36,18 @@ typedef enum
 typedef struct
 {
 	BASEOBJECT obj;
-	FADESTATE state;	// フェード状態
-	float fFadeScale;	// フェード速度
-	SCENE sceneNext;	// 次のシーン設定用
-	bool bStopSound;	// 音声停止フラグ
-}FADE;
+	int nSelect;
+}PAUSE;
 
 //*********************************************************************
 // 
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitFade(SCENE sceneNext);
-void UninitFade(void);
-void UpdateFade(void);
-void DrawFade(void);
-void SetFade(SCENE sceneNext, bool bStopSound = true);
-FADESTATE GetFadeState(void);
+void InitPause(void);
+void UninitPause(void);
+void UpdatePause(void);
+void DrawPause(void);
+void SetPauseMenuCursor(int nCursor);
 
 #endif

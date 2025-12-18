@@ -163,6 +163,7 @@
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
@@ -177,6 +178,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="pause.cpp" />
+    <ClCompile Include="pauseBg.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="Result.cpp">
       <SubType>
@@ -213,6 +216,7 @@
     <ClInclude Include="explosion.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
@@ -231,6 +235,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="pause.h" />
+    <ClInclude Include="pauseBg.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="Result.h">
       <SubType>

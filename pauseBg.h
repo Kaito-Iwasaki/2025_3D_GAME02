@@ -1,58 +1,45 @@
 //=====================================================================
 // 
-// fade.cppのヘッダファイル [fade.h]
-// Author : Kaito Iwasaki
+// PAUSEBG.cppのヘッダファイル [PauseBg.h]
+// Author:
 //
 //=====================================================================
-#ifndef _FADE_H_
-#define _FADE_H_
+#ifndef _PAUSEBG_H_
+#define _PAUSEBG_H_		// 二重インクルード防止のマクロ
+
+#include "main.h"
+#include "baseObject.h"
 
 //*********************************************************************
 // 
-// ***** インクルードファイル *****
+// ***** マクロ定義 *****
 // 
 //*********************************************************************
-#include "main.h"
-#include "scene.h"
-#include "baseObject.h"
+
 
 //*********************************************************************
 // 
 // ***** 列挙型 *****
 // 
 //*********************************************************************
-typedef enum
-{
-	FADESTATE_NONE = 0,
-	FADESTATE_IN,
-	FADESTATE_OUT,
-	FADESTATE_MAX
-}FADESTATE;
+
 
 //*********************************************************************
 // 
 // ***** 構造体 *****
 // 
 //*********************************************************************
-typedef struct
-{
-	BASEOBJECT obj;
-	FADESTATE state;	// フェード状態
-	float fFadeScale;	// フェード速度
-	SCENE sceneNext;	// 次のシーン設定用
-	bool bStopSound;	// 音声停止フラグ
-}FADE;
+
 
 //*********************************************************************
 // 
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitFade(SCENE sceneNext);
-void UninitFade(void);
-void UpdateFade(void);
-void DrawFade(void);
-void SetFade(SCENE sceneNext, bool bStopSound = true);
-FADESTATE GetFadeState(void);
+void InitPauseBg(void);
+void UninitPauseBg(void);
+void UpdatePauseBg(void);
+void DrawPauseBg(void);
+BASEOBJECT* GetPauseBg(void);
 
 #endif

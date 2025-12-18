@@ -260,6 +260,7 @@ int SetShadow(void)
 		pShadow->obj.size = INIT_SIZE;
 		pShadow->obj.color = INIT_COLOR;
 		pShadow->obj.bVisible = true;
+
 		return nCntShadow;
 	}
 

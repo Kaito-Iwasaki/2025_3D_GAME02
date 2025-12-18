@@ -169,7 +169,7 @@ void SetFade(SCENE sceneNext, bool bStopSound)
 //=====================================================================
 // 現在のフェード状態を取得
 //=====================================================================
-FADE GetFade(void)
+FADESTATE GetFadeState(void)
 {
-	return g_fade;
+	return g_fade.state;
 }

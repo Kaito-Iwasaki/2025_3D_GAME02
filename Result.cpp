@@ -84,7 +84,7 @@ void UninitResult(void)
 //=====================================================================
 void UpdateResult(void)
 {
-	if (INPUT_TRIGGER_UI_ACCEPT)
+	if (INPUT_TRIGGER_UI_CONTINUE)
 	{
 		SetFade(SCENE_TITLE);
 	}

@@ -131,8 +131,6 @@ void InitPlayer(void)
 	g_dir = D3DXVECTOR3(-1, 0, 0);
 	nMode = 0;
 	GetCamera()->rot.y = D3DXToRadian(180);
-
-	GetCamera()->posOffset = D3DXVECTOR3(sinf(g_player.obj.rot.y) * 350.0f, 200, cosf(g_player.obj.rot.y) * 350.0f);
 }
 
 //=====================================================================

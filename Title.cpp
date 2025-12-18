@@ -130,7 +130,7 @@ void UninitTitle(void)
 //=====================================================================
 void UpdateTitle(void)
 {
-	if (INPUT_TRIGGER_UI_ACCEPT)
+	if (INPUT_TRIGGER_UI_CONTINUE)
 	{
 		SetFade(SCENE_GAME);
 	}

@@ -30,6 +30,8 @@
 #include "camera.h"
 #include "sound.h"
 #include "coin.h"
+#include "pauseBg.h"
+#include "pause.h"
 
 //*********************************************************************
 // 
@@ -65,6 +67,7 @@
 // 
 //*********************************************************************
 bool g_bIsPaused = false;
+bool g_bPauseHide = false;
 SCRIPTDATA g_data;
 GAMESTATE g_gameState;
 
@@ -82,10 +85,13 @@ void InitGame(void)
 	InitCylinder();
 	InitSphere();
 	InitCoin();
+	InitPause();
+	InitPauseBg();
 
 	InitDebugProc();
 
 	g_bIsPaused = false;
+	g_bPauseHide = false;
 	SetGameState(GAMESTATE_NORMAL);
 
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
@@ -126,6 +132,8 @@ void UninitGame(void)
 	UninitCylinder();
 	UninitSphere();
 	UninitCoin();
+	UninitPause();
+	UninitPauseBg();
 
 	UninitDebugProc();
 }
@@ -138,12 +146,10 @@ void UpdateGame(void)
 	PLAYER* pPlayer = GetPlayer();
 
 #if _DEBUG
-	if (GetKeyboardTrigger(DIK_F7))
+	if (GetKeyboardTrigger(DIK_F7) && g_bIsPaused)
 	{
-		ReloadGameModel();
+		g_bPauseHide ^= 1;
 	}
-#endif
-
 	if (GetKeyboardTrigger(DIK_DELETE))
 	{
 		SetFade(SCENE_GAME);
@@ -152,10 +158,12 @@ void UpdateGame(void)
 	{
 		SetFade(SCENE_TITLE);
 	}
+#endif
 
 	if (INPUT_TRIGGER_GAME_PAUSE)
 	{
 		g_bIsPaused ^= 1;
+		TogglePauseGame(g_bIsPaused);
 	}
 
 	PrintDebugProc("É|Å[ÉY : %d\n", g_bIsPaused);
@@ -171,6 +179,11 @@ void UpdateGame(void)
 		UpdateSphere();
 		UpdateCoin();
 	}
+	else if (g_bIsPaused && g_bPauseHide == false)
+	{
+		UpdatePause();
+		UpdatePauseBg();
+	}
 
 	UpdateDebugProc();
 }
@@ -182,12 +195,18 @@ void DrawGame(void)
 {
 	DrawField();
 	DrawPlayer();
-	DrawModel();
 	DrawSphere();
 	DrawCylinder();
+	DrawModel();
 	DrawEffect();
 	DrawCoin();
 	DrawShadow();
+
+	if (g_bIsPaused && g_bPauseHide == false)
+	{
+		DrawPauseBg();
+		DrawPause();
+	}
 
 	DrawDebugProc();
 }
@@ -196,9 +215,11 @@ void ReloadGameModel(void)
 {
 	UninitModel();
 	UninitCoin();
+	UninitShadow();
 
 	InitModel();
 	InitCoin();
+	InitShadow();
 
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 
@@ -227,4 +248,10 @@ void ReloadGameModel(void)
 void SetGameState(GAMESTATE state)
 {
 	g_gameState = state;
+}
+
+void TogglePauseGame(bool bPause)
+{
+	SetPauseMenuCursor(0);
+	g_bIsPaused = bPause;
 }

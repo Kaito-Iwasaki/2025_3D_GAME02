@@ -1,17 +1,18 @@
 //=====================================================================
 //
-// Game.cppのヘッダファイル [Game.h]
-// Author : 
+// font.cppのヘッダファイル [font.h]
+// Author : Kaito Iwasaki
 // 
 //=====================================================================
-#ifndef _Game_H_
-#define _Game_H_
+#ifndef _FONT_H_
+#define _FONT_H_
 
 //*********************************************************************
 // 
 // ***** インクルードファイル *****
 // 
 //*********************************************************************
+#include "baseObject.h"
 #include "main.h"
 
 //*********************************************************************
@@ -19,39 +20,57 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define GAME_GRAVITY	(0.6f)
+#define MAX_FONT		(64)
+#define MAX_TEXTCHAR	(256)
 
 //*********************************************************************
 // 
-// ***** 列挙型 *****
+// ***** マクロ定義 *****
 // 
 //*********************************************************************
 typedef enum
 {
-	GAMESTATE_NORMAL = 0,
-	GAMESTATE_OVER,
-	GAMESTATE_END,
-	GAMESTATE_MAX
-}GAMESTATE;
+	FONT_LABEL_TERMINAL = 0,
+	FONT_LABEL_DONGURI,
+	FONT_LABEL_MAX
+}FONT_LABEL;
 
 //*********************************************************************
 // 
 // ***** 構造体 *****
 // 
 //*********************************************************************
+typedef struct
+{
+	LPD3DXFONT font;
 
+	BASEOBJECT obj;
+	FONT_LABEL type;
+	bool bUsed;
+	int nID;
+	char aText[MAX_TEXTCHAR];
+	UINT format;
+}FONT;
 
 //*********************************************************************
 // 
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitGame(void);
-void UninitGame(void);
-void UpdateGame(void);
-void DrawGame(void);
-void SetGameState(GAMESTATE state);
-void ReloadGameModel(void);
-void TogglePauseGame(bool bPause);
+void InitFont(void);
+void UninitFont(void);
+void DrawFont(void);
+FONT* GetFont(void);
+FONT* SetFont(
+	FONT_LABEL type,		// 使用するフォント
+	D3DXVECTOR3 pos,		// 位置
+	D3DXVECTOR3 size,		// サイズ
+	D3DXCOLOR col,			// 色
+	int nScale,				// テキストのサイズ4
+	const char* aText,		// 表示するテキスト
+	UINT format				// テキストフォーマット
+);
+void DeleteFont(int nID);
+void DeleteFont(void);
 
 #endif
