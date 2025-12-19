@@ -400,79 +400,78 @@ MODELSET
 	POS = -5000 200 2700		# 位置
 	ROT = 0 180 0			# 向き
 END_MODELSET
-#------------------------------------------------------
 MODELSET
 	TYPE = 2			# 種類
 	POS = -5000 200 1100		# 位置
 	ROT = 0 90 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
 	POS = -5000 200 1900		# 位置
 	ROT = 0 90 0			# 向き
 END_MODELSET
-
+#------------------------------------------------------
 MODELSET
 	TYPE = 2			# 種類
-	POS = -6000 200 1700		# 位置
+	POS = -5800 200 1700		# 位置
 	ROT = 0 270 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -7000 200 1700		# 位置
+	POS = -6600 200 1700		# 位置
 	ROT = 0 180 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -7800 200 1700		# 位置
+	POS = -7400 200 1700		# 位置
 	ROT = 0 90 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -8800 200 1400		# 位置
+	POS = -8400 200 1700		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -9800 200 2000		# 位置
+	POS = -9200 200 1700		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -10000 200 1700		# 位置
 	ROT = 0 270 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -10800 200 2000		# 位置
+	POS = -10800 200 1700		# 位置
 	ROT = 0 180 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -11800 200 1700		# 位置
+	POS = -11600 200 1700		# 位置
 	ROT = 0 90 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -12800 200 1700		# 位置
+	POS = -12400 200 1700		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -13800 200 1700		# 位置
+	POS = -13200 200 1700		# 位置
 	ROT = 0 270 0			# 向き
 END_MODELSET
-
+MODELSET
+	TYPE = 2			# 種類
+	POS = -14000 200 1700		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
 MODELSET
 	TYPE = 2			# 種類
 	POS = -14800 200 1700		# 位置
 	ROT = 0 180 0			# 向き
 END_MODELSET
-
+#------------------------------------------------------
 MODELSET
 	TYPE = 2			# 種類
 	POS = -14800 200 2500		# 位置
@@ -502,7 +501,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 2			# 種類
-	POS = -14400 400 5700		# 位置
+	POS = -14400 200 5700		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
 MODELSET
@@ -513,7 +512,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 2			# 種類
-	POS = -14400 600 6500		# 位置
+	POS = -14400 200 6500		# 位置
 	ROT = 0 180 0			# 向き
 END_MODELSET
 MODELSET
@@ -524,7 +523,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 2			# 種類
-	POS = -14400 200 7300		# 位置
+	POS = -14400 300 7300		# 位置
 	ROT = 0 270 0			# 向き
 END_MODELSET
 MODELSET
@@ -535,7 +534,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 2			# 種類
-	POS = -14400 200 8100		# 位置
+	POS = -14400 400 8100		# 位置
 	ROT = 0 90 0			# 向き
 END_MODELSET
 MODELSET
@@ -597,33 +596,68 @@ MODELSET
 	POS = -14800 200 13900		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -14800 200 14700		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
-
 MODELSET
 	TYPE = 2			# 種類
-	POS = -6000 200 2500		# 位置
-	ROT = 0 270 0			# 向き
+	POS = -6600 200 2500		# 位置
+	ROT = 0 0 0			# 向き
 END_MODELSET
 MODELSET
 	TYPE = 2			# 種類
-	POS = -6000 400 3300		# 位置
-	ROT = 0 270 0			# 向き
+	POS = -6600 200 3200		# 位置
+	ROT = 0 0 0			# 向き
 END_MODELSET
 MODELSET
 	TYPE = 2			# 種類
-	POS = -6000 400 4100		# 位置
-	ROT = 0 270 0			# 向き
+	POS = -6600 300 4000		# 位置
+	ROT = 0 0 0			# 向き
 END_MODELSET
 MODELSET
 	TYPE = 2			# 種類
-	POS = -6000 400 4900		# 位置
-	ROT = 0 270 0			# 向き
+	POS = -6600 400 4800		# 位置
+	ROT = 0 0 0			# 向き
 END_MODELSET
 MODELSET
 	TYPE = 2			# 種類
-	POS = -6000 400 5700		# 位置
-	ROT = 0 270 0			# 向き
+	POS = -6600 500 5600		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -6600 200 6800		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -6600 200 7600		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -6600 200 8700		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -5800 200 8700		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 2			# 種類
+	POS = 800 200 8700		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = 1600 200 8700		# 位置
+	ROT = 0 0 0			# 向き
 END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
@@ -730,24 +764,6 @@ MODELSET
 	TYPE = 5			# 種類
 	POS = -3700 1500 5500		# 位置
 	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 5			# 種類
-	POS = -9800 100 1000		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 5			# 種類
-	POS = -10600 100 1000		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 5			# 種類
-	POS = -11400 100 1000		# 位置
-	ROT = 0 270 0			# 向き
 END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
@@ -904,6 +920,57 @@ MODELSET
 	ROT = 0 0 0			# 向き
 END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 7			# 種類
+	POS = -9200 200 1400		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = -9200 200 1550		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = -9200 200 1700		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = -9200 200 1850		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = -9200 200 2000		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 7			# 種類
+	POS = -13300 200 1400		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = -13300 200 1550		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = -13300 200 1700		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = -13300 200 1850		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = -13300 200 2000		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
 # 障害物（スライディング）
@@ -924,16 +991,18 @@ END_MODELSET
 
 MODELSET
 	TYPE = 8			# 種類
-	POS = -4700 600 4400
+	POS = -5000 600 4400
 	ROT = 0 0 0			# 向き
 	COLLISION = 2
 END_MODELSET
+
 MODELSET
 	TYPE = 8			# 種類
-	POS = -6300 500 4400
+	POS = -14800 300 4400		# 位置
 	ROT = 0 0 0			# 向き
 	COLLISION = 2
 END_MODELSET
+
 MODELSET
 	TYPE = 8			# 種類
 	POS = -14800 300 11900		# 位置
@@ -941,10 +1010,37 @@ MODELSET
 	COLLISION = 2
 END_MODELSET
 
+MODELSET
+	TYPE = 8			# 種類
+	POS = -6800 600 5900
+	ROT = 0 0 0			# 向き
+	COLLISION = 2
+END_MODELSET
+
+MODELSET
+	TYPE = 8			# 種類
+	POS = -6800 300 7100
+	ROT = 0 0 0			# 向き
+	COLLISION = 2
+END_MODELSET
+
+
 #-----------------------------------------------------------------------------------------------------------
 # 障害物（スライディング2）
 #-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 9			# 種類
+	POS = -10400 300 1700		# 位置
+	ROT = 0 0 0			# 向き
+	COLLISION = 2
+END_MODELSET
 
+MODELSET
+	TYPE = 9			# 種類
+	POS = -11900 300 1700		# 位置
+	ROT = 0 0 0			# 向き
+	COLLISION = 2
+END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
 # 障害物（スライディング3）
@@ -1023,7 +1119,7 @@ COINSET
 END_COINSET
 COINSET
 	POS = 2500 200 -2900	
-	SHADOW = 1
+	SHADOW = 0
 END_COINSET
 COINSET
 	POS = 2000 0 -2900	
@@ -1099,15 +1195,15 @@ COINSET
 END_COINSET
 #-----------------------
 COINSET
-	POS = 200 100 5600
+	POS = 0 100 5600
 	SHADOW = 0
 END_COINSET
 COINSET
-	POS = 200 200 5800
+	POS = 0 200 5800
 	SHADOW = 0
 END_COINSET
 COINSET
-	POS = 200 100 6000
+	POS = 0 100 6000
 	SHADOW = 0
 END_COINSET
 #-----------------------
@@ -1122,6 +1218,216 @@ END_COINSET
 COINSET
 	POS = 0 300 8400
 	SHADOW = 0
+END_COINSET
+#-----------------------
+COINSET
+	POS = -1200 200 8700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -1300 200 8700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -1400 200 8700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -1500 200 8700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -1600 200 8700
+	SHADOW = 1
+END_COINSET
+
+COINSET
+	POS = -2800 200 8700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -2900 200 8700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -3000 200 8700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -3100 200 8700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -3200 200 8700
+	SHADOW = 1
+END_COINSET
+
+COINSET
+	POS = -2000 400 8400
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -2500 400 9000
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -3500 400 8700
+	SHADOW = 1
+END_COINSET
+
+COINSET
+	POS = -4300 300 8700
+	SHADOW = 0
+END_COINSET
+COINSET
+	POS = -4500 400 8700
+	SHADOW = 0
+END_COINSET
+COINSET
+	POS = -4700 300 8700
+	SHADOW = 0
+END_COINSET
+#-----------------------
+COINSET
+	POS = -5000 400 6800
+	SHADOW = 0
+END_COINSET
+COINSET
+	POS = -5000 500 6000
+	SHADOW = 0
+END_COINSET
+COINSET
+	POS = -5000 600 5200
+	SHADOW = 0
+END_COINSET
+
+COINSET
+	POS = -5000 500 4600
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -5000 500 4400
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -5000 400 4200
+	SHADOW = 0
+END_COINSET
+COINSET
+	POS = -5000 300 4000
+	SHADOW = 0
+END_COINSET
+COINSET
+	POS = -5000 200 3800
+	SHADOW = 1
+END_COINSET
+
+COINSET
+	POS = -5000 200 2100
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -5000 200 1900
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -5000 200 1700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -5200 200 1700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -5400 200 1700
+	SHADOW = 1
+END_COINSET
+#-----------------------
+COINSET
+	POS = -7900 400 1700
+	SHADOW = 0
+END_COINSET
+
+COINSET
+	POS = -8800 200 1700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -9200 400 1700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -9600 200 1700
+	SHADOW = 1
+END_COINSET
+
+COINSET
+	POS = -10200 200 1700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -10400 200 1700
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -10600 200 1700
+	SHADOW = 1
+END_COINSET
+
+COINSET
+	POS = -11700 200 1450
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -11900 200 1450
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -12100 200 1450
+	SHADOW = 1
+END_COINSET
+
+COINSET
+	POS = -11700 200 1950
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -11900 200 1950
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -12100 200 1950
+	SHADOW = 1
+END_COINSET
+#-----------------------
+COINSET
+	POS = -13300 400 1950
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -13300 400 1450
+	SHADOW = 1
+END_COINSET
+#-----------------------
+COINSET
+	POS = -14800 200 4000
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -14800 200 4200
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -14800 200 4400
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -14800 200 4600
+	SHADOW = 1
+END_COINSET
+COINSET
+	POS = -14800 200 4800
+	SHADOW = 1
 END_COINSET
 #-----------------------
 

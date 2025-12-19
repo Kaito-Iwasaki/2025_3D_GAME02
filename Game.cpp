@@ -32,6 +32,7 @@
 #include "coin.h"
 #include "pauseBg.h"
 #include "pause.h"
+#include "font.h"
 
 //*********************************************************************
 // 
@@ -70,12 +71,17 @@ bool g_bIsPaused = false;
 bool g_bPauseHide = false;
 SCRIPTDATA g_data;
 GAMESTATE g_gameState;
+FONT* g_pFontScore = NULL;
+FONT* g_pFontClear = NULL;
+int g_nCounterStateGame;
 
 //=====================================================================
 // ‰Šú‰»ˆ—
 //=====================================================================
 void InitGame(void)
 {
+	StopSound();
+
 	InitCamera();
 	InitField();
 	InitShadow();
@@ -87,12 +93,29 @@ void InitGame(void)
 	InitCoin();
 	InitPause();
 	InitPauseBg();
+	InitFont();
 
 	InitDebugProc();
 
 	g_bIsPaused = false;
 	g_bPauseHide = false;
 	SetGameState(GAMESTATE_NORMAL);
+	g_pFontScore = SetFont(FONT_LABEL_DONGURI,
+		D3DXVECTOR3(0, 0, 0),
+		D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0),
+		D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f),
+		50,
+		"",
+		DT_LEFT | DT_TOP
+	);
+	g_pFontClear = SetFont(FONT_LABEL_DONGURI,
+		D3DXVECTOR3(0, 0, 0),
+		D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0),
+		D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f),
+		100,
+		"",
+		DT_CENTER | DT_VCENTER
+	);
 
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 	LoadScript("data\\model.txt", &g_data);
@@ -134,6 +157,7 @@ void UninitGame(void)
 	UninitCoin();
 	UninitPause();
 	UninitPauseBg();
+	UninitFont();
 
 	UninitDebugProc();
 }
@@ -144,6 +168,7 @@ void UninitGame(void)
 void UpdateGame(void)
 {
 	PLAYER* pPlayer = GetPlayer();
+	CAMERA* pCamera = GetCamera();
 
 #if _DEBUG
 	if (GetKeyboardTrigger(DIK_F7) && g_bIsPaused)
@@ -157,6 +182,11 @@ void UpdateGame(void)
 	if (GetKeyboardTrigger(DIK_F2))
 	{
 		SetFade(SCENE_TITLE);
+	}
+
+	if (GetKeyboardTrigger(DIK_F1))
+	{
+		pCamera->nMode = pCamera->nMode == 0 ? 2 : 0;
 	}
 #endif
 
@@ -178,6 +208,8 @@ void UpdateGame(void)
 		UpdateCylinder();
 		UpdateSphere();
 		UpdateCoin();
+
+		sprintf(&g_pFontScore->aText[0], "SCORE : %d", pPlayer->nScore);
 	}
 	else if (g_bIsPaused && g_bPauseHide == false)
 	{
@@ -186,6 +218,25 @@ void UpdateGame(void)
 	}
 
 	UpdateDebugProc();
+
+	switch (g_gameState)
+	{
+	case GAMESTATE_CLEAR:
+		sprintf(&g_pFontClear->aText[0], "GAMECLEAR\n\nYOUR SCORE\n%d", pPlayer->nScore);
+
+		if (INPUT_TRIGGER_UI_CONTINUE)
+		{
+			SetGameState(GAMESTATE_END);
+		}
+		break;
+
+	case GAMESTATE_END:
+		SetFade(SCENE_RESULT);
+		break;
+
+	default:
+		break;
+	}
 }
 
 //=====================================================================
@@ -201,6 +252,7 @@ void DrawGame(void)
 	DrawEffect();
 	DrawCoin();
 	DrawShadow();
+	DrawFont();
 
 	if (g_bIsPaused && g_bPauseHide == false)
 	{

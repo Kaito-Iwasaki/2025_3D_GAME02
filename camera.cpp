@@ -87,11 +87,6 @@ void UpdateCamera(void)
 
 	if (g_camera.bEnabled == false) return;
 
-	if (GetKeyboardTrigger(DIK_F1))
-	{
-		g_camera.nMode = g_camera.nMode == 0 ? 2: 0;
-	}
-
 	switch (g_camera.nMode)
 	{
 	case 0:
@@ -171,6 +166,20 @@ void UpdateCamera(void)
 		g_camera.posV.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
 
 		break;
+
+	case 3:
+		g_camera.rot.y += 0.01f;
+
+		g_camera.posVDest.x = g_camera.posR.x - sinf(g_camera.rot.y) * g_camera.fDistance;
+		g_camera.posVDest.y = g_camera.posRDest.y + g_camera.posOffset.y;
+		g_camera.posVDest.z = g_camera.posR.z - cosf(g_camera.rot.y) * g_camera.fDistance;
+
+		g_camera.posR.x += (g_camera.posRDest.x - g_camera.posR.x) * 0.1f;
+		g_camera.posR.y += (g_camera.posRDest.y - g_camera.posR.y) * 0.1f;
+		g_camera.posR.z += (g_camera.posRDest.z - g_camera.posR.z) * 0.1f;
+		g_camera.posV.x += (g_camera.posVDest.x - g_camera.posV.x) * 0.1f;
+		g_camera.posV.y += (g_camera.posVDest.y - g_camera.posV.y) * 0.1f;
+		g_camera.posV.z += (g_camera.posVDest.z - g_camera.posV.z) * 0.1f;
 	}
 }
 

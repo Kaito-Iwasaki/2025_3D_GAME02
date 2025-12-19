@@ -15,10 +15,14 @@
 //*****************************************************************************
 typedef enum
 {
-	SOUND_LABEL_BGM_GAME = 0,
+	SOUND_LABEL_BGM_TITLE = 0,
+	SOUND_LABEL_BGM_GAME,
 	SOUND_LABEL_BGM_RESULT,
 	SOUND_LABEL_SE_JUMP,
+	SOUND_LABEL_SE_SLIDING,
 	SOUND_LABEL_SE_COIN,
+	SOUND_LABEL_SE_VICTORY,
+	SOUND_LABEL_SE_FAIL,
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
 

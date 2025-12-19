@@ -33,10 +33,14 @@ DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = {
-	{"data\\BGM\\bgm_game.wav"},
-	{"data\\BGM\\bgm_result.wav"},
+	{"data\\BGM\\bgm_title.wav", -1},
+	{"data\\BGM\\bgm_game.wav", -1},
+	{"data\\BGM\\bgm_result.wav", -1},
 	{"data\\SE\\se_jump.wav"},
-	{"data\\SE\\se_coin.wav"}
+	{"data\\SE\\se_sliding.wav"},
+	{"data\\SE\\se_coin.wav"},
+	{"data\\SE\\se_victory.wav"},
+	{"data\\SE\\se_fail.wav"},
 };
 
 //=============================================================================

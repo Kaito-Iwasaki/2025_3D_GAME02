@@ -23,6 +23,7 @@
 #include "cylinder.h"
 #include "field.h"
 #include "decal.h"
+#include "font.h"
 
 //*********************************************************************
 // 
@@ -58,6 +59,8 @@
 // 
 //*********************************************************************
 SCRIPTDATA g_dataTitle;
+FONT* g_pFontTitle = NULL;
+int g_nCounterStateTitle;
 
 //=====================================================================
 // ‰Šú‰»ˆ—
@@ -66,11 +69,13 @@ void InitTitle(void)
 {
 	StopSound();
 
+	InitCamera();
 	InitModel();
 	InitSphere();
 	InitCylinder();
 	InitField();
 	InitDecal();
+	InitFont();
 
 	ZeroMemory(&g_dataTitle, sizeof(g_dataTitle));
 	LoadScript("data\\model.txt", &g_dataTitle);
@@ -104,13 +109,25 @@ void InitTitle(void)
 		D3DXCOLOR_WHITE
 	);
 
+	g_pFontTitle = SetFont(
+		FONT_LABEL_DONGURI,
+		D3DXVECTOR3(0,SCREEN_HEIGHT - 170,0),
+		D3DXVECTOR3(SCREEN_WIDTH, 100, 0),
+		D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f),
+		80,
+		"PRESS ENTER OR START BUTTON",
+		DT_CENTER | DT_VCENTER
+	);
+
+	g_nCounterStateTitle = 0;
+	PlaySound(SOUND_LABEL_BGM_TITLE);
+
 	// ƒJƒƒ‰‚ÌÝ’è
 	CAMERA* pCamera = GetCamera();
-	pCamera->nMode = 1;
-	pCamera->rot = D3DXVECTOR3_ZERO;
-	pCamera->posOffset = D3DXVECTOR3_ZERO;
-	SetCameraPosV(D3DXVECTOR3(0, 5000, 0));
-	SetCameraPosR(D3DXVECTOR3(-5000, 0, 5000));
+	pCamera->nMode = 3;
+	pCamera->posOffset = D3DXVECTOR3(0, 1000, 0);
+	pCamera->fDistance = 3000;
+	SetCameraPosR(D3DXVECTOR3(-5000, 3000, 2000));
 }
 
 //=====================================================================
@@ -123,6 +140,7 @@ void UninitTitle(void)
 	UninitCylinder();
 	UninitField();
 	UninitDecal();
+	UninitFont();
 }
 
 //=====================================================================
@@ -139,6 +157,13 @@ void UpdateTitle(void)
 	UpdateSphere();
 	UpdateCylinder();
 	UpdateField();
+
+	if (g_nCounterStateTitle % 30 == 0)
+	{
+		g_pFontTitle->obj.bVisible ^= 1;
+	}
+
+	g_nCounterStateTitle++;
 }
 
 //=====================================================================
@@ -151,4 +176,5 @@ void DrawTitle(void)
 	DrawCylinder();
 	DrawField();
 	DrawDecal();
+	DrawFont();
 }

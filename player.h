@@ -70,6 +70,7 @@ typedef struct
 	D3DXVECTOR3 rotMove;						// 移動先の角度
 	int nIdxShadow;								// シャドウのインデックス
 	bool bJump;
+	float fSpeed;
 	PLAYERSTATE currentState;
 	PLAYERSTATE previousState;
 	int nCounterState;

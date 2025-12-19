@@ -19,7 +19,7 @@
 // ***** É}ÉNÉçíËã` *****
 // 
 //*********************************************************************
-#define GAME_GRAVITY	(0.6f)
+#define GAME_GRAVITY	(0.7f)
 
 //*********************************************************************
 // 
@@ -30,6 +30,7 @@ typedef enum
 {
 	GAMESTATE_NORMAL = 0,
 	GAMESTATE_OVER,
+	GAMESTATE_CLEAR,
 	GAMESTATE_END,
 	GAMESTATE_MAX
 }GAMESTATE;

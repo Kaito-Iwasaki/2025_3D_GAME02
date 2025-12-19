@@ -214,11 +214,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SETFOCUS:
+#ifdef _DEBUG
 		if (GetCurrentScene() == SCENE_GAME)
 		{
 			ReloadGameModel();
 		}
 		break;
+#endif
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);	// Šù’è‚Ìˆ—‚ğ•Ô‚·

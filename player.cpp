@@ -31,8 +31,8 @@
 //*********************************************************************
 #define MAX_TEXTURE			(8)
 
-#define PLAYER_JUMPPOWER	(16.0f)
-#define PLAYER_SPEED		(14.0f)
+#define PLAYER_JUMPPOWER	(19.0f)
+#define PLAYER_SPEED		(13.0f)
 
 //*********************************************************************
 // 
@@ -66,10 +66,6 @@ PLAYER g_player;
 D3DXVECTOR3 g_dir = D3DXVECTOR3(0, 0, 1);
 int nMode = 0;
 
-//D3DXVECTOR3 g_waypoints[] = {
-//	D3DXVECTOR3(0)
-//}
-
 //=====================================================================
 // 初期化処理
 //=====================================================================
@@ -78,6 +74,7 @@ void InitPlayer(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATERIAL* pMat;
 	MOTION* pMotion = &g_player.motion;
+	CAMERA* pCamera = GetCamera();
 
 	// 構造体の初期化
 	memset(&g_player, 0, sizeof(PLAYER));
@@ -86,6 +83,7 @@ void InitPlayer(void)
 	g_player.obj.pos = D3DXVECTOR3(10400, 0, -2900);
 	g_player.obj.size = D3DXVECTOR3(0, 110, 0);
 	g_player.bJump = true;
+	g_player.fSpeed = PLAYER_SPEED;
 
 	// モーションスクリプトから各情報を読み込む
 	LoadMotionScript("data\\motion_character00.txt", &g_player.motion);
@@ -130,7 +128,7 @@ void InitPlayer(void)
 
 	g_dir = D3DXVECTOR3(-1, 0, 0);
 	nMode = 0;
-	GetCamera()->rot.y = D3DXToRadian(180);
+	pCamera->rot.y = D3DXToRadian(-165);
 }
 
 //=====================================================================
@@ -210,7 +208,9 @@ void UpdatePlayer(void)
 		}
 		else
 		{
-			if (INPUT_PRESS_GAME_DOWN)
+
+
+			if (INPUT_TRIGGER_GAME_DOWN || g_player.currentState == PLAYERSTATE_SLIDING && g_player.nCounterState < 60)
 			{
 				SetPlayerState(PLAYERSTATE_SLIDING);
 			}
@@ -232,7 +232,6 @@ void UpdatePlayer(void)
 	{
 		SetShadowAlpha(g_player.nIdxShadow, 0.3f);
 	}
-
 
 	float fAngleDir = atan2f(g_dir.x, g_dir.z);
 	pCamera->posOffset = D3DXVECTOR3(sinf(fAngleDir) * 350.0f, 200, cosf(fAngleDir) * 350.0f);
@@ -266,7 +265,8 @@ void UpdatePlayer(void)
 		if (g_player.obj.pos.x < 0)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
-			pCamera->rot.y = D3DXToRadian(-90);
+			pCamera->rot.y = D3DXToRadian(-75);
+			g_player.nScore += 100;
 			nMode++;
 		}
 		break;
@@ -275,7 +275,8 @@ void UpdatePlayer(void)
 		if (g_player.obj.pos.z > 8700)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
-			pCamera->rot.y = D3DXToRadian(180);
+			pCamera->rot.y = D3DXToRadian(-165);
+			g_player.nScore += 100;
 			nMode++;
 		}
 		break;
@@ -284,8 +285,9 @@ void UpdatePlayer(void)
 		if (g_player.obj.pos.x < -5000)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
-			pCamera->rot.y = D3DXToRadian(-90);
+			pCamera->rot.y = D3DXToRadian(-105);
 			pCamera->fDistance += 200;
+			g_player.nScore += 100;
 			nMode++;
 		}
 		break;
@@ -294,7 +296,8 @@ void UpdatePlayer(void)
 		if (g_player.obj.pos.z < 1700)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
-			pCamera->rot.y = D3DXToRadian(0);
+			pCamera->rot.y = D3DXToRadian(-15);
+			g_player.nScore += 100;
 			nMode++;
 		}
 		break;
@@ -303,16 +306,18 @@ void UpdatePlayer(void)
 		if (g_player.obj.pos.x < -14800)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
-			pCamera->rot.y = D3DXToRadian(90);
+			pCamera->rot.y = D3DXToRadian(75);
+			g_player.nScore += 100;
 			nMode++;
 		}
 		break;
 
-	case 5:
+	case 5: // 折り返し
 		if (g_player.obj.pos.z > 14000)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
-			pCamera->rot.y = D3DXToRadian(180);
+			pCamera->rot.y = D3DXToRadian(105);
+			g_player.nScore += 500;
 			nMode++;
 		}
 		break;
@@ -321,20 +326,72 @@ void UpdatePlayer(void)
 		if (g_player.obj.pos.z < 1700)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
-			pCamera->rot.y = D3DXToRadian(180);
+			pCamera->rot.y = D3DXToRadian(15);
+			g_player.nScore += 100;
 			nMode++;
 		}
 		break;
 
 	case 7:
-		SetPlayerState(PLAYERSTATE_CLEAR);
-		SetFade(SCENE_RESULT);
+		if (g_player.obj.pos.x > -6600)
+		{
+			g_dir = D3DXVECTOR3(0, 0, 1);
+			pCamera->rot.y = D3DXToRadian(75);
+			g_player.nScore += 100;
+			nMode++;
+		}
+		break;
+
+	case 8:
+		if (g_player.obj.pos.z > 8700)
+		{
+			g_dir = D3DXVECTOR3(1, 0, 0);
+			pCamera->rot.y = D3DXToRadian(165);
+			g_player.nScore += 100;
+			nMode++;
+		}
+
+	case 9:
+		if (g_player.obj.pos.x > 0)
+		{
+			g_dir = D3DXVECTOR3(0, 0, -1);
+			pCamera->rot.y = D3DXToRadian(-105);
+			g_player.nScore += 100;
+			nMode++;
+		}
+		break;
+
+	case 10:
+		if (g_player.obj.pos.z < -2900)
+		{
+			g_dir = D3DXVECTOR3(1, 0, 0);
+			pCamera->rot.y = D3DXToRadian(165);
+			g_player.nScore += 100;
+			nMode++;
+		}
+		break;
+
+	case 11:
+		if (g_player.obj.pos.x > 10400)
+		{
+			SetPlayerState(PLAYERSTATE_CLEAR);
+			pCamera->nMode = 3;
+			pCamera->posRDest = g_player.obj.pos + D3DXVECTOR3(0, 20, 0);
+			g_player.nScore += 1000;
+			SetGameState(GAMESTATE_CLEAR);
+			PlaySound(SOUND_LABEL_SE_VICTORY);
+			nMode++;
+		}
+		break;
+
+	default:
 		break;
 	}
 
 	PrintDebugProc("モード:%d\n", nMode);
 	PrintDebugProc("スコア:%d\n", g_player.nScore);
 	PrintDebugProc("位置:%d %d %d\n", (int)g_player.obj.pos.x, (int)g_player.obj.pos.y, (int)g_player.obj.pos.z);
+	PrintDebugProc("State:%d\n",g_player.currentState);
 
 	_UpdatePlayerMotion();
 }
@@ -552,7 +609,7 @@ void _UpdatePlayerControl(void)
 		}
 	}
 
-	if (INPUT_TRIGGER_GAME_UP && g_player.bJump == false)
+	if (INPUT_PRESS_GAME_UP && g_player.bJump == false)
 	{// ジャンプ
 		PlaySound(SOUND_LABEL_SE_JUMP);
 		g_player.move.y = PLAYER_JUMPPOWER;
@@ -568,11 +625,11 @@ void _UpdatePlayerControl(void)
 		g_player.rotMove.y = atan2f(dir.x, dir.z) + D3DX_PI;
 
 		// プレイヤーの位置に移動量を反映
-		g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
+		g_player.obj.pos += dir / fMagnitude * g_player.fSpeed;
 #ifdef _DEBUG
 		if (GetKeyboardPress(DIK_LSHIFT))
 		{
-			g_player.obj.pos += dir / fMagnitude * PLAYER_SPEED;
+			g_player.obj.pos += dir / fMagnitude * g_player.fSpeed;
 		}
 #endif
 	}
@@ -709,6 +766,7 @@ void _OnPlayerStateChanged(void)
 		break;
 
 	case PLAYERSTATE_SLIDING:
+		PlaySound(SOUND_LABEL_SE_SLIDING);
 		if (g_player.previousState == PLAYERSTATE_FALL)
 		{
 			SetPlayerMotion(MOTIONTYPE_SLIDING, false, 0);
