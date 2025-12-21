@@ -33,6 +33,8 @@
 #define INPUT_TRIGGER_UI_ACCEPT		(GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 #define INPUT_TRIGGER_GAME_UP		(GetKeyboardTrigger(DIK_W) || GetKeyboardTrigger(DIK_UP) || GetJoypadTrigger(JOYKEY_UP) || GetJoystickTrigger(JOYSTICK_L_UP))
 #define INPUT_TRIGGER_GAME_DOWN		(GetKeyboardTrigger(DIK_S) || GetKeyboardTrigger(DIK_DOWN) || GetJoypadTrigger(JOYKEY_DOWN) || GetJoystickTrigger(JOYSTICK_L_DOWN))
+#define INPUT_TRIGGER_GAME_LEFT		(GetKeyboardTrigger(DIK_A) || GetKeyboardTrigger(DIK_LEFT) || GetJoypadTrigger(JOYKEY_LEFT) || GetJoystickTrigger(JOYSTICK_L_LEFT))
+#define INPUT_TRIGGER_GAME_RIGHT		(GetKeyboardTrigger(DIK_D) || GetKeyboardTrigger(DIK_RIGHT) || GetJoypadTrigger(JOYKEY_RIGHT) || GetJoystickTrigger(JOYSTICK_L_RIGHT))
 #define INPUT_TRIGGER_GAME_PAUSE		(GetKeyboardTrigger(DIK_P) || GetJoypadTrigger(JOYKEY_START))
 #define INPUT_PRESS_GAME_UP		(GetKeyboardPress(DIK_W) || GetKeyboardPress(DIK_UP) || GetJoypadPress(JOYKEY_UP) || GetJoystickPress(JOYSTICK_L_UP))
 #define INPUT_PRESS_GAME_DOWN		(GetKeyboardPress(DIK_S) || GetKeyboardPress(DIK_DOWN) || GetJoypadPress(JOYKEY_DOWN) || GetJoystickPress(JOYSTICK_L_DOWN))

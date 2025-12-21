@@ -431,10 +431,6 @@ void ReleaseMesh(MESHDATA* pMeshData)
 
 BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 {
-	// memo
-	// 例えばOnHit()みたいな関数のポインタを渡せばこの関数に
-	// 値やポインタを渡さなくてもそれぞれの衝突判定と処理を実現できる？
-
 	MODEL* pModel = &g_aModel[0];
 	BYTE byHitAll = MODEL_HIT_NONE;
 
@@ -464,20 +460,19 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 		if (
 			posOld.x <= pModel->obj.pos.x + vtxMin.x
 			&& pos->x > pModel->obj.pos.x + vtxMin.x
-			&& pos->z <= pModel->obj.pos.z + vtxMax.z
-			&& pos->z >= pModel->obj.pos.z + vtxMin.z
+			&& pos->z < pModel->obj.pos.z + vtxMax.z
+			&& pos->z > pModel->obj.pos.z + vtxMin.z
 			&& pos->y < pModel->obj.pos.y + vtxMax.y
 			&& pos->y + size.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{// 左
 			byHit |= MODEL_HIT_LEFT;
 		}
-
 		if (
 			posOld.x >= pModel->obj.pos.x + vtxMax.x
 			&& pos->x < pModel->obj.pos.x + vtxMax.x
-			&& pos->z <= pModel->obj.pos.z + vtxMax.z
-			&& pos->z >= pModel->obj.pos.z + vtxMin.z
+			&& pos->z < pModel->obj.pos.z + vtxMax.z
+			&& pos->z > pModel->obj.pos.z + vtxMin.z
 			&& pos->y < pModel->obj.pos.y + vtxMax.y
 			&& pos->y + size.y >= pModel->obj.pos.y + vtxMin.y
 			)
@@ -488,20 +483,19 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 		if (
 			posOld.z <= pModel->obj.pos.z + vtxMin.z
 			&& pos->z > pModel->obj.pos.z + vtxMin.z
-			&& pos->x >= pModel->obj.pos.x + vtxMin.x
-			&& pos->x <= pModel->obj.pos.x + vtxMax.x
+			&& pos->x > pModel->obj.pos.x + vtxMin.x
+			&& pos->x < pModel->obj.pos.x + vtxMax.x
 			&& pos->y < pModel->obj.pos.y + vtxMax.y
 			&& pos->y + size.y >= pModel->obj.pos.y + vtxMin.y
 			)
 		{// 前
 			byHit |= MODEL_HIT_FRONT;
 		}
-
 		if (
 			posOld.z >= pModel->obj.pos.z + vtxMax.z
 			&& pos->z < pModel->obj.pos.z + vtxMax.z
-			&& pos->x >= pModel->obj.pos.x + vtxMin.x
-			&& pos->x <= pModel->obj.pos.x + vtxMax.x
+			&& pos->x > pModel->obj.pos.x + vtxMin.x
+			&& pos->x < pModel->obj.pos.x + vtxMax.x
 			&& pos->y < pModel->obj.pos.y + vtxMax.y
 			&& pos->y + size.y >= pModel->obj.pos.y + vtxMin.y
 			)
@@ -512,18 +506,22 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 		if (byHit & MODEL_HIT_LEFT)
 		{// 左から衝突
 			pos->x = pModel->obj.pos.x + vtxMin.x;
+			OutputDebugString("Hit Left\n");
 		}
 		if (byHit & MODEL_HIT_RIGHT)
 		{// 右から衝突
 			pos->x = pModel->obj.pos.x + vtxMax.x;
+			OutputDebugString("Hit Right\n");
 		}
 		if (byHit & MODEL_HIT_FRONT)
 		{// 前から衝突
 			pos->z = pModel->obj.pos.z + vtxMin.z;
+			OutputDebugString("Hit Front\n");
 		}
 		if (byHit & MODEL_HIT_BACK)
 		{// 後ろから衝突
 			pos->z = pModel->obj.pos.z + vtxMax.z;
+			OutputDebugString("Hit Back\n");
 		}
 
 		if (

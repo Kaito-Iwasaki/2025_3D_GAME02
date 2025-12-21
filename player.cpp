@@ -33,6 +33,7 @@
 
 #define PLAYER_JUMPPOWER	(19.0f)
 #define PLAYER_SPEED		(13.0f)
+#define MAX_LANE			(3)
 
 //*********************************************************************
 // 
@@ -64,7 +65,7 @@ void _OnPlayerStateChanged(void);
 //*********************************************************************
 PLAYER g_player;
 D3DXVECTOR3 g_dir = D3DXVECTOR3(0, 0, 1);
-int nMode = 0;
+int g_nMode = 0;
 
 //=====================================================================
 // 初期化処理
@@ -84,6 +85,7 @@ void InitPlayer(void)
 	g_player.obj.size = D3DXVECTOR3(0, 110, 0);
 	g_player.bJump = true;
 	g_player.fSpeed = PLAYER_SPEED;
+	g_player.nLane = MAX_LANE / 2;
 
 	// モーションスクリプトから各情報を読み込む
 	LoadMotionScript("data\\motion_character00.txt", &g_player.motion);
@@ -127,7 +129,7 @@ void InitPlayer(void)
 	SetPlayerState(PLAYERSTATE_MOVE);
 
 	g_dir = D3DXVECTOR3(-1, 0, 0);
-	nMode = 0;
+	g_nMode = 0;
 	pCamera->rot.y = D3DXToRadian(-165);
 }
 
@@ -238,7 +240,7 @@ void UpdatePlayer(void)
 	D3DXVECTOR3 vecMoved = g_player.obj.pos - g_player.posOld;
 	float fMove = Magnitude(D3DXVECTOR3(vecMoved.x * sinf(fAngle), 0, vecMoved.z * cosf(fAngle)));
 
-	if (fMove == 0.0f)
+	if (fabsf(fMove) < 0.01f)
 	{
 		SetPlayerState(PLAYERSTATE_DIED);
 	}
@@ -248,10 +250,10 @@ void UpdatePlayer(void)
 		SetPlayerState(PLAYERSTATE_DIED);
 	}
 
-	if (byHit & MODEL_HIT_IN)
-	{
-		SetPlayerState(PLAYERSTATE_DIED);
-	}
+	//if (byHit & MODEL_HIT_IN)
+	//{
+	//	SetPlayerState(PLAYERSTATE_DIED);
+	//}
 
 	if (g_player.currentState != g_player.previousState)
 	{
@@ -259,7 +261,7 @@ void UpdatePlayer(void)
 	}
 	g_player.nCounterState++;
 
-	switch (nMode)
+	switch (g_nMode)
 	{
 	case 0:
 		if (g_player.obj.pos.x < 0)
@@ -267,7 +269,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(-75);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -277,7 +279,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(-165);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -288,7 +290,7 @@ void UpdatePlayer(void)
 			pCamera->rot.y = D3DXToRadian(-105);
 			pCamera->fDistance += 200;
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -298,7 +300,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(-15);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -308,7 +310,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(75);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -318,7 +320,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(105);
 			g_player.nScore += 500;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -328,7 +330,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(15);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -338,7 +340,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(75);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -348,7 +350,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(165);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 
 	case 9:
@@ -357,7 +359,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-105);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -367,7 +369,7 @@ void UpdatePlayer(void)
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(165);
 			g_player.nScore += 100;
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -380,7 +382,7 @@ void UpdatePlayer(void)
 			g_player.nScore += 1000;
 			SetGameState(GAMESTATE_CLEAR);
 			PlaySound(SOUND_LABEL_SE_VICTORY);
-			nMode++;
+			g_nMode++;
 		}
 		break;
 
@@ -388,10 +390,11 @@ void UpdatePlayer(void)
 		break;
 	}
 
-	PrintDebugProc("モード:%d\n", nMode);
+	PrintDebugProc("モード:%d\n", g_nMode);
 	PrintDebugProc("スコア:%d\n", g_player.nScore);
 	PrintDebugProc("位置:%d %d %d\n", (int)g_player.obj.pos.x, (int)g_player.obj.pos.y, (int)g_player.obj.pos.z);
-	PrintDebugProc("State:%d\n",g_player.currentState);
+	PrintDebugProc("State:%d\n", g_player.currentState);
+	PrintDebugProc("Lane:%d\n",g_player.nLane);
 
 	_UpdatePlayerMotion();
 }
@@ -597,16 +600,20 @@ void _UpdatePlayerControl(void)
 	// プレイヤー操作
 	if (g_player.currentState != PLAYERSTATE_SLIDING)
 	{
-		if (INPUT_PRESS_GAME_LEFT)
+		if (INPUT_TRIGGER_GAME_LEFT)
 		{// 左移動
 			dir.x -= cosf(fAngle);
 			dir.z -= -sinf(fAngle);
+			g_player.nLane -= 1;
 		}
-		if (INPUT_PRESS_GAME_RIGHT)
+		if (INPUT_TRIGGER_GAME_RIGHT)
 		{// 右移動
 			dir.x += cosf(fAngle);
 			dir.z += -sinf(fAngle);
+			g_player.nLane += 1;
 		}
+
+		Clamp(&g_player.nLane, 0, MAX_LANE - 1);
 	}
 
 	if (INPUT_PRESS_GAME_UP && g_player.bJump == false)

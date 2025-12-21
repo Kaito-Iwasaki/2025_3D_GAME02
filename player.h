@@ -94,6 +94,7 @@ typedef struct
 	int nCounterBlend;							// ブレンドのカウンター
 
 	int nScore;									// スコア
+	int nLane;
 }PLAYER;
 
 //*********************************************************************
