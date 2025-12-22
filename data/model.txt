@@ -736,46 +736,126 @@ END_COINSET
 # ビル地面
 #------------------------------------------------------
 MODELSET
-	TYPE = 2			# 種類
-	POS = 11200 0 -500		# 位置
-	ROT = 0 270 0			# 向き
+    TYPE = 2            # 種類
+    POS = 11200 0 3500        # 位置
+    ROT = 0 270 0            # 向き
 END_MODELSET
 MODELSET
-	TYPE = 2			# 種類
-	POS = 11200 0 -1300		# 位置
-	ROT = 0 270 0			# 向き
+    TYPE = 2            # 種類
+    POS = 11200 0 2700        # 位置
+    ROT = 0 270 0            # 向き
 END_MODELSET
 MODELSET
-	TYPE = 2			# 種類
-	POS = 11200 0 -2100		# 位置
-	ROT = 0 270 0			# 向き
+    TYPE = 2            # 種類
+    POS = 11200 0 1900        # 位置
+    ROT = 0 270 0            # 向き
 END_MODELSET
 MODELSET
-	TYPE = 2			# 種類
-	POS = 11200 0 -2900		# 位置
-	ROT = 0 270 0			# 向き
+    TYPE = 2            # 種類
+    POS = 11200 0 1100        # 位置
+    ROT = 0 270 0            # 向き
 END_MODELSET
 MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = 10400 0 -2900		# 位置
-	ROT = 0 0 0			# 向き
+    TYPE = 2            # 種類
+    POS = 11200 0 300        # 位置
+    ROT = 0 270 0            # 向き
 END_MODELSET
 MODELSET
-	TYPE = 2			# 種類
-	POS = 9600 0 -2900		# 位置
-	ROT = 0 90 0			# 向き
+    TYPE = 2            # 種類
+    POS = 11200 0 -500        # 位置
+    ROT = 0 270 0            # 向き
 END_MODELSET
 MODELSET
-	TYPE = 2			# 種類
-	POS = 8800 0 -2900		# 位置
-	ROT = 0 180 0			# 向き
+    TYPE = 2            # 種類
+    POS = 11200 0 -1300        # 位置
+    ROT = 0 270 0            # 向き
 END_MODELSET
 MODELSET
-	TYPE = 2			# 種類
-	POS = 8000 0 -2900		# 位置
-	ROT = 0 270 0			# 向き
+    TYPE = 2            # 種類
+    POS = 11200 0 -2100        # 位置
+    ROT = 0 270 0            # 向き
 END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 11200 0 -2900        # 位置
+    ROT = 0 270 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 10400 0 -2900        # 位置
+    ROT = 0 270 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 9600 0 -2900        # 位置
+    ROT = 0 270 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8800 0 -2900        # 位置
+    ROT = 0 270 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 -2900        # 位置
+    ROT = 0 270 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 -2100        # 位置
+    ROT = 0 0 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 -1300        # 位置
+    ROT = 0 0 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 -500        # 位置
+    ROT = 0 0 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 300        # 位置
+    ROT = 0 0 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 1100        # 位置
+    ROT = 0 0 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 1900        # 位置
+    ROT = 0 0 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 2700        # 位置
+    ROT = 0 0 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8000 0 3500        # 位置
+    ROT = 0 90 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 8800 0 3500        # 位置
+    ROT = 0 90 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 9600 0 3500        # 位置
+    ROT = 0 90 0            # 向き
+END_MODELSET
+MODELSET
+    TYPE = 2            # 種類
+    POS = 10400 0 3500        # 位置
+    ROT = 0 90 0            # 向き
+END_MODELSET
+#------------------------------------------------------
 MODELSET
 	TYPE = 2			# 種類
 	POS = 7200 0 -2900		# 位置
@@ -1697,6 +1777,12 @@ END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 # ビル７（巨塔）
 #-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 6			# 種類
+	POS = 4000 900 3000		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
 MODELSET
 	TYPE = 6			# 種類
 	POS = -11000 900 6900		# 位置
