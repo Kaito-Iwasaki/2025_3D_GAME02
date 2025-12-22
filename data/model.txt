@@ -737,6 +737,27 @@ END_COINSET
 #------------------------------------------------------
 MODELSET
 	TYPE = 2			# 種類
+	POS = 11200 0 -500		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = 11200 0 -1300		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = 11200 0 -2100		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = 11200 0 -2900		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+MODELSET
+	TYPE = 2			# 種類
 	POS = 10400 0 -2900		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
@@ -1192,16 +1213,7 @@ MODELSET
 	ROT = 0 0 0			# 向き
 END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
-MODELSET
-	TYPE = 2			# 種類
-	POS = 800 200 8700		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = 1600 200 8700		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
+
 
 #-----------------------------------------------------------------------------------------------------------
 # ビル１（斜め赤）
