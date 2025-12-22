@@ -526,17 +526,17 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 			pos->x = pModel->obj.pos.x + vtxMin.x;
 			OutputDebugString("Hit Left\n");
 		}
-		if (byHit & MODEL_HIT_RIGHT)
+		else if (byHit & MODEL_HIT_RIGHT)
 		{// ‰E‚©‚çÕ“Ë
 			pos->x = pModel->obj.pos.x + vtxMax.x;
 			OutputDebugString("Hit Right\n");
 		}
-		if (byHit & MODEL_HIT_FRONT)
+		else if (byHit & MODEL_HIT_FRONT)
 		{// ‘O‚©‚çÕ“Ë
 			pos->z = pModel->obj.pos.z + vtxMin.z;
 			OutputDebugString("Hit Front\n");
 		}
-		if (byHit & MODEL_HIT_BACK)
+		else if (byHit & MODEL_HIT_BACK)
 		{// Œã‚ë‚©‚çÕ“Ë
 			pos->z = pModel->obj.pos.z + vtxMax.z;
 			OutputDebugString("Hit Back\n");

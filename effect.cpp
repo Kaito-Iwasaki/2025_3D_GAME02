@@ -156,23 +156,26 @@ void UpdateEffect(void)
 	{
 		if (pEffect->bUsed == false) continue;
 
-		if (pEffect->nCounterState > 30)
+		if (pEffect->nCounterState > pEffect->nLife)
 		{
 			pEffect->bUsed = false;
 			continue;
 		}
 
-		pEffect->obj.size =  (pEffect->originalSize / (float)pEffect->nCounterState);
+		float fRate = (float)pEffect->nCounterState / (float)pEffect->nLife;
+		float fAlpha = (pEffect->originalAlpha - (pEffect->originalAlpha * (fRate)));
+		D3DXCOLOR col = D3DXCOLOR(pEffect->obj.color.r, pEffect->obj.color.g, pEffect->obj.color.b, fAlpha);
+		pEffect->obj.size = pEffect->originalSize * (1 - fRate);
 
 		pVtx[0].pos = D3DXVECTOR3(-pEffect->obj.size.x / 2.0f, pEffect->obj.size.y / 2.0f, 0.0f);
 		pVtx[1].pos = D3DXVECTOR3(pEffect->obj.size.x / 2.0f, pEffect->obj.size.y / 2.0f, 0.0f);
 		pVtx[2].pos = D3DXVECTOR3(-pEffect->obj.size.x / 2.0f, -pEffect->obj.size.y / 2.0f, 0.0f);
 		pVtx[3].pos = D3DXVECTOR3(pEffect->obj.size.x / 2.0f, -pEffect->obj.size.y / 2.0f, 0.0f);
 
-		pVtx[0].col = pEffect->obj.color;
-		pVtx[1].col = pEffect->obj.color;
-		pVtx[2].col = pEffect->obj.color;
-		pVtx[3].col = pEffect->obj.color;
+		pVtx[0].col = col;
+		pVtx[1].col = col;
+		pVtx[2].col = col;
+		pVtx[3].col = col;
 
 		pEffect->obj.pos += pEffect->move;
 
@@ -240,6 +243,10 @@ void DrawEffect(void)
 		pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
+		// Zテストを無効にする
+		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
 		// ライトを無効にする
 		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
@@ -254,6 +261,10 @@ void DrawEffect(void)
 		pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+		// Zテストを無効にする
+		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
 		// アルファテストを無効にする
 		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
@@ -264,7 +275,7 @@ void DrawEffect(void)
 	}
 }
 
-void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXCOLOR col, D3DXVECTOR3 move)
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXCOLOR col, D3DXVECTOR3 move, int nLife)
 {
 	EFFECT* pEffect = &g_aEffect[0];
 	for (int nCntEffect = 0; nCntEffect < MAX_EFFECT; nCntEffect++, pEffect++)
@@ -277,9 +288,11 @@ void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXCOLOR col, D3DXVECTOR3 mov
 		pEffect->originalSize = size;
 		pEffect->obj.size = size;
 		pEffect->obj.color = col;
+		pEffect->originalAlpha = col.a;
 		pEffect->move = move;
 		pEffect->obj.bVisible = true;
 		pEffect->nCounterState = 0;
+		pEffect->nLife = nLife;
 
 		break;
 	}

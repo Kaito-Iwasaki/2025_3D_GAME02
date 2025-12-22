@@ -59,9 +59,9 @@ typedef struct
 // 
 //*********************************************************************
 int Clamp(int nNum, int nMin, int nMax);
-void Clamp(int* pNum, int nMin, int nMax);
+bool Clamp(int* pNum, int nMin, int nMax);
 float Clampf(float fNum, float fMin, float fMax);
-void Clampf(float* pNum, float fMin, float fMax);
+bool Clampf(float* pNum, float fMin, float fMax);
 float Lerpf(float a, float b, float t);
 int RandRange(int nMin, int nMax);
 float DotProduct(D3DXVECTOR2 vectorA, D3DXVECTOR2 vectorB);

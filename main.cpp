@@ -219,8 +219,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			ReloadGameModel();
 		}
-		break;
 #endif
+		break;
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);	// Šù’è‚Ìˆ—‚ğ•Ô‚·

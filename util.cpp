@@ -32,16 +32,20 @@ int Clamp(int nNum, int nMin, int nMax)
 //=====================================================================
 // 整数を範囲内に収める処理（ポインタから直接編集）
 //=====================================================================
-void Clamp(int* pNum, int nMin, int nMax)
+bool Clamp(int* pNum, int nMin, int nMax)
 {
 	if (*pNum < nMin)
 	{
 		*pNum = nMin;
+		return true;
 	}
 	else if (*pNum > nMax)
 	{
 		*pNum = nMax;
+		return true;
 	}
+
+	return false;
 }
 
 //=====================================================================
@@ -64,16 +68,20 @@ float Clampf(float fNum, float fMin, float fMax)
 //=====================================================================
 // 小数を範囲内に収める処理（ポインタから直接編集）
 //=====================================================================
-void Clampf(float* pNum, float fMin, float fMax)
+bool Clampf(float* pNum, float fMin, float fMax)
 {
 	if (*pNum < fMin)
 	{
 		*pNum = fMin;
+		return true;
 	}
 	else if (*pNum > fMax)
 	{
 		*pNum = fMax;
+		return true;
 	}
+
+	return false;
 }
 
 //=====================================================================

@@ -54,5 +54,6 @@ void DrawGame(void);
 void SetGameState(GAMESTATE state);
 void ReloadGameModel(void);
 void TogglePauseGame(bool bPause);
+void AddScore(int nScore);
 
 #endif

@@ -61,7 +61,7 @@ END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 7			# 種類
-	POS = -2000 200 8400		# 位置
+	POS = -1500 200 8400		# 位置
 	ROT = 0 0 0			# 向き
 END_MODELSET
 MODELSET
@@ -424,19 +424,19 @@ COINSET
 END_COINSET
 #-----------------------
 COINSET
-	POS = -1200 200 8700
+	POS = -700 200 8700
 END_COINSET
 COINSET
-	POS = -1300 200 8700
+	POS = -800 200 8700
 END_COINSET
 COINSET
-	POS = -1400 200 8700
+	POS = -900 200 8700
 END_COINSET
 COINSET
-	POS = -1500 200 8700
+	POS = -1000 200 8700
 END_COINSET
 COINSET
-	POS = -1600 200 8700
+	POS = -1100 200 8700
 END_COINSET
 
 COINSET
@@ -456,7 +456,7 @@ COINSET
 END_COINSET
 
 COINSET
-	POS = -2000 400 8400
+	POS = -1500 400 8400
 END_COINSET
 COINSET
 	POS = -2500 400 9000
@@ -569,6 +569,10 @@ COINSET
 END_COINSET
 #-----------------------
 COINSET
+	POS = -14800 200 1700
+END_COINSET
+#-----------------------
+COINSET
 	POS = -14800 200 4000
 END_COINSET
 COINSET
@@ -583,165 +587,156 @@ END_COINSET
 COINSET
 	POS = -14800 200 4800
 END_COINSET
+COINSET
+	POS = -14800 400 5100
+END_COINSET
+COINSET
+	POS = -14800 200 5400
+END_COINSET
+#-----------------------
+COINSET
+	POS = -15050 200 6100
+END_COINSET
+COINSET
+	POS = -15050 200 6300
+END_COINSET
+COINSET
+	POS = -15050 200 6500
+END_COINSET
+
+COINSET
+	POS = -15050 200 8100
+END_COINSET
+COINSET
+	POS = -15050 200 8300
+END_COINSET
+COINSET
+	POS = -15050 200 8500
+END_COINSET
+#-----------------------
+COINSET
+	POS = -14550 500 6800
+END_COINSET
+COINSET
+	POS = -14550 500 7000
+END_COINSET
+COINSET
+	POS = -14550 600 6600
+END_COINSET
+COINSET
+	POS = -14550 600 6800
+END_COINSET
+
+COINSET
+	POS = -14550 600 7600
+END_COINSET
+COINSET
+	POS = -14550 600 7800
+END_COINSET
+COINSET
+	POS = -14550 700 7400
+END_COINSET
+COINSET
+	POS = -14550 700 7600
+END_COINSET
+
+COINSET
+	POS = -14550 600 8600
+END_COINSET
+COINSET
+	POS = -14550 600 8400
+END_COINSET
+#-----------------------
+COINSET
+	POS = -14550 200 9000
+END_COINSET
+COINSET
+	POS = -14800 200 8900
+END_COINSET
+COINSET
+	POS = -15050 200 8800
+END_COINSET
+#-----------------------
+COINSET
+	POS = -14550 200 10000
+END_COINSET
+COINSET
+	POS = -14800 200 10100
+END_COINSET
+COINSET
+	POS = -15050 200 10200
+END_COINSET
+#-----------------------
+COINSET
+	POS = -14800 400 11000
+END_COINSET
+
+COINSET
+	POS = -14800 200 11500
+END_COINSET
+COINSET
+	POS = -14800 200 11700
+END_COINSET
+COINSET
+	POS = -14800 200 11900
+END_COINSET
+COINSET
+	POS = -14800 200 12100
+END_COINSET
+COINSET
+	POS = -14800 200 12300
+END_COINSET
+#-----------------------
+COINSET
+	POS = -6350 200 2500
+END_COINSET
+COINSET
+	POS = -6850 200 3200
+END_COINSET
+
+COINSET
+	POS = -6600 300 4300
+END_COINSET
+COINSET
+	POS = -6600 400 5100
+END_COINSET
+
+COINSET
+	POS = -6600 500 5700
+END_COINSET
+COINSET
+	POS = -6600 500 5900
+END_COINSET
+COINSET
+	POS = -6600 400 6100
+END_COINSET
+COINSET
+	POS = -6600 300 6300
+END_COINSET
+COINSET
+	POS = -6600 200 6500
+END_COINSET
+#-----------------------
+COINSET
+	POS = -6600 200 6900
+END_COINSET
+COINSET
+	POS = -6600 200 7100
+END_COINSET
+COINSET
+	POS = -6600 200 7300
+END_COINSET
+
+COINSET
+	POS = -6350 400 8150
+END_COINSET
+COINSET
+	POS = -6850 400 8150
+END_COINSET
 #-----------------------
 
-#-----------------------------------------------------------------------------------------------------------
-# ビル１（斜め赤）
-#-----------------------------------------------------------------------------------------------------------
-MODELSET
-	TYPE = 0			# 種類
-	POS = -2500 1400 -2600		# 位置
-	ROT = 0 90 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 0			# 種類
-	POS = -3500 1400 -1500		# 位置
-	ROT = 0 180 0			# 向き
-END_MODELSET
-
-#-----------------------------------------------------------------------------------------------------------
-# ビル２（縞模様）
-#-----------------------------------------------------------------------------------------------------------
-MODELSET
-	TYPE = 1			# 種類
-	POS = 0 600 -3800		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 1			# 種類
-	POS = -900 600 -3000		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 1			# 種類
-	POS = -900 600 -1600		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 1			# 種類
-	POS = -900 600 -600		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 1			# 種類
-	POS = -900 600 400		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 1			# 種類
-	POS = -900 600 1400		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 1			# 種類
-	POS = -1900 1400 -900		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 1			# 種類
-	POS = -1900 1400 100		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 1			# 種類
-	POS = -1900 1400 1100		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-#-----------------------------------------------------------------------------------------------------------
-# ビル３（カラフル）
-#-----------------------------------------------------------------------------------------------------------
 #------------------------------------------------------
-# 背景
-#------------------------------------------------------
-MODELSET
-	TYPE = 2			# 種類
-	POS = -1200 900 2400		# 位置
-	ROT = 0 90 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 2			# 種類
-	POS = -1200 800 3400		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 2			# 種類
-	POS = -1200 900 4400		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 2			# 種類
-	POS = -2200 1200 2400		# 位置
-	ROT = 0 90 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 2			# 種類
-	POS = -2200 1300 3400		# 位置
-	ROT = 0 180 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 2			# 種類
-	POS = -2200 1200 4400		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-
-MODELSET
-	TYPE = 2			# 種類
-	POS = -3500 1400 -3500		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -4500 1400 -3500		# 位置
-	ROT = 0 90 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -5500 1600 -3500		# 位置
-	ROT = 0 180 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -6500 1400 -3500		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -7500 1400 -3500		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -8500 1600 -3500		# 位置
-	ROT = 0 90 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -9500 1400 -3500		# 位置
-	ROT = 0 180 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -10500 1400 -3500		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-
-#------------------------------------------------------
-# 地面
+# ビル地面
 #------------------------------------------------------
 MODELSET
 	TYPE = 2			# 種類
@@ -1212,6 +1207,335 @@ MODELSET
 END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
+# ビル１（斜め赤）
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 0			# 種類
+	POS = -2500 1400 -2600		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 0			# 種類
+	POS = -3500 1400 -1500		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+
+#-----------------------------------------------------------------------------------------------------------
+# ビル２（縞模様）
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 1			# 種類
+	POS = 0 600 -3800		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 1			# 種類
+	POS = -900 600 -3000		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 1			# 種類
+	POS = -900 600 -1600		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 1			# 種類
+	POS = -900 600 -600		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 1			# 種類
+	POS = -900 600 400		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 1			# 種類
+	POS = -900 600 1400		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 1			# 種類
+	POS = -1900 1400 -900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 1			# 種類
+	POS = -1900 1400 100		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 1			# 種類
+	POS = -1900 1400 1100		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12420 1080 9600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12580 920 10600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12450 1150 11600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12530 890 12600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12610 1030 13600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12480 970 14600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12550 1110 15600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12410 850 16600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12590 1060 17600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12470 940 18600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = -12520 1180 19600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
+#-----------------------------------------------------------------------------------------------------------
+# ビル３（カラフル）
+#-----------------------------------------------------------------------------------------------------------
+#------------------------------------------------------
+# 背景
+#------------------------------------------------------
+MODELSET
+	TYPE = 2			# 種類
+	POS = -1200 900 2400		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = -1200 800 3400		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = -1200 900 4400		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = -2200 1200 2400		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = -2200 1300 3400		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 2			# 種類
+	POS = -2200 1200 4400		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 2			# 種類
+	POS = -3420 1450 -3500		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -4580 1320 -3500		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -5450 1680 -3500		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -6610 1380 -3500		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -7430 1440 -3500		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -8560 1620 -3500		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -9480 1350 -3500		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -10590 1430 -3500		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -11410 1670 -3500		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -12550 1370 -3500		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -13470 1410 -3500		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -14620 1580 -3500		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -15440 1390 -3500		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -16590 1460 -3500		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -17420 1640 -3500		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -18610 1360 -3500		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -19530 1420 -3500		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -20480 1590 -3500		# 位置
+	ROT = 0 90 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -21570 1440 -3500		# 位置
+	ROT = 0 180 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -22450 1380 -3500		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 2			# 種類
+	POS = -11080 1450 9600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -10920 1320 10600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -11130 1540 11600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -10890 1260 12600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -11050 1480 13600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -10960 1350 14600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -11110 1570 15600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -10870 1290 16600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -11040 1510 17600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -10930 1380 18600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 2			# 種類
+	POS = -11150 1420 19600		# 位置
+	ROT = 0 270 0			# 向き
+END_MODELSET
+
+#-----------------------------------------------------------------------------------------------------------
 # ビル４（リング塔）
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
@@ -1237,40 +1561,84 @@ END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 4			# 種類
-	POS = -4200 1400 -400		# 位置
+	POS = -4120 1430 -400		# 位置
 	ROT = 0 142 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 4			# 種類
-	POS = -5200 1600 -1800		# 位置
+	POS = -5280 1570 -1800		# 位置
 	ROT = 0 286 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 4			# 種類
-	POS = -6200 1400 -400		# 位置
+	POS = -6150 1420 -400		# 位置
 	ROT = 0 55 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 4			# 種類
-	POS = -7200 1200 -1800		# 位置
+	POS = -7260 1240 -1800		# 位置
 	ROT = 0 310 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 4			# 種類
-	POS = -8200 1500 -400		# 位置
+	POS = -8130 1520 -400		# 位置
 	ROT = 0 19 0			# 向き
 END_MODELSET
-
 MODELSET
 	TYPE = 4			# 種類
-	POS = -9200 1400 -1800		# 位置
+	POS = -9250 1380 -1800		# 位置
 	ROT = 0 234 0			# 向き
 END_MODELSET
-```
+MODELSET
+	TYPE = 4			# 種類
+	POS = -10180 1460 -400		# 位置
+	ROT = 0 110 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -11240 1620 -1800		# 位置
+	ROT = 0 320 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -12110 1370 -400		# 位置
+	ROT = 0 45 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -13280 1220 -1800		# 位置
+	ROT = 0 210 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -14150 1540 -400		# 位置
+	ROT = 0 175 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -15230 1390 -1800		# 位置
+	ROT = 0 290 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -16190 1430 -400		# 位置
+	ROT = 0 60 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -17270 1580 -1800		# 位置
+	ROT = 0 15 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -18120 1360 -400		# 位置
+	ROT = 0 255 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 4			# 種類
+	POS = -19250 1250 -1800		# 位置
+	ROT = 0 130 0			# 向き
+END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
 # ビル６（チェック柄塔）

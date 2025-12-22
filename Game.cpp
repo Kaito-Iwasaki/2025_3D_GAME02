@@ -210,6 +210,7 @@ void UpdateGame(void)
 		UpdateCoin();
 
 		sprintf(&g_pFontScore->aText[0], "SCORE : %d", pPlayer->nScore);
+		g_pFontScore->obj.pos.y = (0.0f - g_pFontScore->obj.pos.y) * 0.1f;
 	}
 	else if (g_bIsPaused && g_bPauseHide == false)
 	{
@@ -306,4 +307,11 @@ void TogglePauseGame(bool bPause)
 {
 	SetPauseMenuCursor(0);
 	g_bIsPaused = bPause;
+}
+
+void AddScore(int nScore)
+{
+	GetPlayer()->nScore += nScore;
+	g_pFontScore->obj.pos.y = -50.0f;
+	PlaySound(SOUND_LABEL_SE_COIN);
 }

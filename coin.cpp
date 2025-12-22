@@ -17,6 +17,7 @@
 #include "sound.h"
 #include "shadow.h"
 #include "input.h"
+#include "Game.h"
 
 //*********************************************************************
 // 
@@ -88,19 +89,18 @@ void UpdateCoin(void)
 		if (pCoin->bUsed == false) continue;
 
 		pCoin->obj.rot += D3DXVECTOR3(0.025f, 0.025f, 0.025f);
-		pCoin->obj.pos.y = pCoin->origin.y + sinf((float)pCoin->nCounterState * 0.1f) * 7;
+		pCoin->obj.pos.y = pCoin->origin.y + sinf((float)pCoin->nCounterState * 0.1f) * 7.0f;
 
 		// ƒ‚ƒfƒ‹‚ÌÕ“Ë”»’èˆ—
 		if (Magnitude(pPlayer->obj.pos + D3DXVECTOR3(0, 30, 0) - pCoin->obj.pos) < 120 && pCoin->obj.bVisible)
 		{
 			pCoin->obj.bVisible = false;
 			pCoin->nCounterState = 0;
-			pPlayer->nScore += 100;
-			PlaySound(SOUND_LABEL_SE_COIN);
+			AddScore(100);
 			SetVibration(20000, 20000, 10);
 			for (int i = 0; i < 10; i++)
 			{
-				SetEffect(pCoin->obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 0, 1), GetRandomVector() * 10);
+				SetEffect(pCoin->obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 0, 1), GetRandomVector() * 5, 20);
 			}
 		}
 
@@ -112,12 +112,12 @@ void UpdateCoin(void)
 		if (pCoin->obj.bVisible == false)
 		{
 			SetShadowAlpha(pCoin->nIdxShadow, 0.0f);
-		}
 
-		if (pCoin->nCounterState > 60 * 10)
-		{
-			pCoin->obj.bVisible = true;
-			pCoin->nCounterState = RandRange(0, 99);
+			if (pCoin->nCounterState > 60 * 2)
+			{
+				pCoin->obj.bVisible = true;
+				pCoin->nCounterState = RandRange(0, 99);
+			}
 		}
 
 		pCoin->nCounterState++;
@@ -195,8 +195,6 @@ void SetCoin(D3DXVECTOR3 pos)
 		pCoin->obj.bVisible = true;
 		pCoin->obj.color = D3DXCOLOR_WHITE;
 		pCoin->nCounterState = RandRange(0, 99);
-		pCoin->nIdxShadow = -1;
-
 		pCoin->nIdxShadow = SetShadow();
 
 		break;

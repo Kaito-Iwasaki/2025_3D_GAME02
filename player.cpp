@@ -34,7 +34,7 @@
 #define PLAYER_JUMPPOWER	(19.0f)
 #define PLAYER_SPEED		(13.0f)
 #define MAX_LANE			(3)
-#define LANE_GAP			(200.0f)
+#define LANE_GAP			(250.0f)
 
 //*********************************************************************
 // 
@@ -217,6 +217,7 @@ void UpdatePlayer(void)
 				|| (g_player.currentState == PLAYERSTATE_SLIDING && INPUT_PRESS_GAME_DOWN && g_player.nCounterState < 120 ) || (g_player.currentState == PLAYERSTATE_FALL && INPUT_PRESS_GAME_DOWN))
 			{
 				SetPlayerState(PLAYERSTATE_SLIDING);
+				SetEffect(g_player.obj.pos, D3DXVECTOR3(30, 30, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector(), 120);
 			}
 			else
 			{
@@ -612,16 +613,27 @@ void _UpdatePlayerControl(void)
 	// プレイヤー操作
 	if (g_player.currentState != PLAYERSTATE_SLIDING)
 	{
-		if (INPUT_TRIGGER_GAME_LEFT)
+		if (INPUT_TRIGGER_GAME_LEFT && g_player.nLane > 0)
 		{// 左移動
 			g_player.nLane -= 1;
+
+			for (int i = 0; i < 5; i++)
+			{
+				SetEffect(g_player.obj.pos, D3DXVECTOR3(30, 30, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector(), 120);
+			}
+			PlaySound(SOUND_LABEL_SE_SLIDING);
 		}
-		if (INPUT_TRIGGER_GAME_RIGHT)
+		if (INPUT_TRIGGER_GAME_RIGHT && g_player.nLane < MAX_LANE - 1)
 		{// 右移動
 			g_player.nLane += 1;
+
+			for (int i = 0; i < 5; i++)
+			{
+				SetEffect(g_player.obj.pos, D3DXVECTOR3(30, 30, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector(), 120);
+			}
+			PlaySound(SOUND_LABEL_SE_SLIDING);
 		}
 
-		Clamp(&g_player.nLane, 0, MAX_LANE - 1);
 	}
 
 	if (INPUT_PRESS_GAME_UP && g_player.bJump == false)
@@ -775,6 +787,10 @@ void _OnPlayerStateChanged(void)
 		if (g_player.previousState == PLAYERSTATE_FALL)
 		{
 			SetPlayerMotion(MOTIONTYPE_MOVE, false, 0);
+			for (int i = 0; i < 5; i++)
+			{
+				SetEffect(g_player.obj.pos, D3DXVECTOR3(30, 30, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector(), 120);
+			}
 		}
 		else
 		{
@@ -784,6 +800,10 @@ void _OnPlayerStateChanged(void)
 
 	case PLAYERSTATE_JUMP:
 		SetPlayerMotion(MOTIONTYPE_JUMP, true, 5);
+		for (int i = 0; i < 5; i++)
+		{
+			SetEffect(g_player.obj.pos, D3DXVECTOR3(30, 30, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector(), 120);
+		}
 		break;
 
 	case PLAYERSTATE_FALL:
@@ -807,6 +827,10 @@ void _OnPlayerStateChanged(void)
 		SetFade(SCENE_RESULT);
 		g_player.move.y = 0;
 		pCamera->bEnabled = false;
+		for (int i = 0; i < 10; i++)
+		{
+			SetEffect(g_player.obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector() * 10, 30);
+		}
 		break;
 
 	case PLAYERSTATE_CLEAR:
