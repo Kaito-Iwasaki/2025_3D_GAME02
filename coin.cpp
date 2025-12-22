@@ -97,7 +97,7 @@ void UpdateCoin(void)
 			pCoin->obj.bVisible = false;
 			pCoin->nCounterState = 0;
 			AddScore(100);
-			SetVibration(20000, 20000, 10);
+			SetVibration(1000, 1000, 10);
 			for (int i = 0; i < 10; i++)
 			{
 				SetEffect(pCoin->obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 0, 1), GetRandomVector() * 5, 20);

@@ -622,6 +622,7 @@ void _UpdatePlayerControl(void)
 				SetEffect(g_player.obj.pos, D3DXVECTOR3(30, 30, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector(), 120);
 			}
 			PlaySound(SOUND_LABEL_SE_SLIDING);
+			SetVibration(300, 300, 5);
 		}
 		if (INPUT_TRIGGER_GAME_RIGHT && g_player.nLane < MAX_LANE - 1)
 		{// ‰EˆÚ“®
@@ -632,6 +633,7 @@ void _UpdatePlayerControl(void)
 				SetEffect(g_player.obj.pos, D3DXVECTOR3(30, 30, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector(), 120);
 			}
 			PlaySound(SOUND_LABEL_SE_SLIDING);
+			SetVibration(300, 300, 5);
 		}
 
 	}
@@ -794,6 +796,10 @@ void _OnPlayerStateChanged(void)
 		}
 		else
 		{
+			if (g_player.previousState == PLAYERSTATE_SLIDING)
+			{
+				SetVibration(0, 0, 0);
+			}
 			SetPlayerMotion(MOTIONTYPE_MOVE, true, 10);
 		}
 		break;
@@ -819,6 +825,7 @@ void _OnPlayerStateChanged(void)
 		{
 			SetPlayerMotion(MOTIONTYPE_SLIDING, true, 10);
 		}
+		SetVibration(300, 300, 120);
 		break;
 
 	case PLAYERSTATE_DIED:
@@ -827,6 +834,7 @@ void _OnPlayerStateChanged(void)
 		SetFade(SCENE_RESULT);
 		g_player.move.y = 0;
 		pCamera->bEnabled = false;
+		PlaySound(SOUND_LABEL_SE_FAIL);
 		for (int i = 0; i < 10; i++)
 		{
 			SetEffect(g_player.obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector() * 10, 30);
