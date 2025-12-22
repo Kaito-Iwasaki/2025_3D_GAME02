@@ -54,6 +54,6 @@ void InitCoin(void);
 void UninitCoin(void);
 void UpdateCoin(void);
 void DrawCoin(void);
-void SetCoin(D3DXVECTOR3 pos, bool bShadow);
+void SetCoin(D3DXVECTOR3 pos);
 
 #endif

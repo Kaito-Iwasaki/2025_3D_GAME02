@@ -248,9 +248,9 @@ void DrawGame(void)
 	DrawPlayer();
 	DrawSphere();
 	DrawCylinder();
+	DrawCoin();
 	DrawModel();
 	DrawEffect();
-	DrawCoin();
 	DrawShadow();
 	DrawFont();
 

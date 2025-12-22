@@ -84,5 +84,6 @@ void LoadModel(const char* pFilename, int nIdx);
 void LoadModel(const char* pFilename, MESHDATA* pMeshData);
 void ReleaseMesh(MESHDATA* pMeshData);
 BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size = D3DXVECTOR3_ZERO);
+float GetModelGroundHeight(D3DXVECTOR3 pos);
 
 #endif

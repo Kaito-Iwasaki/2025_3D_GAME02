@@ -40,7 +40,6 @@ typedef struct
 typedef struct
 {
 	D3DXVECTOR3 pos;
-	bool bShadow;
 }COINSETDATA;
 
 typedef struct

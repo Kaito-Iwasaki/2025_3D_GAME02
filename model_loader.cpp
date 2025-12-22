@@ -178,15 +178,11 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 				{
 					fscanf(pFile, " = %f %f %f", &pData->pos.x, &pData->pos.y, &pData->pos.z);
 				}
-				else if (strcmp(&aStrLine[0], "SHADOW") == 0)
-				{
-					fscanf(pFile, " = %d", &pData->bShadow);
-				}
 
 				(*ppBuffer)->nCountCoinSet++;
 			}
 
-			SetCoin(pData->pos + D3DXVECTOR3(0, 50, 0), pData->bShadow);
+			SetCoin(pData->pos + D3DXVECTOR3(0, 50, 0));
 		}
 	}
 }

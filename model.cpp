@@ -52,6 +52,24 @@
 MODEL g_aModel[MAX_MODEL];
 MESHDATA g_aMeshData[MAX_LOADABLE_MODEL];
 
+float g_aMeshHeight[MAX_LOADABLE_MODEL] =
+{
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	200,
+	0,
+	0,
+	0,
+	0,
+	0,
+
+};
+
 //=====================================================================
 // èâä˙âªèàóù
 //=====================================================================
@@ -104,10 +122,10 @@ void DrawModel(void)
 		vecCamToModel.y = 0;
 		float ToLookDotToModel = DotProduct(Normalize(vecCamLook), Normalize(vecCamToModel));
 
-		if (ToLookDotToModel < 0)
-		{
-			continue;
-		}
+		//if (ToLookDotToModel < 0)
+		//{
+		//	continue;
+		//}
 
 		MESHDATA* pMeshData = &g_aMeshData[pModel->nType];
 
@@ -561,4 +579,33 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 	}
 
 	return byHitAll;
+}
+
+float GetModelGroundHeight(D3DXVECTOR3 pos)
+{
+	MODEL* pModel = &g_aModel[0];
+	float fGround = 0.0f;
+
+	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
+	{
+		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
+		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
+		float fModelTop = pModel->obj.pos.y + g_aMeshHeight[pModel->nType];
+
+		if (
+			pos.x >= pModel->obj.pos.x + vtxMin.x
+			&& pos.x <= pModel->obj.pos.x + vtxMax.x
+			&& pos.z <= pModel->obj.pos.z + vtxMax.z
+			&& pos.z >= pModel->obj.pos.z + vtxMin.z
+			&& pos.y >= fModelTop
+		)
+		{
+			if (fModelTop > fGround)
+			{
+				fGround = fModelTop;
+			}
+		}
+	}
+
+	return fGround;
 }

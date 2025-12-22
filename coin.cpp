@@ -104,7 +104,10 @@ void UpdateCoin(void)
 			}
 		}
 
-		SetShadowAlpha(pCoin->nIdxShadow, Clampf(0.5f - pCoin->origin.y * 0.001f, 0.0f, 0.3f));
+		float fGround = GetModelGroundHeight(pCoin->obj.pos);
+		SetShadowPosition(pCoin->nIdxShadow, D3DXVECTOR3(pCoin->obj.pos.x, fGround + 0.001f, pCoin->obj.pos.z));
+		SetShadowSize(pCoin->nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f) * (pCoin->obj.pos.y - fGround + 1000) * 0.001f);
+		SetShadowAlpha(pCoin->nIdxShadow, 0.2f - (pCoin->obj.pos.y - fGround) * 0.00025f);
 
 		if (pCoin->obj.bVisible == false)
 		{
@@ -174,7 +177,7 @@ void DrawCoin(void)
 	}
 }
 
-void SetCoin(D3DXVECTOR3 pos, bool bShadow)
+void SetCoin(D3DXVECTOR3 pos)
 {
 	COIN* pCoin = &g_aCoin[0];
 
@@ -194,13 +197,7 @@ void SetCoin(D3DXVECTOR3 pos, bool bShadow)
 		pCoin->nCounterState = RandRange(0, 99);
 		pCoin->nIdxShadow = -1;
 
-		if (bShadow)
-		{
-			pCoin->nIdxShadow = SetShadow();
-
-			SetShadowPosition(pCoin->nIdxShadow, pCoin->obj.pos + D3DXVECTOR3(0, -40 + 0.01f, 0));
-			SetShadowSize(pCoin->nIdxShadow, D3DXVECTOR3(40, 0, 40));
-		}
+		pCoin->nIdxShadow = SetShadow();
 
 		break;
 	}

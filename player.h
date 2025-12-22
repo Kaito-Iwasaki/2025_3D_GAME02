@@ -95,7 +95,17 @@ typedef struct
 
 	int nScore;									// ÉXÉRÉA
 	int nLane;
+	D3DXVECTOR3 centerPos;
+	D3DXVECTOR3 vecDest;
 }PLAYER;
+
+typedef struct
+{
+	AXIS typeAxis;
+	float fPosAxis;
+	D3DXVECTOR3 newDir;
+	float camRot;
+}MOVEMENT;
 
 //*********************************************************************
 // 
