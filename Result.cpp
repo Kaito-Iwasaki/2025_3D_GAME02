@@ -163,7 +163,7 @@ void UninitResult(void)
 //=====================================================================
 void UpdateResult(void)
 {
-	if (INPUT_TRIGGER_UI_CONTINUE)
+	if (INPUT_TRIGGER_UI_CONTINUE || g_nCounterStateResult > 60 * 8)
 	{
 		SetFade(SCENE_TITLE);
 	}
