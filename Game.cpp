@@ -80,6 +80,8 @@ int g_nCounterStateGame;
 //=====================================================================
 void InitGame(void)
 {
+	PLAYER* pPlayer = GetPlayer();
+
 	StopSound();
 
 	InitCamera();
@@ -138,6 +140,10 @@ void InitGame(void)
 			g_data.aInfoModelSet[nCntModel].collisionType
 		);
 	}
+
+	SetCameraPosV(pPlayer->obj.pos);
+	SetCameraPosR(pPlayer->obj.pos);
+	GetCamera()->rot.y = pPlayer->obj.rot.y;
 
 	PlaySound(SOUND_LABEL_BGM_GAME);
 }

@@ -67,7 +67,6 @@ float g_aMeshHeight[MAX_LOADABLE_MODEL] =
 	0,
 	0,
 	0,
-
 };
 
 //=====================================================================
@@ -165,7 +164,7 @@ void DrawModel(void)
 
 		for (int nCntMat = 0; nCntMat < (int)pMeshData->dwNumMat; nCntMat++)
 		{
-			if (Magnitude(vecCamToModel) < 300)
+			if (Magnitude(vecCamToModel) < 220)
 			{
 				pMat[nCntMat].MatD3D.Diffuse = D3DXCOLOR(
 					pMat[nCntMat].MatD3D.Diffuse.r,
@@ -584,7 +583,7 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 float GetModelGroundHeight(D3DXVECTOR3 pos)
 {
 	MODEL* pModel = &g_aModel[0];
-	float fGround = 0.0f;
+	float fGround = -1000.0f;
 
 	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
 	{
@@ -595,8 +594,8 @@ float GetModelGroundHeight(D3DXVECTOR3 pos)
 		if (
 			pos.x >= pModel->obj.pos.x + vtxMin.x
 			&& pos.x <= pModel->obj.pos.x + vtxMax.x
-			&& pos.z <= pModel->obj.pos.z + vtxMax.z
 			&& pos.z >= pModel->obj.pos.z + vtxMin.z
+			&& pos.z <= pModel->obj.pos.z + vtxMax.z
 			&& pos.y >= fModelTop
 		)
 		{

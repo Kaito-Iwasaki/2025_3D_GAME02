@@ -19,7 +19,11 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define D3DXVECTOR3_ZERO	D3DXVECTOR3(0.0f, 0.0f, 0.0f)					// ベクトル初期値
+#define D3DXVECTOR3_ZERO	D3DXVECTOR3(0.0f, 0.0f, 0.0f)		// ベクトル初期値
+#define D3DXVECTOR3_RIGHT	D3DXVECTOR3(1.0f, 0.0f, 0.0f)
+#define D3DXVECTOR3_UP		D3DXVECTOR3(0.0f, 1.0f, 0.0f)
+#define D3DXVECTOR3_FRONT	D3DXVECTOR3(0.0f, 0.0f, 1.0f)
+
 #define D3DXCOLOR_ZERO		D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f)
 #define D3DXCOLOR_WHITE		D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)
 #define D3DXCOLOR_BLACK		D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f)

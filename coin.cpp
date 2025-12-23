@@ -92,33 +92,25 @@ void UpdateCoin(void)
 		pCoin->obj.pos.y = pCoin->origin.y + sinf((float)pCoin->nCounterState * 0.1f) * 7.0f;
 
 		// ƒ‚ƒfƒ‹‚ÌÕ“Ë”»’èˆ—
-		if (Magnitude(pPlayer->obj.pos + D3DXVECTOR3(0, 30, 0) - pCoin->obj.pos) < 120 && pCoin->obj.bVisible)
+		if (Magnitude(pPlayer->obj.pos + D3DXVECTOR3(0, 30, 0) - pCoin->obj.pos) < 120)
 		{
-			pCoin->obj.bVisible = false;
-			pCoin->nCounterState = 0;
+			pCoin->bUsed = false;
+			RemoveShadow(pCoin->nIdxShadow);
 			AddScore(100);
 			SetVibration(1000, 1000, 10);
 			for (int i = 0; i < 10; i++)
 			{
 				SetEffect(pCoin->obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 0, 1), GetRandomVector() * 5, 20);
 			}
+			//SetCoin(D3DXVECTOR3(RandRange(1000, 10000), RandRange(-200, 1000), -RandRange(4000, 7000)));
+			SetCoin(D3DXVECTOR3(4000, 500, -6000) + GetRandomVector() * 900);
+			continue;
 		}
 
 		float fGround = GetModelGroundHeight(pCoin->obj.pos);
 		SetShadowPosition(pCoin->nIdxShadow, D3DXVECTOR3(pCoin->obj.pos.x, fGround + 0.001f, pCoin->obj.pos.z));
 		SetShadowSize(pCoin->nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f) * (pCoin->obj.pos.y - fGround + 1000) * 0.001f);
 		SetShadowAlpha(pCoin->nIdxShadow, 0.2f - (pCoin->obj.pos.y - fGround) * 0.00025f);
-
-		if (pCoin->obj.bVisible == false)
-		{
-			SetShadowAlpha(pCoin->nIdxShadow, 0.0f);
-
-			if (pCoin->nCounterState > 60 * 2)
-			{
-				pCoin->obj.bVisible = true;
-				pCoin->nCounterState = RandRange(0, 99);
-			}
-		}
 
 		pCoin->nCounterState++;
 	}
@@ -196,6 +188,11 @@ void SetCoin(D3DXVECTOR3 pos)
 		pCoin->obj.color = D3DXCOLOR_WHITE;
 		pCoin->nCounterState = RandRange(0, 99);
 		pCoin->nIdxShadow = SetShadow();
+
+		float fGround = GetModelGroundHeight(pCoin->obj.pos);
+		SetShadowPosition(pCoin->nIdxShadow, D3DXVECTOR3(pCoin->obj.pos.x, fGround + 0.001f, pCoin->obj.pos.z));
+		SetShadowSize(pCoin->nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f) * (pCoin->obj.pos.y - fGround + 1000) * 0.001f);
+		SetShadowAlpha(pCoin->nIdxShadow, 0.2f - (pCoin->obj.pos.y - fGround) * 0.00025f);
 
 		break;
 	}

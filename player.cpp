@@ -82,7 +82,7 @@ void InitPlayer(void)
 	memset(&g_player, 0, sizeof(PLAYER));
 	g_player.obj.bVisible = true;
 	g_player.nIdxShadow = SetShadow();
-	g_player.obj.pos = D3DXVECTOR3(8000, 0, 1900);
+	g_player.obj.pos = D3DXVECTOR3(11200, 0, -2900);
 	g_player.obj.size = D3DXVECTOR3(0, 110, 0);
 	g_player.bJump = true;
 	g_player.fSpeed = PLAYER_SPEED;
@@ -173,10 +173,10 @@ void UpdatePlayer(void)
 	switch (g_nMode)
 	{
 	case -3:
-		if (g_player.obj.pos.x > 11200)
+		if (g_player.obj.pos.z > 3500)
 		{
-			g_dir = D3DXVECTOR3(0, 0, 1);
-			pCamera->rot.y = D3DXToRadian(-75);
+			g_dir = D3DXVECTOR3(1, 0, 0);
+			pCamera->rot.y = D3DXToRadian(15);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -184,10 +184,10 @@ void UpdatePlayer(void)
 		break;
 
 	case -2:
-		if (g_player.obj.pos.z > 3500)
+		if (g_player.obj.pos.x > 11200)
 		{
-			g_dir = D3DXVECTOR3(-1, 0, 0);
-			pCamera->rot.y = D3DXToRadian(-75);
+			g_dir = D3DXVECTOR3(0, 0, -1);
+			pCamera->rot.y = D3DXToRadian(-105);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -195,23 +195,23 @@ void UpdatePlayer(void)
 		break;
 
 	case -1:
-		if (g_player.obj.pos.x < 8000)
+		if (g_player.obj.pos.z < -2900)
 		{
 			g_nMode++;
 		}
 		break;
 
 	case 0:
-		g_dir = D3DXVECTOR3(0, 0, -1);
-		pCamera->rot.y = D3DXToRadian(-180);
+		g_dir = D3DXVECTOR3(-1, 0, 0);
+		pCamera->rot.y = D3DXToRadian(-105);
 		g_player.centerPos = g_player.obj.pos;
 		g_player.nLane = MAX_LANE / 2;
 		g_nMode++;
 
 	case 1:
-		if (g_player.obj.pos.z < -2900)
+		if (g_player.obj.pos.x < 8000)
 		{
-			if (g_player.nLane == 2)
+			if (g_player.nLane == 0)
 			{
 				g_dir = D3DXVECTOR3(-1, 0, 0);
 				pCamera->rot.y = D3DXToRadian(-165);
@@ -219,14 +219,12 @@ void UpdatePlayer(void)
 			}
 			else
 			{
-				g_dir = D3DXVECTOR3(1, 0, 0);
-				pCamera->rot.y = D3DXToRadian(165);
+				g_dir = D3DXVECTOR3(0, 0, 1);
+				pCamera->rot.y = D3DXToRadian(-75);
+				g_player.centerPos = g_player.obj.pos;
+				g_player.nLane = MAX_LANE / 2;
 				g_nMode = -3;
 			}
-
-
-			g_player.centerPos = g_player.obj.pos;
-			g_player.nLane = MAX_LANE / 2;
 		}
 		break;
 
@@ -235,9 +233,9 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(-75);
-			g_player.nScore += 100;
-			g_player.centerPos = g_player.obj.pos;
+			AddScore(100);
 			g_player.nLane = MAX_LANE / 2;
+			g_player.centerPos = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -247,7 +245,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(-165);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -259,7 +257,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-105);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -271,7 +269,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(-15);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -283,7 +281,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(75);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -295,7 +293,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(105);
-			g_player.nScore += 500;
+			AddScore(500);
 			g_player.nLane = (g_player.nLane - 1) * -1 + 1;
 			g_nMode++;
 		}
@@ -306,7 +304,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(15);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -318,7 +316,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(75);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -330,7 +328,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(165);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -341,7 +339,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-105);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -353,7 +351,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(165);
-			g_player.nScore += 100;
+			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_nMode++;
@@ -361,12 +359,12 @@ void UpdatePlayer(void)
 		break;
 
 	case 13:
-		if (g_player.obj.pos.x > 8000)
+		if (g_player.obj.pos.x > 6600)
 		{
 			SetPlayerState(PLAYERSTATE_CLEAR);
 			pCamera->nMode = 3;
 			pCamera->posRDest = g_player.obj.pos + D3DXVECTOR3(0, 20, 0);
-			g_player.nScore += 1000;
+			AddScore(1000);
 			SetGameState(GAMESTATE_CLEAR);
 			PlaySound(SOUND_LABEL_SE_VICTORY);
 			g_player.centerPos = g_player.obj.pos;
@@ -441,12 +439,7 @@ void UpdatePlayer(void)
 	D3DXVECTOR3 vecMoved = g_player.obj.pos - g_player.posOld;
 	float fMove = Magnitude(D3DXVECTOR3(vecMoved.x * sinf(fAngle), 0, vecMoved.z * cosf(fAngle)));
 
-	if (fabsf(fMove) < 0.01f)
-	{
-		SetPlayerState(PLAYERSTATE_DIED);
-	}
-
-	if (g_player.currentState == PLAYERSTATE_FALL && g_player.nCounterState > 60)
+	if (fabsf(fMove) < 0.01f && g_nMode > 1)
 	{
 		SetPlayerState(PLAYERSTATE_DIED);
 	}

@@ -9,7 +9,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # 読み込むモデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 14
+NUM_MODEL = 15
 
 #------------------------------------------------------------------------------
 # 読み込むモデルファイル名
@@ -28,6 +28,7 @@ MODEL_FILENAME = data/MODEL/obstacle03.x
 MODEL_FILENAME = data/MODEL/tutorial00.x
 MODEL_FILENAME = data/MODEL/tutorial01.x
 MODEL_FILENAME = data/MODEL/tutorial02.x
+MODEL_FILENAME = data/MODEL/tutorial03.x
 
 #-----------------------------------------------------------------------------------------------------------
 #
@@ -37,6 +38,91 @@ MODEL_FILENAME = data/MODEL/tutorial02.x
 #-----------------------------------------------------------------------------------------------------------
 # 障害物（箱）
 #-----------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 7			# 種類
+	POS = 7500 0 -2900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 7500 0 -2750		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 7500 0 -2600		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 7500 150 -2900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 7500 150 -2750		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 7500 150 -2600		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 7			# 種類
+	POS = 8000 0 300		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+
+MODELSET
+	TYPE = 7			# 種類
+	POS = 7750 0 1900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 8250 0 1900		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 7			# 種類
+	POS = 10400 0 3200		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 10400 0 3350		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 10400 0 3500		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 10400 0 3650		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 10400 0 3800		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 7			# 種類
+	POS = 11200 0 -2100		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 7			# 種類
+	POS = 11200 150 -2100		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 7			# 種類
@@ -236,6 +322,13 @@ END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 8			# 種類
+	POS = 11200 75 -100		# 位置
+	ROT = 0 0 0			# 向き
+	COLLISION = 2
+END_MODELSET
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 8			# 種類
 	POS = 0 75 3000		# 位置
 	ROT = 0 0 0			# 向き
 	COLLISION = 2
@@ -310,38 +403,37 @@ END_MODELSET
 # コイン
 #-----------------------------------------------------------------------------------------------------------
 COINSET
-	POS = 6500 0 -2900
+	POS = 5400 0 -2900
 END_COINSET
 COINSET
-	POS = 6400 0 -2900
+	POS = 5300 0 -2900
 END_COINSET
 COINSET
-	POS = 6300 0 -2900
-END_COINSET
-#-----------------------
-COINSET
-	POS = 5800 0 -3100
-END_COINSET
-COINSET
-	POS = 5700 0 -3100
-END_COINSET
-COINSET
-	POS = 5600 0 -3100
+	POS = 5200 0 -2900
 END_COINSET
 #-----------------------
 COINSET
-	POS = 5100 0 -2700
+	POS = 4700 0 -3100
 END_COINSET
 COINSET
-	POS = 5000 0 -2700
+	POS = 4600 0 -3100
 END_COINSET
 COINSET
-	POS = 4900 0 -2700
+	POS = 4500 0 -3100
+END_COINSET
+#-----------------------
+COINSET
+	POS = 4000 0 -2700
+END_COINSET
+COINSET
+	POS = 3900 0 -2700
+END_COINSET
+COINSET
+	POS = 3800 0 -2700
 END_COINSET
 #-----------------------
 COINSET
 	POS = 3000 0 -2900	
-	SHADOW = 1
 END_COINSET
 COINSET
 	POS = 2500 200 -2900	
@@ -352,7 +444,6 @@ END_COINSET
 #-----------------------
 COINSET
 	POS = 1500 0 -3125	
-	SHADOW = 1
 END_COINSET
 COINSET
 	POS = 925 200 -3125	
@@ -375,6 +466,16 @@ COINSET
 END_COINSET
 COINSET
 	POS = 0 100 -1000
+END_COINSET
+#-----------------------
+COINSET
+	POS = -250 100 600
+END_COINSET
+COINSET
+	POS = -250 200 800
+END_COINSET
+COINSET
+	POS = -250 100 1000
 END_COINSET
 #-----------------------
 COINSET
@@ -414,26 +515,27 @@ COINSET
 END_COINSET
 #-----------------------
 COINSET
-	POS = 0 300 8000
+	POS = 0 400 6500
 END_COINSET
 COINSET
-	POS = 0 400 8200
+	POS = 0 500 7300
+END_COINSET
+#-----------------------
+COINSET
+	POS = 0 400 8000
 END_COINSET
 COINSET
-	POS = 0 300 8400
+	POS = 0 500 8200
+END_COINSET
+COINSET
+	POS = 0 400 8400
 END_COINSET
 #-----------------------
 COINSET
 	POS = -700 200 8700
 END_COINSET
 COINSET
-	POS = -800 200 8700
-END_COINSET
-COINSET
 	POS = -900 200 8700
-END_COINSET
-COINSET
-	POS = -1000 200 8700
 END_COINSET
 COINSET
 	POS = -1100 200 8700
@@ -443,13 +545,7 @@ COINSET
 	POS = -2800 200 8700
 END_COINSET
 COINSET
-	POS = -2900 200 8700
-END_COINSET
-COINSET
 	POS = -3000 200 8700
-END_COINSET
-COINSET
-	POS = -3100 200 8700
 END_COINSET
 COINSET
 	POS = -3200 200 8700
@@ -476,6 +572,16 @@ COINSET
 END_COINSET
 #-----------------------
 COINSET
+	POS = -5000 400 8000
+END_COINSET
+COINSET
+	POS = -5000 500 7800
+END_COINSET
+COINSET
+	POS = -5000 400 7600
+END_COINSET
+#-----------------------
+COINSET
 	POS = -5000 400 6800
 END_COINSET
 COINSET
@@ -484,7 +590,7 @@ END_COINSET
 COINSET
 	POS = -5000 600 5200
 END_COINSET
-
+#-----------------------
 COINSET
 	POS = -5000 500 4600
 END_COINSET
@@ -500,27 +606,40 @@ END_COINSET
 COINSET
 	POS = -5000 200 3800
 END_COINSET
-
+#-----------------------
 COINSET
-	POS = -5000 200 2100
+	POS = -5000 250 2100
 END_COINSET
 COINSET
-	POS = -5000 200 1900
+	POS = -5000 350 1900
 END_COINSET
 COINSET
-	POS = -5000 200 1700
+	POS = -5000 450 1700
 END_COINSET
 COINSET
-	POS = -5200 200 1700
+	POS = -5200 350 1700
 END_COINSET
 COINSET
-	POS = -5400 200 1700
+	POS = -5400 250 1700
 END_COINSET
 #-----------------------
 COINSET
-	POS = -7900 400 1700
+	POS = -6600 400 1450
 END_COINSET
-
+COINSET
+	POS = -6800 400 1450
+END_COINSET
+COINSET
+	POS = -7000 400 1450
+END_COINSET
+#-----------------------
+COINSET
+	POS = -7900 400 1450
+END_COINSET
+COINSET
+	POS = -7900 400 1950
+END_COINSET
+#-----------------------
 COINSET
 	POS = -8800 200 1700
 END_COINSET
@@ -569,7 +688,19 @@ COINSET
 END_COINSET
 #-----------------------
 COINSET
-	POS = -14800 200 1700
+	POS = -14400 250 1700
+END_COINSET
+COINSET
+	POS = -14600 350 1700
+END_COINSET
+COINSET
+	POS = -14800 450 1700
+END_COINSET
+COINSET
+	POS = -14800 350 1900
+END_COINSET
+COINSET
+	POS = -14800 250 2100
 END_COINSET
 #-----------------------
 COINSET
@@ -655,33 +786,52 @@ COINSET
 END_COINSET
 #-----------------------
 COINSET
-	POS = -14550 200 10000
+	POS = -14550 200 10300
 END_COINSET
 COINSET
-	POS = -14800 200 10100
+	POS = -14800 200 10400
 END_COINSET
 COINSET
-	POS = -15050 200 10200
+	POS = -15050 200 10500
 END_COINSET
 #-----------------------
 COINSET
-	POS = -14800 400 11000
+	POS = -14550 400 11000
+END_COINSET
+COINSET
+	POS = -15050 400 11000
+END_COINSET
+#-----------------------
+COINSET
+	POS = -14550 200 11500
+END_COINSET
+COINSET
+	POS = -14550 200 11700
+END_COINSET
+COINSET
+	POS = -14550 200 11900
+END_COINSET
+COINSET
+	POS = -14550 200 12100
+END_COINSET
+COINSET
+	POS = -14550 200 12300
 END_COINSET
 
 COINSET
-	POS = -14800 200 11500
+	POS = -15050 200 11500
 END_COINSET
 COINSET
-	POS = -14800 200 11700
+	POS = -15050 200 11700
 END_COINSET
 COINSET
-	POS = -14800 200 11900
+	POS = -15050 200 11900
 END_COINSET
 COINSET
-	POS = -14800 200 12100
+	POS = -15050 200 12100
 END_COINSET
 COINSET
-	POS = -14800 200 12300
+	POS = -15050 200 12300
 END_COINSET
 #-----------------------
 COINSET
@@ -723,12 +873,9 @@ END_COINSET
 COINSET
 	POS = -6600 200 7300
 END_COINSET
-
+#-----------------------
 COINSET
-	POS = -6350 400 8150
-END_COINSET
-COINSET
-	POS = -6850 400 8150
+	POS = -6600 400 8150
 END_COINSET
 #-----------------------
 
@@ -964,12 +1111,12 @@ MODELSET
 END_MODELSET
 MODELSET
 	TYPE = 2			# 種類
-	POS = 0 100 7000		# 位置
+	POS = 0 100 7100		# 位置
 	ROT = 0 180 0			# 向き
 END_MODELSET
 MODELSET
 	TYPE = 2			# 種類
-	POS = 0 200 7700		# 位置
+	POS = 0 200 7900		# 位置
 	ROT = 0 270 0			# 向き
 END_MODELSET
 #------------------------------------------------------
@@ -1312,6 +1459,27 @@ END_MODELSET
 
 #-----------------------------------------------------------------------------------------------------------
 # ビル２（縞模様）
+#-----------------------------------------------------------------------------------------------------------
+MODELSET
+	TYPE = 1			# 種類
+	POS = 10000 900 -1600		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = 10000 900 -600		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = 10000 900 400		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
+MODELSET
+	TYPE = 1			# 種類
+	POS = 10000 900 1400		# 位置
+	ROT = 0 0 0			# 向き
+END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 1			# 種類
@@ -1794,21 +1962,28 @@ END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 11			# 種類
-	POS = 6400 400 -4200		# 位置
-	ROT = 0 -180 0			# 向き
+	POS = 7400 400 -500		# 位置
+	ROT = 0 -90 0			# 向き
 	COLLISION = 1
 END_MODELSET
 
 MODELSET
 	TYPE = 12			# 種類
-	POS = 3200 400 -4200		# 位置
-	ROT = 0 -180 0			# 向き
+	POS = 9600 400 4200		# 位置
+	ROT = 0 0 0			# 向き
 	COLLISION = 1
 END_MODELSET
 
 MODELSET
 	TYPE = 13			# 種類
-	POS = -430 400 1000		# 位置
+	POS = 10600 400 900		# 位置
+	ROT = 0 -90 0			# 向き
+	COLLISION = 1
+END_MODELSET
+
+MODELSET
+	TYPE = 14			# 種類
+	POS = 7600 400 -2200		# 位置
 	ROT = 0 -90 0			# 向き
 	COLLISION = 1
 END_MODELSET
