@@ -25,6 +25,7 @@
 #include "decal.h"
 #include "font.h"
 #include "player.h"
+#include "polygon.h"
 
 //*********************************************************************
 // 
@@ -77,6 +78,7 @@ void InitResult(void)
 	InitSphere();
 	InitCylinder();
 	InitField();
+	InitPolygon();
 	InitDecal();
 	InitFont();
 
@@ -151,6 +153,7 @@ void UninitResult(void)
 	UninitSphere();
 	UninitCylinder();
 	UninitField();
+	UninitPolygon();
 	UninitDecal();
 	UninitFont();
 }
@@ -169,6 +172,7 @@ void UpdateResult(void)
 	UpdateSphere();
 	UpdateCylinder();
 	UpdateField();
+	UpdatePolygon();
 
 	g_nCounterStateResult++;
 }
@@ -182,6 +186,7 @@ void DrawResult(void)
 	DrawSphere();
 	DrawCylinder();
 	DrawField();
+	DrawPolygon();
 	DrawDecal();
 	DrawFont();
 }

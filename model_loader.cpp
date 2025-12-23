@@ -13,6 +13,7 @@
 #include "model_loader.h"
 #include "script.h"
 #include <cassert>
+#include "polygon.h"
 
 //*********************************************************************
 // 
@@ -183,6 +184,50 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer)
 			}
 
 			SetCoin(pData->pos + D3DXVECTOR3(0, 50, 0));
+		}
+		else if (strcmp(&aStrLine[0], "POLYGONSET") == 0)
+		{
+			POLYGONSETDATA data;
+			ZeroMemory(&data, sizeof(POLYGONSETDATA));
+			data.col = D3DXCOLOR_WHITE;
+
+			while (true)
+			{
+				// 一行読み込む
+				if (ReadWord(pFile, &aStrLine[0]) == EOF)
+				{// ファイルの最後まで読み込んだら終了する
+					break;
+				}
+
+				if (strcmp(&aStrLine[0], "END_POLYGONSET") == 0)
+				{
+					break;
+				}
+				else if (strcmp(&aStrLine[0], "POS") == 0)
+				{
+					fscanf(pFile, " = %f %f %f", &data.pos.x, &data.pos.y, &data.pos.z);
+				}
+				else if (strcmp(&aStrLine[0], "SIZE") == 0)
+				{
+					fscanf(pFile, " = %f %f %f", &data.size.x, &data.size.y, &data.size.z);
+				}
+				else if (strcmp(&aStrLine[0], "ROT") == 0)
+				{
+					float fRotX, fRotY, fRotZ;
+
+					fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+					data.rot.x = D3DXToRadian(fRotX);
+					data.rot.y = D3DXToRadian(fRotY);
+					data.rot.z = D3DXToRadian(fRotZ);
+				}
+				else if (strcmp(&aStrLine[0], "COLOR") == 0)
+				{
+					fscanf(pFile, " = %f %f %f", &data.col.r, &data.col.g, &data.col.b);
+				}
+			}
+
+			SetPolygon(data.pos, data.size, data.rot, data.col);
 		}
 	}
 }

@@ -181,6 +181,7 @@
     <ClCompile Include="pause.cpp" />
     <ClCompile Include="pauseBg.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="polygon.cpp" />
     <ClCompile Include="Result.cpp">
       <SubType>
       </SubType>
@@ -238,6 +239,7 @@
     <ClInclude Include="pause.h" />
     <ClInclude Include="pauseBg.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="polygon.h" />
     <ClInclude Include="Result.h">
       <SubType>
       </SubType>

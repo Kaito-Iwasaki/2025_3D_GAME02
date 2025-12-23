@@ -33,6 +33,8 @@
 #include "pauseBg.h"
 #include "pause.h"
 #include "font.h"
+#include "line.h"
+#include "polygon.h"
 
 //*********************************************************************
 // 
@@ -96,6 +98,7 @@ void InitGame(void)
 	InitPause();
 	InitPauseBg();
 	InitFont();
+	InitPolygon();
 
 	InitDebugProc();
 
@@ -164,6 +167,7 @@ void UninitGame(void)
 	UninitPause();
 	UninitPauseBg();
 	UninitFont();
+	UninitPolygon();
 
 	UninitDebugProc();
 }
@@ -214,6 +218,7 @@ void UpdateGame(void)
 		UpdateCylinder();
 		UpdateSphere();
 		UpdateCoin();
+		UpdatePolygon();
 
 		sprintf(&g_pFontScore->aText[0], "SCORE : %d", pPlayer->nScore);
 		g_pFontScore->obj.pos.y = (0.0f - g_pFontScore->obj.pos.y) * 0.1f;
@@ -256,6 +261,7 @@ void DrawGame(void)
 	DrawSphere();
 	DrawCylinder();
 	DrawCoin();
+	DrawPolygon();
 	DrawModel();
 	DrawEffect();
 	DrawShadow();
@@ -275,10 +281,12 @@ void ReloadGameModel(void)
 	UninitModel();
 	UninitCoin();
 	UninitShadow();
+	UninitPolygon;
 
 	InitModel();
 	InitCoin();
 	InitShadow();
+	InitPolygon();
 
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 

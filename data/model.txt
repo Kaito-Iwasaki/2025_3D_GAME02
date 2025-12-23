@@ -1988,4 +1988,133 @@ MODELSET
 	COLLISION = 1
 END_MODELSET
 
+#-----------------------------------------------------------------------------------------------------------
+# ライン
+#-----------------------------------------------------------------------------------------------------------
+POLYGONSET
+	POS = 9600 1 -2500		# 位置
+	SIZE = 2400 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 1 0.7 0
+END_POLYGONSET
+POLYGONSET
+	POS = 9600 1 -2750		# 位置
+	SIZE = 2400 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 0 1 0
+END_POLYGONSET
+POLYGONSET
+	POS = 9600 1 -3050		# 位置
+	SIZE = 2400 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 0.4 0.8 1
+END_POLYGONSET
+POLYGONSET
+	POS = 9600 1 -3300		# 位置
+	SIZE = 2400 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 1 0.2 0.8
+END_POLYGONSET
+#-----------------------------------------------------------------------------------------------------------
+POLYGONSET
+	POS = 8400 1 300		# 位置
+	SIZE = 5600 0 20
+	ROT = 0 90 0			# 向き
+	COLOR = 1 0.7 0
+END_POLYGONSET
+POLYGONSET
+	POS = 8150 1 300		# 位置
+	SIZE = 5600 0 20
+	ROT = 0 90 0			# 向き
+	COLOR = 0 1 0
+END_POLYGONSET
+POLYGONSET
+	POS = 7850 1 300		# 位置
+	SIZE = 5600 0 20
+	ROT = 0 90 0			# 向き
+	COLOR = 0.4 0.8 1
+END_POLYGONSET
+POLYGONSET
+	POS = 7600 1 300		# 位置
+	SIZE = 5600 0 20
+	ROT = 0 90 0			# 向き
+	COLOR = 1 0.2 0.8
+END_POLYGONSET
+#-----------------------------------------------------------------------------------------------------------
+POLYGONSET
+	POS = 9600 1 3100		# 位置
+	SIZE = 2400 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 1 0.7 0
+END_POLYGONSET
+POLYGONSET
+	POS = 9600 1 3350		# 位置
+	SIZE = 2400 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 0 1 0
+END_POLYGONSET
+POLYGONSET
+	POS = 9600 1 3650		# 位置
+	SIZE = 2400 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 0.4 0.8 1
+END_POLYGONSET
+POLYGONSET
+	POS = 9600 1 3900		# 位置
+	SIZE = 2400 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 1 0.2 0.8
+END_POLYGONSET
+#-----------------------------------------------------------------------------------------------------------
+POLYGONSET
+	POS = 10800 1 300		# 位置
+	SIZE = 5600 0 20
+	ROT = 0 90 0			# 向き
+	COLOR = 1 0.7 0
+END_POLYGONSET
+POLYGONSET
+	POS = 11050 1 300		# 位置
+	SIZE = 5600 0 20
+	ROT = 0 90 0			# 向き
+	COLOR = 0 1 0
+END_POLYGONSET
+POLYGONSET
+	POS = 11350 1 300		# 位置
+	SIZE = 5600 0 20
+	ROT = 0 90 0			# 向き
+	COLOR = 0.4 0.8 1
+END_POLYGONSET
+POLYGONSET
+	POS = 11600 1 300		# 位置
+	SIZE = 5600 0 20
+	ROT = 0 90 0			# 向き
+	COLOR = 1 0.2 0.8
+END_POLYGONSET
+#-----------------------------------------------------------------------------------------------------------
+POLYGONSET
+	POS = 4000 1 -2500		# 位置
+	SIZE = 7200 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 1 0.7 0
+END_POLYGONSET
+POLYGONSET
+	POS = 4000 1 -2750		# 位置
+	SIZE = 7200 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 0 1 0
+END_POLYGONSET
+POLYGONSET
+	POS = 4000 1 -3050		# 位置
+	SIZE = 7200 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 0.4 0.8 1
+END_POLYGONSET
+POLYGONSET
+	POS = 4000 1 -3300		# 位置
+	SIZE = 7200 0 20
+	ROT = 0 0 0			# 向き
+	COLOR = 1 0.2 0.8
+END_POLYGONSET
+
+
 END_SCRIPT		# この行は絶対消さないこと！

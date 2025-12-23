@@ -24,6 +24,7 @@
 #include "field.h"
 #include "decal.h"
 #include "font.h"
+#include "polygon.h"
 
 //*********************************************************************
 // 
@@ -74,6 +75,7 @@ void InitTitle(void)
 	InitSphere();
 	InitCylinder();
 	InitField();
+	InitPolygon();
 	InitDecal();
 	InitFont();
 
@@ -139,6 +141,7 @@ void UninitTitle(void)
 	UninitSphere();
 	UninitCylinder();
 	UninitField();
+	UninitPolygon();
 	UninitDecal();
 	UninitFont();
 }
@@ -157,6 +160,7 @@ void UpdateTitle(void)
 	UpdateSphere();
 	UpdateCylinder();
 	UpdateField();
+	UpdatePolygon();
 
 	if (g_nCounterStateTitle % 30 == 0)
 	{
@@ -175,6 +179,7 @@ void DrawTitle(void)
 	DrawSphere();
 	DrawCylinder();
 	DrawField();
+	DrawPolygon();
 	DrawDecal();
 	DrawFont();
 }

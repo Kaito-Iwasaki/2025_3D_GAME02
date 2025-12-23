@@ -1,11 +1,11 @@
 //=====================================================================
 //
-// Line.cppのヘッダファイル [Line.h]
+// polygon.cppのヘッダファイル [polygon.h]
 // Author : 
 // 
 //=====================================================================
-#ifndef _LINE_H_
-#define _LINE_H_
+#ifndef _POLYGON_H_
+#define _POLYGON_H_
 
 //*********************************************************************
 // 
@@ -14,13 +14,14 @@
 //*********************************************************************
 #include "main.h"
 #include "baseObject.h"
+#include "util.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_LINE		(512)
+#define MAX_POLYGON		(512)
 
 //*********************************************************************
 // 
@@ -31,9 +32,9 @@ typedef struct
 {
 	BASEOBJECT obj;
 	D3DXMATRIX mtxWorld;
-	D3DXCOLOR col;
+	float fPower;
 	bool bUsed;
-}LINE;
+}POLYGON;
 
 //*********************************************************************
 // 
@@ -47,10 +48,10 @@ typedef struct
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitLine(void);
-void UninitLine(void);
-void UpdateLine(void);
-void DrawLine(void);
-void SetLine(D3DXVECTOR3 pos, float fRot, float fLength, D3DXCOLOR col);
+void InitPolygon(void);
+void UninitPolygon(void);
+void UpdatePolygon(void);
+void DrawPolygon(void);
+void SetPolygon(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, D3DXCOLOR col);
 
 #endif

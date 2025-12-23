@@ -165,6 +165,9 @@
     <ClCompile Include="decal.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="polygon.cpp">
+      <Filter>ソース ファイル\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseObject.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="pause.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="polygon.h">
+      <Filter>ヘッダー ファイル\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
