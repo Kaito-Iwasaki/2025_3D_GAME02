@@ -102,7 +102,6 @@ void UpdateCoin(void)
 			{
 				SetEffect(pCoin->obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 0, 1), GetRandomVector() * 5, 20);
 			}
-			//SetCoin(D3DXVECTOR3(RandRange(1000, 10000), RandRange(-200, 1000), -RandRange(4000, 7000)));
 			SetCoin(D3DXVECTOR3(4000, 500, -6000) + GetRandomVector() * 900);
 			continue;
 		}

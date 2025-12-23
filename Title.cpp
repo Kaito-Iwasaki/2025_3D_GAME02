@@ -167,6 +167,11 @@ void UpdateTitle(void)
 		g_pFontTitle->obj.bVisible ^= 1;
 	}
 
+	if (g_nCounterStateTitle > 60 * 20)
+	{
+		SetFade(SCENE_RANKING);
+	}
+
 	g_nCounterStateTitle++;
 }
 
@@ -175,11 +180,11 @@ void UpdateTitle(void)
 //=====================================================================
 void DrawTitle(void)
 {
-	DrawModel();
 	DrawSphere();
 	DrawCylinder();
 	DrawField();
 	DrawPolygon();
+	DrawModel();
 	DrawDecal();
 	DrawFont();
 }

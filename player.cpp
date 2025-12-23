@@ -206,6 +206,7 @@ void UpdatePlayer(void)
 		pCamera->rot.y = D3DXToRadian(-105);
 		g_player.centerPos = g_player.obj.pos;
 		g_player.nLane = MAX_LANE / 2;
+		g_player.vecRespawn = g_player.obj.pos;
 		g_nMode++;
 
 	case 1:
@@ -215,6 +216,7 @@ void UpdatePlayer(void)
 			{
 				g_dir = D3DXVECTOR3(-1, 0, 0);
 				pCamera->rot.y = D3DXToRadian(-165);
+				g_player.vecRespawn = g_player.obj.pos + D3DXVECTOR3(-800, 0, 0);
 				g_nMode++;
 			}
 			else
@@ -236,6 +238,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.nLane = MAX_LANE / 2;
 			g_player.centerPos = g_player.obj.pos;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -248,6 +251,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -260,6 +264,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -272,6 +277,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -284,6 +290,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -295,6 +302,7 @@ void UpdatePlayer(void)
 			pCamera->rot.y = D3DXToRadian(105);
 			AddScore(500);
 			g_player.nLane = (g_player.nLane - 1) * -1 + 1;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -307,6 +315,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -319,6 +328,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -331,6 +341,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 
@@ -342,6 +353,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -354,6 +366,7 @@ void UpdatePlayer(void)
 			AddScore(100);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
+			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
 		}
 		break;
@@ -442,6 +455,7 @@ void UpdatePlayer(void)
 	if (fabsf(fMove) < 0.01f && g_nMode > 1)
 	{
 		SetPlayerState(PLAYERSTATE_DIED);
+		//g_player.obj.pos = g_player.vecRespawn;
 	}
 
 	if (g_player.currentState != g_player.previousState)

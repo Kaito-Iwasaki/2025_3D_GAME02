@@ -222,6 +222,8 @@ void UpdateGame(void)
 
 		sprintf(&g_pFontScore->aText[0], "SCORE : %d", pPlayer->nScore);
 		g_pFontScore->obj.pos.y = (0.0f - g_pFontScore->obj.pos.y) * 0.1f;
+
+		g_nCounterStateGame++;
 	}
 	else if (g_bIsPaused && g_bPauseHide == false)
 	{
@@ -234,9 +236,9 @@ void UpdateGame(void)
 	switch (g_gameState)
 	{
 	case GAMESTATE_CLEAR:
-		sprintf(&g_pFontClear->aText[0], "GAMECLEAR\n\nYOUR SCORE\n%d", pPlayer->nScore);
+		sprintf(&g_pFontClear->aText[0], "GAME CLEAR");
 
-		if (INPUT_TRIGGER_UI_CONTINUE)
+		if (INPUT_TRIGGER_UI_CONTINUE || g_nCounterStateGame > 60 * 7)
 		{
 			SetGameState(GAMESTATE_END);
 		}
@@ -315,6 +317,7 @@ void ReloadGameModel(void)
 void SetGameState(GAMESTATE state)
 {
 	g_gameState = state;
+	g_nCounterStateGame = 0;
 }
 
 void TogglePauseGame(bool bPause)

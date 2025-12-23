@@ -97,6 +97,7 @@ typedef struct
 	int nLane;
 	D3DXVECTOR3 centerPos;
 	D3DXVECTOR3 vecDest;
+	D3DXVECTOR3 vecRespawn;
 }PLAYER;
 
 typedef struct

@@ -26,6 +26,7 @@
 #include "font.h"
 #include "player.h"
 #include "polygon.h"
+#include "Ranking.h"
 
 //*********************************************************************
 // 
@@ -133,8 +134,10 @@ void InitResult(void)
 		sprintf(&g_pFontResult->aText[0], "GAME OVER\n\n YOUR SCORE\n%d", pPlayer->nScore);
 	}
 
+	SaveScore(pPlayer->nScore);
+
 	g_nCounterStateResult = 0;
-	PlaySound(SOUND_LABEL_BGM_TITLE);
+	PlaySound(SOUND_LABEL_BGM_RESULT);
 
 	// ƒJƒƒ‰‚ÌÝ’è
 	CAMERA* pCamera = GetCamera();
@@ -165,7 +168,7 @@ void UpdateResult(void)
 {
 	if (INPUT_TRIGGER_UI_CONTINUE || g_nCounterStateResult > 60 * 8)
 	{
-		SetFade(SCENE_TITLE);
+		SetFade(SCENE_RANKING);
 	}
 
 	UpdateModel();
@@ -182,11 +185,11 @@ void UpdateResult(void)
 //=====================================================================
 void DrawResult(void)
 {
-	DrawModel();
 	DrawSphere();
 	DrawCylinder();
 	DrawField();
 	DrawPolygon();
+	DrawModel();
 	DrawDecal();
 	DrawFont();
 }

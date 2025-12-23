@@ -19,6 +19,7 @@
 #include "Title.h"
 #include "Game.h"
 #include "Result.h"
+#include "Ranking.h"
 
 //*********************************************************************
 // 
@@ -32,9 +33,10 @@ SCENE g_previousScene = g_currentScene;		// 直前のシーン
 // 各シーンの処理関数
 //*********************************************************************
 SCENEDATA g_scenes[SCENE_MAX] = {
-	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },			// タイトル画面
-	{ InitGame, UninitGame, UpdateGame, DrawGame },				// ゲーム画面
-	{ InitResult, UninitResult, UpdateResult, DrawResult },		// リザルト画面
+	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },				// タイトル画面
+	{ InitGame, UninitGame, UpdateGame, DrawGame },					// ゲーム画面
+	{ InitResult, UninitResult, UpdateResult, DrawResult },			// リザルト画面
+	{ InitRanking, UninitRanking, UpdateRanking, DrawRanking },		// ランキング画面
 };
 
 //=====================================================================
