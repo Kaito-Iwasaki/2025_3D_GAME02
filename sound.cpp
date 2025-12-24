@@ -41,6 +41,7 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = {
 	{"data\\SE\\se_coin.wav"},
 	{"data\\SE\\se_victory.wav"},
 	{"data\\SE\\se_fail.wav"},
+	{"data\\SE\\se_revive.wav"},
 };
 
 //=============================================================================

@@ -86,6 +86,7 @@ void InitPlayer(void)
 	g_player.obj.size = D3DXVECTOR3(0, 110, 0);
 	g_player.bJump = true;
 	g_player.fSpeed = PLAYER_SPEED;
+	g_player.nLife = PLYAER_MAX_LIFE;
 
 	// モーションスクリプトから各情報を読み込む
 	LoadMotionScript("data\\motion_character00.txt", &g_player.motion);
@@ -235,7 +236,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(-75);
-			AddScore(100);
+			AddScore(300);
 			g_player.nLane = MAX_LANE / 2;
 			g_player.centerPos = g_player.obj.pos;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -248,7 +249,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(-165);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -261,7 +262,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-105);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -274,7 +275,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(-15);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -287,7 +288,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(75);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -300,7 +301,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(105);
-			AddScore(500);
+			AddScore(600);
 			g_player.nLane = (g_player.nLane - 1) * -1 + 1;
 			g_player.vecRespawn = g_player.obj.pos;
 			g_nMode++;
@@ -312,7 +313,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(15);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -325,7 +326,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(75);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -338,7 +339,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(165);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -350,7 +351,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-105);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -363,7 +364,7 @@ void UpdatePlayer(void)
 		{
 			g_dir = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(165);
-			AddScore(100);
+			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
 			g_player.vecRespawn = g_player.obj.pos;
@@ -377,7 +378,7 @@ void UpdatePlayer(void)
 			SetPlayerState(PLAYERSTATE_CLEAR);
 			pCamera->nMode = 3;
 			pCamera->posRDest = g_player.obj.pos + D3DXVECTOR3(0, 20, 0);
-			AddScore(1000);
+			AddScore(1000 + g_player.nLife * 500);
 			SetGameState(GAMESTATE_CLEAR);
 			PlaySound(SOUND_LABEL_SE_VICTORY);
 			g_player.centerPos = g_player.obj.pos;
@@ -455,7 +456,6 @@ void UpdatePlayer(void)
 	if (fabsf(fMove) < 0.01f && g_nMode > 1)
 	{
 		SetPlayerState(PLAYERSTATE_DIED);
-		//g_player.obj.pos = g_player.vecRespawn;
 	}
 
 	if (g_player.currentState != g_player.previousState)
@@ -463,6 +463,17 @@ void UpdatePlayer(void)
 		_OnPlayerStateChanged();
 	}
 	g_player.nCounterState++;
+
+
+	if (g_player.currentState == PLAYERSTATE_DIED && g_player.nCounterState > 60)
+	{
+		pCamera->bEnabled = true;
+		g_player.obj.pos = g_player.vecRespawn;
+		SetPlayerState(PLAYERSTATE_MOVE);
+		g_player.nLane = MAX_LANE / 2;
+		PlaySound(SOUND_LABEL_SE_REVIVE);
+	}
+
 
 	PrintDebugProc("モード:%d\n", g_nMode);
 	PrintDebugProc("スコア:%d\n", g_player.nScore);
@@ -844,6 +855,11 @@ void _OnPlayerStateChanged(void)
 {
 	CAMERA* pCamera = GetCamera();
 
+	if (g_player.previousState == PLAYERSTATE_SLIDING)
+	{
+		SetVibration(0, 0, 0);
+	}
+
 	switch (g_player.currentState)
 	{
 	case PLAYERSTATE_MOVE:
@@ -857,10 +873,6 @@ void _OnPlayerStateChanged(void)
 		}
 		else
 		{
-			if (g_player.previousState == PLAYERSTATE_SLIDING)
-			{
-				SetVibration(0, 0, 0);
-			}
 			SetPlayerMotion(MOTIONTYPE_MOVE, true, 10);
 		}
 		break;
@@ -871,6 +883,9 @@ void _OnPlayerStateChanged(void)
 		{
 			SetEffect(g_player.obj.pos, D3DXVECTOR3(30, 30, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector(), 120);
 		}
+
+
+
 		break;
 
 	case PLAYERSTATE_FALL:
@@ -892,13 +907,18 @@ void _OnPlayerStateChanged(void)
 	case PLAYERSTATE_DIED:
 		SetPlayerMotion(MOTIONTYPE_DIED, true, 10);
 		SetVibration(20000, 20000, 40);
-		SetFade(SCENE_RESULT);
 		g_player.move.y = 0;
 		pCamera->bEnabled = false;
 		PlaySound(SOUND_LABEL_SE_FAIL);
 		for (int i = 0; i < 10; i++)
 		{
 			SetEffect(g_player.obj.pos, D3DXVECTOR3(50, 50, 0), D3DXCOLOR(1, 1, 1, 0.5f), GetRandomVector() * 10, 30);
+		}
+
+		g_player.nLife--;
+		if (g_player.nLife < 0)
+		{
+			SetFade(SCENE_RESULT);
 		}
 		break;
 

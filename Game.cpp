@@ -35,6 +35,7 @@
 #include "font.h"
 #include "line.h"
 #include "polygon.h"
+#include "decal.h"
 
 //*********************************************************************
 // 
@@ -75,6 +76,7 @@ SCRIPTDATA g_data;
 GAMESTATE g_gameState;
 FONT* g_pFontScore = NULL;
 FONT* g_pFontClear = NULL;
+DECAL* g_pDecalLife[PLYAER_MAX_LIFE] = {};
 int g_nCounterStateGame;
 
 //=====================================================================
@@ -99,7 +101,7 @@ void InitGame(void)
 	InitPauseBg();
 	InitFont();
 	InitPolygon();
-
+	InitDecal();
 	InitDebugProc();
 
 	g_bIsPaused = false;
@@ -109,8 +111,16 @@ void InitGame(void)
 		D3DXVECTOR3(0, 0, 0),
 		D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0),
 		D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f),
-		50,
+		60,
 		"",
+		DT_LEFT | DT_TOP
+	);
+	SetFont(FONT_LABEL_DONGURI,
+		D3DXVECTOR3(0, 0, 0),
+		D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0),
+		D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f),
+		60,
+		"\n LIFE : ",
 		DT_LEFT | DT_TOP
 	);
 	g_pFontClear = SetFont(FONT_LABEL_DONGURI,
@@ -121,6 +131,17 @@ void InitGame(void)
 		"",
 		DT_CENTER | DT_VCENTER
 	);
+	
+	for (int i = 0; i < PLYAER_MAX_LIFE; i++)
+	{
+		g_pDecalLife[i] = SetDecal(
+			DECAL_LABEL_LIFE,
+			D3DXVECTOR3(190 + 50 * i, 92, 0),
+			D3DXVECTOR3(50, 50, 0),
+			D3DXVECTOR3_ZERO,
+			D3DXCOLOR_WHITE
+		);
+	}
 
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 	LoadScript("data\\model.txt", &g_data);
@@ -168,7 +189,7 @@ void UninitGame(void)
 	UninitPauseBg();
 	UninitFont();
 	UninitPolygon();
-
+	UninitDecal();
 	UninitDebugProc();
 }
 
@@ -200,7 +221,7 @@ void UpdateGame(void)
 	}
 #endif
 
-	if (INPUT_TRIGGER_GAME_PAUSE)
+	if (INPUT_TRIGGER_GAME_PAUSE && GetFadeState() == FADESTATE_NONE && g_gameState != GAMESTATE_CLEAR)
 	{
 		g_bIsPaused ^= 1;
 		TogglePauseGame(g_bIsPaused);
@@ -220,8 +241,20 @@ void UpdateGame(void)
 		UpdateCoin();
 		UpdatePolygon();
 
-		sprintf(&g_pFontScore->aText[0], "SCORE : %d", pPlayer->nScore);
+		sprintf(&g_pFontScore->aText[0], " SCORE : %d", pPlayer->nScore);
 		g_pFontScore->obj.pos.y = (0.0f - g_pFontScore->obj.pos.y) * 0.1f;
+
+		for (int i = 0; i < PLYAER_MAX_LIFE; i++)
+		{
+			if (i < pPlayer->nLife)
+			{
+				g_pDecalLife[i]->obj.bVisible = true;
+			}
+			else
+			{
+				g_pDecalLife[i]->obj.bVisible = false;
+			}
+		}
 
 		g_nCounterStateGame++;
 	}
@@ -236,7 +269,7 @@ void UpdateGame(void)
 	switch (g_gameState)
 	{
 	case GAMESTATE_CLEAR:
-		sprintf(&g_pFontClear->aText[0], "GAME CLEAR");
+		sprintf(&g_pFontClear->aText[0], "GAME CLEAR\n\nLIFE BONUS : %d", pPlayer->nLife * 500);
 
 		if (INPUT_TRIGGER_UI_CONTINUE || g_nCounterStateGame > 60 * 7)
 		{
@@ -267,6 +300,7 @@ void DrawGame(void)
 	DrawModel();
 	DrawEffect();
 	DrawShadow();
+	DrawDecal();
 	DrawFont();
 
 	if (g_bIsPaused && g_bPauseHide == false)

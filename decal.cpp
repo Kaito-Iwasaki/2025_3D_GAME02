@@ -37,6 +37,7 @@ const char* g_aDecalFileName[DECAL_LABEL_MAX] = {
 	NULL,
 	"data\\TEXTURE\\logo.png",
 	"data\\TEXTURE\\result.png",
+	"data\\TEXTURE\\life00.png",
 };
 
 //=====================================================================

@@ -22,7 +22,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-
+#define PLYAER_MAX_LIFE		(2)
 
 //*********************************************************************
 // 
@@ -95,6 +95,7 @@ typedef struct
 
 	int nScore;									// スコア
 	int nLane;
+	int nLife;
 	D3DXVECTOR3 centerPos;
 	D3DXVECTOR3 vecDest;
 	D3DXVECTOR3 vecRespawn;

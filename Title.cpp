@@ -35,14 +35,19 @@
 
 //*********************************************************************
 // 
-// ***** \‘¢‘Ì *****
-// 
-//*********************************************************************
-
-
-//*********************************************************************
-// 
 // ***** —ñ‹“Œ^ *****
+// 
+//*********************************************************************
+typedef enum
+{
+	TITLESTATE_NORMAL = 0,
+	TITLESTATE_START,
+	TITLESTATE_MAX
+}TITLESTATE;
+
+//*********************************************************************
+// 
+// ***** \‘¢‘Ì *****
 // 
 //*********************************************************************
 
@@ -61,6 +66,7 @@
 //*********************************************************************
 SCRIPTDATA g_dataTitle;
 FONT* g_pFontTitle = NULL;
+TITLESTATE g_stateTitle;
 int g_nCounterStateTitle;
 
 //=====================================================================
@@ -121,6 +127,7 @@ void InitTitle(void)
 		DT_CENTER | DT_VCENTER
 	);
 
+	g_stateTitle = TITLESTATE_NORMAL;
 	g_nCounterStateTitle = 0;
 	PlaySound(SOUND_LABEL_BGM_TITLE);
 
@@ -151,10 +158,7 @@ void UninitTitle(void)
 //=====================================================================
 void UpdateTitle(void)
 {
-	if (INPUT_TRIGGER_UI_CONTINUE)
-	{
-		SetFade(SCENE_GAME);
-	}
+
 
 	UpdateModel();
 	UpdateSphere();
@@ -162,16 +166,39 @@ void UpdateTitle(void)
 	UpdateField();
 	UpdatePolygon();
 
-	if (g_nCounterStateTitle % 30 == 0)
+	switch (g_stateTitle)
 	{
-		g_pFontTitle->obj.bVisible ^= 1;
-	}
+	case TITLESTATE_NORMAL:
+		if (g_nCounterStateTitle % 30 == 0)
+		{
+			g_pFontTitle->obj.bVisible ^= 1;
+		}
 
-	if (g_nCounterStateTitle > 60 * 20)
-	{
-		SetFade(SCENE_RANKING);
-	}
+		if (INPUT_TRIGGER_UI_CONTINUE)
+		{
+			PlaySound(SOUND_LABEL_SE_JUMP);
+			g_stateTitle = TITLESTATE_START;
+			g_nCounterStateTitle = 0;
+		}
 
+		if (g_nCounterStateTitle > 60 * 20)
+		{
+			SetFade(SCENE_RANKING);
+		}
+		break;
+
+	case TITLESTATE_START:
+		if (g_nCounterStateTitle % 3 == 0)
+		{
+			g_pFontTitle->obj.bVisible ^= 1;
+		}
+
+		if (g_nCounterStateTitle > 60)
+		{
+			SetFade(SCENE_GAME);
+		}
+		break;
+	}
 	g_nCounterStateTitle++;
 }
 
