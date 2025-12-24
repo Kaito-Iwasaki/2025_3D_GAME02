@@ -23,7 +23,7 @@
 // 
 //*********************************************************************
 #define CLASS_NAME		"WindowsClass"				// ウィンドウクラスの名前
-#define WINDOW_NAME		"DirectX9"					// ウィンドウの名前
+#define WINDOW_NAME		"Neon City Runner"					// ウィンドウの名前
 #define DEFAULT_COLOR	D3DXCOLOR(0, 0, 0, 255)		// 画面クリア時の背景色
 
 //*********************************************************************

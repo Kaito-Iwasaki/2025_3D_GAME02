@@ -1657,26 +1657,6 @@ MODELSET
 	POS = -18300 1290 13400		# 位置
 	ROT = 0 270 0			# 向き
 END_MODELSET
-MODELSET
-	TYPE = 1			# 種類
-	POS = -18860 1230 14400		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 1			# 種類
-	POS = -18420 1310 15400		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 1			# 種類
-	POS = -19040 1270 16400		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 1			# 種類
-	POS = -18690 1190 17400		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 1			# 種類
@@ -2056,31 +2036,6 @@ MODELSET
 	POS = -17420 1640 -3500		# 位置
 	ROT = 0 180 0			# 向き
 END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -18610 1360 -3500		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -19530 1420 -3500		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -20480 1590 -3500		# 位置
-	ROT = 0 90 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -21570 1440 -3500		# 位置
-	ROT = 0 180 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = -22450 1380 -3500		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 2			# 種類
@@ -2207,36 +2162,6 @@ MODELSET
 	TYPE = 2			# 種類
 	POS = 3300 1460 13750		# 位置
 	ROT = 0 0 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = 4300 1600 14100		# 位置
-	ROT = 0 180 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = 5300 1500 13850		# 位置
-	ROT = 0 270 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = 6300 1450 14050		# 位置
-	ROT = 0 90 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = 7300 1550 13650		# 位置
-	ROT = 0 0 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = 8300 1480 14250		# 位置
-	ROT = 0 180 0			# 向き
-END_MODELSET
-MODELSET
-	TYPE = 2			# 種類
-	POS = 9300 1500 13900		# 位置
-	ROT = 0 270 0			# 向き
 END_MODELSET
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
