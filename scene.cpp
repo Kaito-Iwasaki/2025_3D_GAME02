@@ -16,9 +16,9 @@
 #include "fade.h"
 #include "camera.h"
 #include "light.h"
-#include "Title.h"
-#include "Game.h"
-#include "Result.h"
+#include "title.h"
+#include "game.h"
+#include "result.h"
 #include "Ranking.h"
 
 //*********************************************************************

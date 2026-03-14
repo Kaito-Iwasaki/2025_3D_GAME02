@@ -20,7 +20,7 @@
 #include "sound.h"
 #include "DebugProc.h"
 #include "wall.h"
-#include "Game.h"
+#include "game.h"
 #include "fade.h"
 #include "effect.h"
 

@@ -90,7 +90,7 @@
     <ClCompile Include="wall.cpp">
       <Filter>ソース ファイル\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="game.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="baseObject.cpp">
@@ -123,7 +123,7 @@
     <ClCompile Include="sphere.cpp">
       <Filter>ソース ファイル\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Title.cpp">
+    <ClCompile Include="title.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="line.cpp">
@@ -147,7 +147,7 @@
     <ClCompile Include="util.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Result.cpp">
+    <ClCompile Include="result.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="coin.cpp">
@@ -168,7 +168,7 @@
     <ClCompile Include="polygon.cpp">
       <Filter>ソース ファイル\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Ranking.cpp">
+    <ClCompile Include="ranking.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,7 +203,7 @@
     <ClInclude Include="wall.h">
       <Filter>ヘッダー ファイル\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="game.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="sound.h">
@@ -233,7 +233,7 @@
     <ClInclude Include="sphere.h">
       <Filter>ヘッダー ファイル\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Title.h">
+    <ClInclude Include="title.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="line.h">
@@ -260,7 +260,7 @@
     <ClInclude Include="DebugProc.h">
       <Filter>ヘッダー ファイル\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
+    <ClInclude Include="result.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="coin.h">
@@ -281,7 +281,7 @@
     <ClInclude Include="polygon.h">
       <Filter>ヘッダー ファイル\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Ranking.h">
+    <ClInclude Include="ranking.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
     </ClInclude>
   </ItemGroup>

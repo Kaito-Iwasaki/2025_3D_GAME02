@@ -164,7 +164,7 @@
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="font.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="line.cpp">
@@ -182,8 +182,8 @@
     <ClCompile Include="pauseBg.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon.cpp" />
-    <ClCompile Include="Ranking.cpp" />
-    <ClCompile Include="Result.cpp">
+    <ClCompile Include="ranking.cpp" />
+    <ClCompile Include="result.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -196,7 +196,7 @@
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sphere.cpp" />
-    <ClCompile Include="Title.cpp">
+    <ClCompile Include="title.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -219,7 +219,7 @@
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="font.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="line.h">
@@ -241,8 +241,8 @@
     <ClInclude Include="pauseBg.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon.h" />
-    <ClInclude Include="Ranking.h" />
-    <ClInclude Include="Result.h">
+    <ClInclude Include="ranking.h" />
+    <ClInclude Include="result.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -255,7 +255,7 @@
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sphere.h" />
-    <ClInclude Include="Title.h">
+    <ClInclude Include="title.h">
       <SubType>
       </SubType>
     </ClInclude>

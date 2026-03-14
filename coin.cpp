@@ -17,7 +17,7 @@
 #include "sound.h"
 #include "shadow.h"
 #include "input.h"
-#include "Game.h"
+#include "game.h"
 
 //*********************************************************************
 // 
