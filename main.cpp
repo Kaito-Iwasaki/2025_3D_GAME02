@@ -23,7 +23,7 @@
 // 
 //*********************************************************************
 #define CLASS_NAME		"WindowsClass"				// ウィンドウクラスの名前
-#define WINDOW_NAME		"Neon City Runner"					// ウィンドウの名前
+#define WINDOW_NAME		"Neon City Runner"			// ウィンドウの名前
 #define DEFAULT_COLOR	D3DXCOLOR(0, 0, 0, 255)		// 画面クリア時の背景色
 
 //*********************************************************************
@@ -44,8 +44,8 @@ void Draw(void);
 //*********************************************************************
 LPDIRECT3D9 g_pD3D = NULL;					// Direct3Dオブジェクトへのポインタ
 LPDIRECT3DDEVICE9 g_pD3DDevice = NULL;		// Direct3Dデバイスへのポインタ
-LPDIRECTINPUT8 g_pInput = NULL;
-HWND g_hWnd;
+LPDIRECTINPUT8 g_pInput = NULL;				// DirectInputデバイスへのポインタ
+HWND g_hWnd;								// メインウィンドウのハンドル
 
 //=====================================================================
 // 
@@ -80,7 +80,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR lpCmdLine
 	DWORD dwCurrentTime;								// 現在の時刻
 	DWORD dwExecLastTime;								// 最終処理時の時刻
 	DWORD dwFrameCount;									// フレームカウント
-	DWORD dwFPSLastTime;								// 
+	DWORD dwFPSLastTime;								// FPS
 
 	// ウィンドウの登録
 	RegisterClassEx(&wcex);
@@ -243,6 +243,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 
 	if (g_pD3D == NULL)
 	{
+		MessageBox(hWnd, "Direct3Dオブジェクトの生成に失敗しました。", "警告", MB_ICONWARNING);
 		return E_FAIL;
 	}
 
@@ -250,6 +251,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 	hr = g_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm);
 	if (FAILED(hr))
 	{
+		MessageBox(hWnd, "ディスプレイモードの取得に失敗しました。", "警告", MB_ICONWARNING);
 		return E_FAIL;
 	}
 
@@ -297,6 +299,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 			);
 			if (FAILED(hr))
 			{// すべて不可能なら終了
+				MessageBox(hWnd, "Direct3Dデバイスの作成に失敗しました。", "警告", MB_ICONWARNING);
 				return E_FAIL;
 			}
 		}
@@ -329,6 +332,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 	);
 	if (FAILED(hr))
 	{
+		MessageBox(hWnd, "DirectInputオブジェクトの作成に失敗しました。", "警告", MB_ICONWARNING);
 		return E_FAIL;
 	}
 
@@ -336,6 +340,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 	hr = InitKeyboard(hInstance, hWnd);
 	if (FAILED(hr))
 	{
+		MessageBox(hWnd, "キーボード処理の初期化に失敗しました。", "警告", MB_ICONWARNING);
 		return E_FAIL;
 	}
 
@@ -343,6 +348,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 	hr = InitMouse(hInstance, hWnd);
 	if (FAILED(hr))
 	{
+		MessageBox(hWnd, "マウス処理の初期化に失敗しました。", "警告", MB_ICONWARNING);
 		return E_FAIL;
 	}
 
@@ -350,6 +356,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 	hr = InitJoypad();
 	if (FAILED(hr))
 	{
+		MessageBox(hWnd, "ジョイパッド処理の初期化に失敗しました。", "警告", MB_ICONWARNING);
 		return E_FAIL;
 	}
 
