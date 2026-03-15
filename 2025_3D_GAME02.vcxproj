@@ -147,7 +147,6 @@
   <ItemGroup>
     <ClCompile Include="baseObject.cpp" />
     <ClCompile Include="billboard.cpp" />
-    <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="coin.cpp">
       <SubType>
@@ -189,10 +188,7 @@
     </ClCompile>
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="model_loader.cpp" />
-    <ClCompile Include="script.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="scriptUtil.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sphere.cpp" />
@@ -206,7 +202,6 @@
   <ItemGroup>
     <ClInclude Include="baseObject.h" />
     <ClInclude Include="billboard.h" />
-    <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="cylinder.h" />
     <ClInclude Include="DebugProc.h">
@@ -248,10 +243,7 @@
     </ClInclude>
     <ClInclude Include="scene.h" />
     <ClInclude Include="model_loader.h" />
-    <ClInclude Include="script.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="scriptUtil.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sphere.h" />

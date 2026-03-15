@@ -16,7 +16,6 @@
 #include "util.h"
 #include "camera.h"
 #include "shadow.h"
-#include "bullet.h"
 #include "sound.h"
 #include "DebugProc.h"
 #include "wall.h"

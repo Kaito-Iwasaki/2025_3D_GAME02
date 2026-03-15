@@ -17,7 +17,6 @@
 #include "wall.h"
 #include "model_loader.h"
 #include "billboard.h"
-#include "bullet.h"
 #include "explosion.h"
 #include "effect.h"
 #include "input.h"

@@ -11,7 +11,7 @@
 // 
 //*********************************************************************
 #include "model_loader.h"
-#include "script.h"
+#include "scriptUtil.h"
 #include <cassert>
 #include "polygon.h"
 
