@@ -63,16 +63,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="billboard.cpp">
-      <Filter>ソース ファイル\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cpp">
-      <Filter>ソース ファイル\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="effect.cpp">
-      <Filter>ソース ファイル\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="explosion.cpp">
       <Filter>ソース ファイル\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="field.cpp">
@@ -126,22 +117,16 @@
     <ClCompile Include="title.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="line.cpp">
-      <Filter>ソース ファイル\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="model_loader.cpp">
       <Filter>ソース ファイル\Script</Filter>
     </ClCompile>
     <ClCompile Include="motion_loader.cpp">
       <Filter>ソース ファイル\Script</Filter>
     </ClCompile>
-    <ClCompile Include="script.cpp">
-      <Filter>ソース ファイル\Script</Filter>
-    </ClCompile>
     <ClCompile Include="fade.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="DebugProc.cpp">
+    <ClCompile Include="debugProc.cpp">
       <Filter>ソース ファイル\Debug</Filter>
     </ClCompile>
     <ClCompile Include="util.cpp">
@@ -171,21 +156,15 @@
     <ClCompile Include="ranking.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="scriptUtil.cpp">
+      <Filter>ソース ファイル\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseObject.h">
       <Filter>ヘッダー ファイル\Components</Filter>
     </ClInclude>
-    <ClInclude Include="billboard.h">
-      <Filter>ヘッダー ファイル\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet.h">
-      <Filter>ヘッダー ファイル\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="effect.h">
-      <Filter>ヘッダー ファイル\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="explosion.h">
       <Filter>ヘッダー ファイル\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="field.h">
@@ -236,9 +215,6 @@
     <ClInclude Include="title.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="line.h">
-      <Filter>ヘッダー ファイル\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="motion.h">
       <Filter>ヘッダー ファイル\Components</Filter>
     </ClInclude>
@@ -246,9 +222,6 @@
       <Filter>ヘッダー ファイル\Script</Filter>
     </ClInclude>
     <ClInclude Include="motion_loader.h">
-      <Filter>ヘッダー ファイル\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="script.h">
       <Filter>ヘッダー ファイル\Script</Filter>
     </ClInclude>
     <ClInclude Include="fade.h">
@@ -283,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="ranking.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="scriptUtil.h">
+      <Filter>ヘッダー ファイル\Script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

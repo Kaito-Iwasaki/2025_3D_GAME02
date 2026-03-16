@@ -146,30 +146,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="baseObject.cpp" />
-    <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="coin.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="cylinder.cpp" />
-    <ClCompile Include="DebugProc.cpp">
+    <ClCompile Include="debugProc.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="decal.cpp" />
     <ClCompile Include="effect.cpp" />
-    <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
-    <ClCompile Include="line.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="meshfield.cpp" />
     <ClCompile Include="model.cpp" />
@@ -201,7 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseObject.h" />
-    <ClInclude Include="billboard.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="cylinder.h" />
     <ClInclude Include="DebugProc.h">
@@ -210,17 +203,12 @@
     </ClInclude>
     <ClInclude Include="decal.h" />
     <ClInclude Include="effect.h" />
-    <ClInclude Include="explosion.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
-    <ClInclude Include="line.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="main.h" />
     <ClInclude Include="meshfield.h" />
     <ClInclude Include="model.h" />

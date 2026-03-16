@@ -1,11 +1,11 @@
 //=====================================================================
 //
-// DebugProc.cppのヘッダファイル [DebugProc.h]
-// Author : 
+// debugProc.cppのヘッダファイル [debugProc.h]
+// Author : Kaito Iwasaki
 // 
 //=====================================================================
-#ifndef _DebugProc_H_
-#define _DebugProc_H_
+#ifndef _DEBUGPROC_H_
+#define _DEBUGPROC_H_
 
 //*********************************************************************
 // 
