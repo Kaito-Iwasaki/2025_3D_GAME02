@@ -74,6 +74,7 @@ typedef struct
 	PLAYERSTATE currentState;
 	PLAYERSTATE previousState;
 	int nCounterState;
+	D3DXVECTOR3 moveDirection;
 
 	MOTION motion;								// モーション
 	MOTIONTYPE motionType;						// モーションの種類

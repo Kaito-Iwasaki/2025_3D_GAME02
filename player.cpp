@@ -28,8 +28,6 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_TEXTURE			(8)
-
 #define PLAYER_JUMPPOWER	(19.0f)
 #define PLAYER_SPEED		(13.0f)
 #define MAX_LANE			(3)
@@ -64,7 +62,6 @@ void _OnPlayerStateChanged(void);
 // 
 //*********************************************************************
 PLAYER g_player;
-D3DXVECTOR3 g_dir;
 int g_nMode;
 
 //=====================================================================
@@ -175,7 +172,7 @@ void UpdatePlayer(void)
 	case -3:
 		if (g_player.obj.pos.z > 3500)
 		{
-			g_dir = D3DXVECTOR3(1, 0, 0);
+			g_player.moveDirection = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(15);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
@@ -186,7 +183,7 @@ void UpdatePlayer(void)
 	case -2:
 		if (g_player.obj.pos.x > 11200)
 		{
-			g_dir = D3DXVECTOR3(0, 0, -1);
+			g_player.moveDirection = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-105);
 			g_player.centerPos = g_player.obj.pos;
 			g_player.nLane = MAX_LANE / 2;
@@ -202,7 +199,7 @@ void UpdatePlayer(void)
 		break;
 
 	case 0:
-		g_dir = D3DXVECTOR3(-1, 0, 0);
+		g_player.moveDirection = D3DXVECTOR3(-1, 0, 0);
 		pCamera->rot.y = D3DXToRadian(-105);
 		g_player.centerPos = g_player.obj.pos;
 		g_player.nLane = MAX_LANE / 2;
@@ -214,14 +211,14 @@ void UpdatePlayer(void)
 		{
 			if (g_player.nLane == 0)
 			{
-				g_dir = D3DXVECTOR3(-1, 0, 0);
+				g_player.moveDirection = D3DXVECTOR3(-1, 0, 0);
 				pCamera->rot.y = D3DXToRadian(-165);
 				g_player.vecRespawn = g_player.obj.pos + D3DXVECTOR3(-800, 0, 0);
 				g_nMode++;
 			}
 			else
 			{
-				g_dir = D3DXVECTOR3(0, 0, 1);
+				g_player.moveDirection = D3DXVECTOR3(0, 0, 1);
 				pCamera->rot.y = D3DXToRadian(-75);
 				g_player.centerPos = g_player.obj.pos;
 				g_player.nLane = MAX_LANE / 2;
@@ -233,7 +230,7 @@ void UpdatePlayer(void)
 	case 2:
 		if (g_player.obj.pos.x < 0)
 		{
-			g_dir = D3DXVECTOR3(0, 0, 1);
+			g_player.moveDirection = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(-75);
 			AddScore(300);
 			g_player.nLane = MAX_LANE / 2;
@@ -246,7 +243,7 @@ void UpdatePlayer(void)
 	case 3:
 		if (g_player.obj.pos.z > 8700)
 		{
-			g_dir = D3DXVECTOR3(-1, 0, 0);
+			g_player.moveDirection = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(-165);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -259,7 +256,7 @@ void UpdatePlayer(void)
 	case 4:
 		if (g_player.obj.pos.x < -5000)
 		{
-			g_dir = D3DXVECTOR3(0, 0, -1);
+			g_player.moveDirection = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-105);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -272,7 +269,7 @@ void UpdatePlayer(void)
 	case 5:
 		if (g_player.obj.pos.z < 1700)
 		{
-			g_dir = D3DXVECTOR3(-1, 0, 0);
+			g_player.moveDirection = D3DXVECTOR3(-1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(-15);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -285,7 +282,7 @@ void UpdatePlayer(void)
 	case 6:
 		if (g_player.obj.pos.x < -14800)
 		{
-			g_dir = D3DXVECTOR3(0, 0, 1);
+			g_player.moveDirection = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(75);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -298,7 +295,7 @@ void UpdatePlayer(void)
 	case 7: // 折り返し
 		if (g_player.obj.pos.z > 14000)
 		{
-			g_dir = D3DXVECTOR3(0, 0, -1);
+			g_player.moveDirection = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(105);
 			AddScore(600);
 			g_player.nLane = (g_player.nLane - 1) * -1 + 1;
@@ -310,7 +307,7 @@ void UpdatePlayer(void)
 	case 8:
 		if (g_player.obj.pos.z < 1700)
 		{
-			g_dir = D3DXVECTOR3(1, 0, 0);
+			g_player.moveDirection = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(15);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -323,7 +320,7 @@ void UpdatePlayer(void)
 	case 9:
 		if (g_player.obj.pos.x > -6600)
 		{
-			g_dir = D3DXVECTOR3(0, 0, 1);
+			g_player.moveDirection = D3DXVECTOR3(0, 0, 1);
 			pCamera->rot.y = D3DXToRadian(75);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -336,7 +333,7 @@ void UpdatePlayer(void)
 	case 10:
 		if (g_player.obj.pos.z > 8700)
 		{
-			g_dir = D3DXVECTOR3(1, 0, 0);
+			g_player.moveDirection = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(165);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -348,7 +345,7 @@ void UpdatePlayer(void)
 	case 11:
 		if (g_player.obj.pos.x > 0)
 		{
-			g_dir = D3DXVECTOR3(0, 0, -1);
+			g_player.moveDirection = D3DXVECTOR3(0, 0, -1);
 			pCamera->rot.y = D3DXToRadian(-105);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -361,7 +358,7 @@ void UpdatePlayer(void)
 	case 12:
 		if (g_player.obj.pos.z < -2900)
 		{
-			g_dir = D3DXVECTOR3(1, 0, 0);
+			g_player.moveDirection = D3DXVECTOR3(1, 0, 0);
 			pCamera->rot.y = D3DXToRadian(165);
 			AddScore(300);
 			g_player.centerPos = g_player.obj.pos;
@@ -391,7 +388,7 @@ void UpdatePlayer(void)
 	
 	_UpdatePlayerControl();
 
-	float fAngle = atan2f(g_dir.x, g_dir.z);
+	float fAngle = atan2f(g_player.moveDirection.x, g_player.moveDirection.z);
 
 	// プレイヤーのY軸の移動量を反映
 	g_player.obj.pos.y += g_player.move.y;
@@ -447,7 +444,7 @@ void UpdatePlayer(void)
 	SetShadowSize(g_player.nIdxShadow, D3DXVECTOR3(40.0f, 0.0f, 40.0f) * (g_player.obj.pos.y - fGround + 1000) * 0.001f);
 	SetShadowAlpha(g_player.nIdxShadow, 0.2f - (g_player.obj.pos.y - fGround) * 0.0005f);
 
-	float fAngleDir = atan2f(g_dir.x, g_dir.z);
+	float fAngleDir = atan2f(g_player.moveDirection.x, g_player.moveDirection.z);
 	pCamera->posOffset = D3DXVECTOR3(sinf(fAngleDir) * 350.0f, 200, cosf(fAngleDir) * 350.0f);
 	D3DXVECTOR3 vecMoved = g_player.obj.pos - g_player.posOld;
 	float fMove = Magnitude(D3DXVECTOR3(vecMoved.x * sinf(fAngle), 0, vecMoved.z * cosf(fAngle)));
@@ -678,8 +675,8 @@ void _UpdatePlayerControl(void)
 	// 前回の位置を記録
 	g_player.posOld = g_player.obj.pos;
 
-	dir = g_dir;
-	float fAngle = atan2f(g_dir.x, g_dir.z);
+	dir = g_player.moveDirection;
+	float fAngle = atan2f(g_player.moveDirection.x, g_player.moveDirection.z);
 
 	// プレイヤー操作
 	if (g_player.currentState != PLAYERSTATE_SLIDING)
@@ -716,9 +713,9 @@ void _UpdatePlayerControl(void)
 	}
 
 	g_player.vecDest = D3DXVECTOR3(
-		(g_player.centerPos.x + LANE_GAP * cosf(-fAngle) * (g_player.nLane - 1)) * (int)abs((long)g_dir.z),
+		(g_player.centerPos.x + LANE_GAP * cosf(-fAngle) * (g_player.nLane - 1)) * (int)abs((long)g_player.moveDirection.z),
 		0,
-		(g_player.centerPos.z + LANE_GAP * sinf(-fAngle) * (g_player.nLane - 1)) * (int)abs((long)g_dir.x)
+		(g_player.centerPos.z + LANE_GAP * sinf(-fAngle) * (g_player.nLane - 1)) * (int)abs((long)g_player.moveDirection.x)
 	);
 
 	// キーボード入力方向ベクトルの大きさを計算
@@ -733,8 +730,8 @@ void _UpdatePlayerControl(void)
 		// プレイヤーの位置に移動量を反映
 		g_player.obj.pos += dir / fMagnitude * g_player.fSpeed;
 
-		g_player.obj.pos.x += (g_player.vecDest.x - g_player.obj.pos.x) * 0.1f * (int)abs((long)g_dir.z);
-		g_player.obj.pos.z += (g_player.vecDest.z - g_player.obj.pos.z) * 0.1f * (int)abs((long)g_dir.x);
+		g_player.obj.pos.x += (g_player.vecDest.x - g_player.obj.pos.x) * 0.1f * (int)abs((long)g_player.moveDirection.z);
+		g_player.obj.pos.z += (g_player.vecDest.z - g_player.obj.pos.z) * 0.1f * (int)abs((long)g_player.moveDirection.x);
 #ifdef _DEBUG
 		if (GetKeyboardPress(DIK_LSHIFT))
 		{
