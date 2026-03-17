@@ -74,7 +74,6 @@ typedef struct
 	PLAYERSTATE currentState;
 	PLAYERSTATE previousState;
 	int nCounterState;
-	D3DXVECTOR3 moveDirection;
 
 	MOTION motion;								// モーション
 	MOTIONTYPE motionType;						// モーションの種類
@@ -94,12 +93,14 @@ typedef struct
 	int nFrameBlend;							// ブレンドのフレーム数
 	int nCounterBlend;							// ブレンドのカウンター
 
+	int nWaypoint;								// 今進んでいる道
+	int nLane;									// レーン（０～２）[ 0:左 | 1:中央 | 2:右]
 	int nScore;									// スコア
-	int nLane;
-	int nLife;
-	D3DXVECTOR3 centerPos;
-	D3DXVECTOR3 vecDest;
-	D3DXVECTOR3 vecRespawn;
+	int nLife;									// ライフ
+	D3DXVECTOR3 centerPos;						// レーン中央位置
+	D3DXVECTOR3 vecDest;						// 
+	D3DXVECTOR3 vecRespawn;						// リスポーン位置
+	D3DXVECTOR3 moveDirection;					// 進む方向
 }PLAYER;
 
 typedef struct
@@ -108,7 +109,7 @@ typedef struct
 	float fPosAxis;
 	D3DXVECTOR3 newDir;
 	float camRot;
-}MOVEMENT;
+}WAYPOINT;
 
 //*********************************************************************
 // 
@@ -120,7 +121,7 @@ void UninitPlayer(void);
 void UpdatePlayer(void);
 void DrawPlayer(void);
 PLAYER* GetPlayer(void);
-void SetPlayerMotion(MOTIONTYPE type, bool bBlendMotion, int nFrameMotion);
+void SetPlayerMotion(MOTIONTYPE type, int nFrameMotionBlend);
 MOTIONTYPE GetCurrentPlayerMotion(void);
 void SetPlayerState(PLAYERSTATE state);
 

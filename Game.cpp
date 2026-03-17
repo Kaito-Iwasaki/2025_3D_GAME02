@@ -66,14 +66,14 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-bool g_bIsPaused = false;
-bool g_bPauseHide = false;
-SCRIPTDATA g_data;
-GAMESTATE g_gameState;
-FONT* g_pFontScore = NULL;
-FONT* g_pFontClear = NULL;
-DECAL* g_pDecalLife[PLYAER_MAX_LIFE] = {};
-int g_nCounterStateGame;
+bool g_bIsPaused = false;		// ポーズ中か
+bool g_bPauseHide = false;		// ポーズ画面非表示（デバッグ用）
+SCRIPTDATA g_data;				// マップ情報
+GAMESTATE g_gameState;			// ゲーム状態
+int g_nCounterStateGame;		// 
+FONT* g_pFontScore = NULL;		// スコアテキスト
+FONT* g_pFontClear = NULL;		// クリアテキスト
+DECAL* g_pDecalLife[PLYAER_MAX_LIFE] = {};	// ライフ画像
 
 //=====================================================================
 // 初期化処理
@@ -82,6 +82,7 @@ void InitGame(void)
 {
 	PLAYER* pPlayer = GetPlayer();
 
+	// 鳴っている音を停止
 	StopSound();
 
 	InitCamera();
@@ -100,17 +101,24 @@ void InitGame(void)
 	InitDecal();
 	InitDebugProc();
 
+	// ポーズ状態の初期化
 	g_bIsPaused = false;
 	g_bPauseHide = false;
+
+	// ゲーム状態の初期化
 	SetGameState(GAMESTATE_NORMAL);
+
+	// スコアテキストの設定
 	g_pFontScore = SetFont(FONT_LABEL_DONGURI,
 		D3DXVECTOR3(0, 0, 0),
 		D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0),
 		D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f),
 		60,
-		"",
+		"0",
 		DT_LEFT | DT_TOP
 	);
+
+	// ライフ表示の設定
 	SetFont(FONT_LABEL_DONGURI,
 		D3DXVECTOR3(0, 0, 0),
 		D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0),
@@ -119,17 +127,8 @@ void InitGame(void)
 		"\n LIFE : ",
 		DT_LEFT | DT_TOP
 	);
-	g_pFontClear = SetFont(FONT_LABEL_DONGURI,
-		D3DXVECTOR3(0, 0, 0),
-		D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0),
-		D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f),
-		100,
-		"",
-		DT_CENTER | DT_VCENTER
-	);
-	
 	for (int i = 0; i < PLYAER_MAX_LIFE; i++)
-	{
+	{// ライフの分テクスチャを表示
 		g_pDecalLife[i] = SetDecal(
 			DECAL_LABEL_LIFE,
 			D3DXVECTOR3(190 + 50 * i, 92, 0),
@@ -139,16 +138,28 @@ void InitGame(void)
 		);
 	}
 
+	// クリアテキストの設定
+	g_pFontClear = SetFont(FONT_LABEL_DONGURI,
+		D3DXVECTOR3(0, 0, 0),
+		D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0),
+		D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f),
+		100,
+		"",
+		DT_CENTER | DT_VCENTER
+	);
+
+
+	// マップ情報の読み込み
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 	LoadScript("data\\model.txt", &g_data);
 
 	for (int nCntMesh = 0; nCntMesh < g_data.nNumModel; nCntMesh++)
-	{
+	{// モデルの読み込み
 		LoadModel(&g_data.aFilenameModel[nCntMesh][0], nCntMesh);
 	}
 
 	for (int nCntModel = 0; nCntModel < g_data.nCountModelSet; nCntModel++)
-	{
+	{// モデルの配置
 		SetModel(
 			g_data.aInfoModelSet[nCntModel].nType,
 			g_data.aInfoModelSet[nCntModel].pos,
@@ -161,10 +172,13 @@ void InitGame(void)
 		);
 	}
 
+	// カメラ設定
+	CAMERA* pCamera = GetCamera();
 	SetCameraPosV(pPlayer->obj.pos);
 	SetCameraPosR(pPlayer->obj.pos);
-	GetCamera()->rot.y = pPlayer->obj.rot.y;
+	pCamera->rot.y = pPlayer->obj.rot.y;
 
+	// BGMの再生
 	PlaySound(SOUND_LABEL_BGM_GAME);
 }
 
@@ -300,37 +314,45 @@ void DrawGame(void)
 	DrawFont();
 
 	if (g_bIsPaused && g_bPauseHide == false)
-	{
+	{// ポーズ画面描画
 		DrawPauseBg();
 		DrawPause();
 	}
 
+	// デバッグ表示
 	DrawDebugProc();
 }
 
+//=====================================================================
+// マップ情報再読み込み処理
+//=====================================================================
 void ReloadGameModel(void)
 {
+	// 再読み込みするオブジェクトの解放
 	UninitModel();
 	UninitCoin();
 	UninitShadow();
 	UninitPolygon;
 
+	// 再読み込みするオブジェクトの初期化
 	InitModel();
 	InitCoin();
 	InitShadow();
 	InitPolygon();
 
+	// マップ情報のバッファをクリア
 	ZeroMemory(&g_data, sizeof(SCRIPTDATA));
 
+	// スクリプトから読み込んでマップ情報を設定
 	LoadScript("data\\model.txt", &g_data);
 
 	for (int nCntMesh = 0; nCntMesh < g_data.nNumModel; nCntMesh++)
-	{
+	{// モデル読み込み
 		LoadModel(g_data.aFilenameModel[nCntMesh], nCntMesh);
 	}
 
 	for (int nCntModel = 0; nCntModel < g_data.nCountModelSet; nCntModel++)
-	{
+	{// モデル配置
 		SetModel(
 			g_data.aInfoModelSet[nCntModel].nType,
 			g_data.aInfoModelSet[nCntModel].pos,
@@ -344,21 +366,36 @@ void ReloadGameModel(void)
 	}
 }
 
+//=====================================================================
+// ゲーム状態設定処理
+//=====================================================================
 void SetGameState(GAMESTATE state)
 {
 	g_gameState = state;
 	g_nCounterStateGame = 0;
 }
 
+//=====================================================================
+// ポーズ画面切り替え処理
+//=====================================================================
 void TogglePauseGame(bool bPause)
 {
 	SetPauseMenuCursor(0);
 	g_bIsPaused = bPause;
 }
 
+//=====================================================================
+// スコア加算処理
+//=====================================================================
 void AddScore(int nScore)
 {
+	// スコア加算
 	GetPlayer()->nScore += nScore;
+
+	// スコアのテキスト表示を揺らす
+	// （ここで下げた後UpdateGameで戻していく）
 	g_pFontScore->obj.pos.y = -50.0f;
+
+	// コイン効果音
 	PlaySound(SOUND_LABEL_SE_COIN);
 }
